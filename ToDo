@@ -1,0 +1,4 @@
+Adding buffer to structs:
+	-current implementation - Buffer is a member of GameObjectManager
+	-Ideal implemetation - Make buffer a templated struct, that can handle any type, not just GameObjects
+
