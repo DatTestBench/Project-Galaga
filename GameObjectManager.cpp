@@ -115,7 +115,6 @@ void GameObjectManager::HandleDeletion()
 			deleteC++;
 		}
 	}
-	std::cout << "deleted" << std::endl;
 }
 //Rectf GameObjectManager::GetPlayerRect() const 
 //{
