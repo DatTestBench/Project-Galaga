@@ -36,5 +36,9 @@ void Player::Update(float dT)
 		//std::cout << "Yeeted that left click" << std::endl;
 		GameObjectManager::Get()->Add(new Bullet{ "player", m_Pos});
 		break;
+	case SDL_BUTTON_RIGHT:
+		std::cout << "Yeeted that Right Click" << std::endl;
+		break;
+		//sssssss
 	}
 }
