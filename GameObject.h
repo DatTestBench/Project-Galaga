@@ -25,6 +25,7 @@ public:
 	Texture* GetpTexture();
 	bool IsDeleted() const;
 	void Delete();
+	bool GetFlag();
 protected:
 
 	// Data Members
@@ -37,6 +38,7 @@ protected:
 	float m_Width;
 	float m_Height;
 	Vector2f m_MoveV;
+	bool m_DelFlag;
 
 
 };

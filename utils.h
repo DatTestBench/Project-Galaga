@@ -2,11 +2,15 @@
 
 #include "vector2f.h"
 #include <vector>
+#include <algorithm>
 
 namespace utils
 {
 	const float g_Pi{ 3.1415926535f };
 
+#pragma region GeneralUseFunctions
+#pragma endregion GeneralUseFunctions
+	
 #pragma region OpenGLDrawFunctionality
 
 	void SetColor( const Color4f& color );

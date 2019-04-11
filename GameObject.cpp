@@ -74,4 +74,10 @@ bool GameObject::IsDeleted() const
 void GameObject::Delete()
 {
 	GameObjectManager::Get()->Delete(this);
+	m_DelFlag = true;
+}
+
+bool GameObject::GetFlag()
+{
+	return m_DelFlag;
 }

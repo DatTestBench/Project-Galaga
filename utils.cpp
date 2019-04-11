@@ -4,6 +4,9 @@
 #include <cmath>
 #include "utils.h"
 
+#pragma region GeneralUseFunctions
+#pragma endregion GeneralUseFunctions
+
 
 #pragma region OpenGLDrawFunctionality
 void utils::SetColor(const Color4f& color)

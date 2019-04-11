@@ -24,10 +24,9 @@ void Player::Draw() const
 void Player::Update(float dT)
 {
 	int x, y;
-
 	const Uint8 *pStates = SDL_GetKeyboardState(nullptr);
 
-	int mouseState = SDL_GetMouseState(&x, &y);
+	int mouseState = SDL_GetMouseState( &x, &y);
 	m_Pos.x = float(x);
 	m_Pos.y = float(m_WindowHeight - y);
 

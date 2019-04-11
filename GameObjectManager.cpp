@@ -6,11 +6,12 @@
 #include <algorithm>
 #include <iterator>
 #include <vector>
+#include "utils.h"
 
 GameObjectManager* GameObjectManager::m_pGameObjectManager = nullptr;
 
 GameObjectManager::GameObjectManager()
-	:m_pGameObjects{}
+	:m_GameObjects{}
 {
 }
 
@@ -18,9 +19,10 @@ GameObjectManager::~GameObjectManager()
 {
 	for (size_t idx{}; idx < Size(); idx++)
 	{
-		delete m_pGameObjects[idx];
-		m_pGameObjects[idx] = nullptr;
+		delete m_GameObjects[idx];
+		m_GameObjects[idx] = nullptr;
 	}
+	
 }
 
 GameObjectManager* GameObjectManager::Get()
@@ -49,8 +51,9 @@ void GameObjectManager::Remove(GameObject* pGameObject)
 void GameObjectManager::Delete(GameObject* pGameObject)
 {
 	m_DeleteBuffer.Add(pGameObject);
-	pGameObject = nullptr;
-	std::cout << "added to deletebuffer ";
+
+
+	//std::cout << "added to deletebuffer ";
 }
 
 void GameObjectManager::Update(float dT)
@@ -59,34 +62,34 @@ void GameObjectManager::Update(float dT)
 	HandleAdd();
 
 
-	for (size_t idx{}; idx < m_pGameObjects.size(); idx++)
+	for (GameObject *pGameObject : *GameObjectManager::Get()->GetGameObjects())
 	{
-		m_pGameObjects[idx]->Update(dT);
+		pGameObject->Update(dT);
 	}
 }
 
 void GameObjectManager::Draw() const
 {
-	for (size_t idx{}; idx < m_pGameObjects.size(); idx++)
+	for (GameObject *pGameObject : *GameObjectManager::Get()->GetGameObjects())
 	{
-		m_pGameObjects[idx]->Draw();
+		pGameObject->Draw();
 	}
 }
 
 std::vector<GameObject*>* GameObjectManager::GetGameObjects()
 {
-	return  &m_pGameObjects;
+	return  &m_GameObjects;
 }
 
 size_t GameObjectManager::Size() const
 {
-	return size_t(m_pGameObjects.size());
+	return size_t(m_GameObjects.size());
 }
 
 
 void GameObjectManager::HandleAdd()
 {
-	m_pGameObjects.insert(std::end(m_pGameObjects), std::begin(m_AddBuffer.buffer), std::end(m_AddBuffer.buffer));
+	m_GameObjects.insert(std::end(m_GameObjects), std::begin(m_AddBuffer.buffer), std::end(m_AddBuffer.buffer));
 	m_AddBuffer.Reset();
 }
 
@@ -98,34 +101,17 @@ void GameObjectManager::HandleRemoval()
 
 void GameObjectManager::HandleDeletion()
 {
-	
-	/*if (m_DeleteBuffer.buffer.size() > 0)
+	std::sort(m_GameObjects.begin(), m_GameObjects.end(), [](GameObject* a, GameObject* b)
 	{
-		m_pGameObjects.erase(std::remove(std::begin(m_pGameObjects), std::end(m_pGameObjects), nullptr));
-		std::cout << m_DeleteBuffer.buffer.size() << std::endl;
-		m_DeleteBuffer.Reset();
-	}*/
-
-	size_t deleteC{};
-	for (size_t idx{}; idx < m_pGameObjects.size(); idx++)
+		return a->GetFlag() < b->GetFlag();
+	});
+	for (size_t idx{}; idx < m_DeleteBuffer.buffer.size(); idx++)
 	{
-		if (m_pGameObjects[idx] == nullptr)
-		{
-			m_pGameObjects.erase(std::begin(m_pGameObjects) + idx - deleteC);
-			deleteC++;
-		}
+		delete m_GameObjects.back();
+		m_GameObjects.pop_back();
 	}
-}
-//Rectf GameObjectManager::GetPlayerRect() const 
-//{
-//	for (GameObject* pGameObject : m_pGameObjects)
-//	{
-//		if (typeid(*pGameObject) == typeid(Player))
-//		{
-//			return Rectf{ pGameObject->GetPos().x, pGameObject->GetPos().y,pGameObject->GetWidth(), pGameObject->GetHeight() };
-//		}
-//	}
-//	return Rectf{};
-//}
+	m_DeleteBuffer.Reset();
 
+	std::cout << m_GameObjects.size() << std::endl;
+}
 

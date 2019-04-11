@@ -32,7 +32,7 @@ private:
 	// Data Members
 	GameObjectManager();
 	static GameObjectManager* m_pGameObjectManager;
-	std::vector<GameObject*> m_pGameObjects;
+	std::vector<GameObject*> m_GameObjects;
 	Buffer<GameObject*> m_AddBuffer;
 	Buffer<GameObject*> m_RemoveBuffer;
 	Buffer<GameObject*> m_DeleteBuffer;
