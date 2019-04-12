@@ -5,6 +5,7 @@
 #include "utils.h"
 Game::Game(const Window& window)
 	:m_Window{ window }
+	,m_Camera{window.width, window.height}
 {
 	Initialize();
 }
@@ -16,6 +17,7 @@ Game::~Game()
 
 void Game::Initialize()
 {
+	m_Camera.SetLevelBoundaries(Rectf{ 0,0,3000,3000 });
 	GameObjectManager::Get();
 	// adding player
 	//Texture* pPlayerText{ new Texture {"./Resources/Textures/player.png"} };
@@ -26,8 +28,6 @@ void Game::Initialize()
 	//Texture* pEnemyText{ new Texture{"./Resources/Textures/enemy.png"} };
 	Enemy* pEnemy{ new Enemy {pPlayer, Point2f{}} };
 	GameObjectManager::Get()->Add(pEnemy);
-
-
 }
 
 void Game::Cleanup()
@@ -57,7 +57,13 @@ void Game::Update(float elapsedSec)
 void Game::Draw() const
 {
 	ClearBackground();
+
+	glPushMatrix();
+
+	m_Camera.Transform(GameObjectManager::Get()->GetPlayer()->GetCollider());
 	GameObjectManager::Get()->Draw();
+
+	glPopMatrix();
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)

@@ -2,6 +2,7 @@
 #include "GameObject.h"	
 #include <vector>
 
+class Player;
 class GameObjectManager
 {
 public:
@@ -20,10 +21,10 @@ public:
 	void Update(float dT);
 	void Draw() const;
 	std::vector<GameObject*>* GetGameObjects() ;
-	//void HandleCollision();
+	
 
 	// Getter Functions
-	//Rectf GetPlayerRect() const;
+	GameObject* GetPlayer() const;
 
 	size_t Size() const;
 
@@ -36,6 +37,7 @@ private:
 	Buffer<GameObject*> m_AddBuffer;
 	Buffer<GameObject*> m_RemoveBuffer;
 	Buffer<GameObject*> m_DeleteBuffer;
+	GameObject* m_pPlayer;
 
 	// Member Functions
 	void HandleAdd();

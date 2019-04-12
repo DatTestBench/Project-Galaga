@@ -7,6 +7,7 @@
 #include <iterator>
 #include <vector>
 #include "utils.h"
+#include <typeinfo>
 
 GameObjectManager* GameObjectManager::m_pGameObjectManager = nullptr;
 
@@ -40,6 +41,8 @@ void GameObjectManager::Destroy()
 void GameObjectManager::Add(GameObject* pGameObject)
 {
 	m_AddBuffer.Add(pGameObject);
+	if (typeid(*pGameObject) == typeid (Player))
+		m_pPlayer = pGameObject;
 }
 
 // WIP
@@ -85,6 +88,12 @@ size_t GameObjectManager::Size() const
 {
 	return size_t(m_GameObjects.size());
 }
+
+GameObject* GameObjectManager::GetPlayer() const
+{
+	return m_pPlayer;
+}
+
 
 
 void GameObjectManager::HandleAdd()

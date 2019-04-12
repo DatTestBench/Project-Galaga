@@ -7,6 +7,7 @@
 #include <string>
 #include"Game.h"
 
+
 Player::Player(int health, float winHeight, const Point2f& pos, float width, float height, Texture* pTexture)
 	: GameObject{ pos, width, height, pTexture}
 	, m_Health{ health }

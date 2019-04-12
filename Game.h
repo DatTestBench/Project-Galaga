@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObjectManager.h"
+#include "Camera.h"
 class Game
 {
 public:
@@ -23,7 +24,7 @@ public:
 private:
 	// DATA MEMBERS
 	const Window m_Window;
-
+	Camera m_Camera;
 	// FUNCTIONS
 	void Initialize( );
 	void Cleanup( );
