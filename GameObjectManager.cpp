@@ -26,6 +26,7 @@ GameObjectManager::~GameObjectManager()
 	
 }
 
+#pragma region SingletonFunctionality
 GameObjectManager* GameObjectManager::Get()
 {
 	if (m_pGameObjectManager == nullptr)
@@ -37,7 +38,9 @@ void GameObjectManager::Destroy()
 {
 	delete GameObjectManager::Get();
 }
+#pragma endregion SingletonFunctionality
 
+#pragma region ExternalItemManipulation
 void GameObjectManager::Add(GameObject* pGameObject)
 {
 	m_AddBuffer.Add(pGameObject);
@@ -58,7 +61,9 @@ void GameObjectManager::Delete(GameObject* pGameObject)
 
 	//std::cout << "added to deletebuffer ";
 }
+#pragma endregion ExternalItemManipulation
 
+#pragma region Workers
 void GameObjectManager::Update(float dT)
 {
 	HandleDeletion();
@@ -78,15 +83,12 @@ void GameObjectManager::Draw() const
 		pGameObject->Draw();
 	}
 }
+#pragma endregion Workers
 
+#pragma region Getters
 std::vector<GameObject*>* GameObjectManager::GetGameObjects()
 {
 	return  &m_GameObjects;
-}
-
-size_t GameObjectManager::Size() const
-{
-	return size_t(m_GameObjects.size());
 }
 
 GameObject* GameObjectManager::GetPlayer() const
@@ -94,8 +96,13 @@ GameObject* GameObjectManager::GetPlayer() const
 	return m_pPlayer;
 }
 
+size_t GameObjectManager::Size() const
+{
+	return size_t(m_GameObjects.size());
+}
+#pragma endregion Getters
 
-
+#pragma region InternalItemManipulation
 void GameObjectManager::HandleAdd()
 {
 	m_GameObjects.insert(std::end(m_GameObjects), std::begin(m_AddBuffer.buffer), std::end(m_AddBuffer.buffer));
@@ -120,7 +127,6 @@ void GameObjectManager::HandleDeletion()
 		m_GameObjects.pop_back();
 	}
 	m_DeleteBuffer.Reset();
-
-	std::cout << m_GameObjects.size() << std::endl;
 }
+#pragma endregion InternalItemManipulation
 

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include "Game.h"
+#include "InputHandling.h"
 
 Core::Core( const Window& window )
 	: m_Window{window}
@@ -128,6 +129,10 @@ void Core::Run( )
 	// Main loop flag
 	bool quit{ false };
 
+	// Input Handler
+	InputHandling::Get();
+	InputHandling::Get()->InitWindow(m_Window);
+
 	// Set start time
 	std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
 
@@ -160,6 +165,9 @@ void Core::Run( )
 				game.ProcessMouseUpEvent( e.button );
 				break;
 			}
+			
+			// Pass input to singleton
+			InputHandling::Get()->ProcessInput(e);
 		}
 
 		if ( !quit )

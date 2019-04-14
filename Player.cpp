@@ -6,12 +6,12 @@
 #include "Bullet.h"
 #include <string>
 #include"Game.h"
+#include "InputHandling.h"
 
 
-Player::Player(int health, float winHeight, const Point2f& pos, float width, float height, Texture* pTexture)
+Player::Player(int health, const Point2f& pos, float width, float height, Texture* pTexture)
 	: GameObject{ pos, width, height, pTexture}
 	, m_Health{ health }
-	, m_WindowHeight{ winHeight }
 {
 
 }
@@ -24,22 +24,17 @@ void Player::Draw() const
 
 void Player::Update(float dT)
 {
-	int x, y;
-	const Uint8 *pStates = SDL_GetKeyboardState(nullptr);
+	m_Pos = InputHandling::Get()->MousePos();
+	
 
-	int mouseState = SDL_GetMouseState( &x, &y);
-	m_Pos.x = float(x);
-	m_Pos.y = float(m_WindowHeight - y);
 
-	switch (mouseState)
+	switch (InputHandling::Get()->MouseState())
 	{
 	case SDL_BUTTON_LEFT:
 		//std::cout << "Yeeted that left click" << std::endl;
-		GameObjectManager::Get()->Add(new Bullet{ "player", m_Pos});
+		GameObjectManager::Get()->Add(new Bullet{ "player", m_Pos });
 		break;
-	case SDL_BUTTON_RIGHT:
-		std::cout << "Yeeted that Right Click" << std::endl;
-		break;
-		//sssssss
 	}
+
+	//m_Pos += m_MoveV * dT;
 }

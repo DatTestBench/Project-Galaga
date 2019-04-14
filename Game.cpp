@@ -1,4 +1,4 @@
-#include "pch.h"
+	#include "pch.h"
 #include "Game.h"
 #include "Player.h"
 #include "Enemy.h"
@@ -21,7 +21,7 @@ void Game::Initialize()
 	GameObjectManager::Get();
 	// adding player
 	//Texture* pPlayerText{ new Texture {"./Resources/Textures/player.png"} };
-	Player* pPlayer{ new Player {10, m_Window.height, Point2f{}} };
+	Player* pPlayer{ new Player {10, Point2f{m_Window.width / 2.f, m_Window.height / 2.f}} };
 	GameObjectManager::Get()->Add(pPlayer);
 
 	// adding enemy
@@ -33,7 +33,7 @@ void Game::Initialize()
 void Game::Cleanup()
 {
 	GameObjectManager::Get()->Destroy();
-	
+	InputHandling::Get()->Destroy();
 }
 
 void Game::Update(float elapsedSec)
@@ -58,12 +58,12 @@ void Game::Draw() const
 {
 	ClearBackground();
 
-	glPushMatrix();
+	//glPushMatrix();
 
-	m_Camera.Transform(GameObjectManager::Get()->GetPlayer());
+	//m_Camera.Transform(GameObjectManager::Get()->GetPlayer());
 	GameObjectManager::Get()->Draw();
 
-	glPopMatrix();
+	//glPopMatrix();
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
