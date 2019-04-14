@@ -17,7 +17,7 @@ Game::~Game()
 
 void Game::Initialize()
 {
-	m_Camera.SetLevelBoundaries(Rectf{ 0,0,3000,3000 });
+	m_Camera.SetLevelBoundaries(Rectf{ 0,0,30000,30000 });
 	GameObjectManager::Get();
 	// adding player
 	//Texture* pPlayerText{ new Texture {"./Resources/Textures/player.png"} };
@@ -60,7 +60,7 @@ void Game::Draw() const
 
 	glPushMatrix();
 
-	m_Camera.Transform(GameObjectManager::Get()->GetPlayer()->GetCollider());
+	m_Camera.Transform(GameObjectManager::Get()->GetPlayer());
 	GameObjectManager::Get()->Draw();
 
 	glPopMatrix();

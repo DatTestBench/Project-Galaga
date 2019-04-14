@@ -16,21 +16,17 @@ void Camera::SetLevelBoundaries(const Rectf & levelBoundaries)
 	m_LevelBoundaries = levelBoundaries;
 }
 
-void Camera::Transform(const std::vector<Point2f>& collider) const
+void Camera::Transform(const GameObject* pGameObject) const
 {
 	
-	Point2f cameraPos{ Track(collider) };
+	Point2f cameraPos{ Track(pGameObject) };
 	Clamp(cameraPos);
 	glTranslatef(-cameraPos.x, -cameraPos.y,0.f);
-	//Rectf drawRect{ cameraPos.x, cameraPos.y , m_Width, m_Height };
-	//utils::SetColor(Color4f{ 0, 0, 1, 1 });
-	//utils::DrawRect(drawRect);
-	
 }
 
-Point2f Camera::Track(const std::vector<Point2f>& collider) const
+Point2f Camera::Track(const GameObject* pGameObject) const
 {
-	Point2f center{};
+	/*Point2f center{};
 
 	for (size_t idx{}; idx < collider.size(); idx++)
 	{
@@ -42,7 +38,8 @@ Point2f Camera::Track(const std::vector<Point2f>& collider) const
 
 	center.x -= m_Width / 2.f;
 	center.y -= m_Height / 2.f;
-	return center;
+	return center;*/
+	return Point2f {pGameObject->GetPos().x - m_Width / 2.f, pGameObject->GetPos().y - m_Height / 2.f};
 }
 
 void Camera::Clamp(Point2f & bottomLeftPos) const 
