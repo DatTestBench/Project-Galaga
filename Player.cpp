@@ -35,6 +35,6 @@ void Player::Update(float dT)
 		GameObjectManager::Get()->Add(new Bullet{ "player", m_Pos });
 		break;
 	}
-
+	std::cout << "shabababa"
 	//m_Pos += m_MoveV * dT;
 }
