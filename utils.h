@@ -9,6 +9,7 @@ namespace utils
 	const float g_Pi{ 3.1415926535f };
 
 #pragma region GeneralUseFunctions
+	float lerp(float v0, float v1, float dT);
 #pragma endregion GeneralUseFunctions
 	
 #pragma region OpenGLDrawFunctionality

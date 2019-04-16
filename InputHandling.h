@@ -22,16 +22,19 @@ public:
 	Point2f MousePos();
 	Uint8 MouseDown();
 	Uint8 MouseUp();
-	Uint8 KeyState();
+	const Uint8* KeyState();
 	Uint32 MouseState();
 
-	SDL_Keycode Key();
+	SDL_Event Event();
+	SDL_EventType Type();
 private:
 	InputHandling();
 	static InputHandling* m_pInputHandling;
 
 	/// Data Members
 	Window m_Window;
+
+	// Keycode
 	SDL_Keycode m_KeyDown;
 	SDL_Keycode m_KeyUp;
 	Point2f m_MousePos;
@@ -39,6 +42,7 @@ private:
 	Uint8 m_MouseUp;
 
 	SDL_Event m_Event;
+	SDL_EventType m_Type;
 	/// Member Functions
 
 	// Internal Workers

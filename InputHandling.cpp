@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "InputHandling.h"
+#include <iostream>
 
 InputHandling* InputHandling::m_pInputHandling = nullptr;
 
@@ -37,18 +38,23 @@ void InputHandling::ProcessInput(const SDL_Event& e)
 		break;
 	case SDL_KEYDOWN:
 		ProcessKeyDownEvent(e.key);
+		m_Type = SDL_EventType(e.type);
 		break;
 	case SDL_KEYUP:
 		ProcessKeyUpEvent(e.key);
+		m_Type = SDL_EventType(e.type);
 		break;
 	case SDL_MOUSEMOTION:
 		ProcessMouseMotionEvent(e.motion);
+		m_Type = SDL_EventType(e.type);
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 		ProcessMouseDownEvent(e.button);
+		m_Type = SDL_EventType(e.type);
 		break;
 	case SDL_MOUSEBUTTONUP:
 		ProcessMouseUpEvent(e.button);
+		m_Type = SDL_EventType(e.type);
 		break;
 	}
 }
@@ -64,6 +70,8 @@ void InputHandling::InitWindow(const Window& window)
 
 
 #pragma region Getters
+
+
 SDL_Keycode InputHandling::KeyDown()
 {
 	return m_KeyDown;
@@ -71,6 +79,7 @@ SDL_Keycode InputHandling::KeyDown()
 
 SDL_Keycode InputHandling::KeyUp()
 {
+	
 	return m_KeyUp;
 }
 
@@ -89,9 +98,9 @@ Uint8 InputHandling::MouseUp()
 	return m_MouseUp;
 }
 
-Uint8 InputHandling::KeyState()
+const Uint8* InputHandling::KeyState()
 {
-	return *SDL_GetKeyboardState(nullptr);
+	return SDL_GetKeyboardState(nullptr);
 }
 
 Uint32 InputHandling::MouseState()
@@ -100,10 +109,16 @@ Uint32 InputHandling::MouseState()
 	return SDL_GetMouseState(&x, &y);
 }
 
-SDL_Keycode InputHandling::Key()
+SDL_Event InputHandling::Event()
 {
-	return m_Event.key.keysym.sym;
+	return m_Event;
 }
+
+SDL_EventType InputHandling::Type()
+{
+	return m_Type;
+}
+
 #pragma endregion Getters
 
 

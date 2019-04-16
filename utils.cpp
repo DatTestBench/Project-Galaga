@@ -5,6 +5,10 @@
 #include "utils.h"
 
 #pragma region GeneralUseFunctions
+float utils::lerp(float v0, float v1, float dT)
+{
+	return (1 - dT) * v0 + dT * v1;
+}
 #pragma endregion GeneralUseFunctions
 
 
