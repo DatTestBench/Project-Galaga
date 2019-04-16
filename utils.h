@@ -9,7 +9,19 @@ namespace utils
 	const float g_Pi{ 3.1415926535f };
 
 #pragma region GeneralUseFunctions
-	float lerp(float v0, float v1, float dT);
+
+	template <typename T>
+	T lerp(T start, T end, float percent)
+	{
+		return start + percent * (end - start);
+	}
+	template <typename T>
+	T lerp(T start, T end, float dT, float speed)
+	{
+		return lerp(start, end, dT * speed);
+	}
+	
+
 #pragma endregion GeneralUseFunctions
 	
 #pragma region OpenGLDrawFunctionality

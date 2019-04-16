@@ -4,6 +4,7 @@
 #include "Matrix2x3.h"
 #include "structs.h"
 #include "Game.h"
+#include "utils.h"
 
 GameObject::GameObject(const Point2f& pos, float width, float height, Texture* pTexture)
 	: m_Pos{ pos }
@@ -57,8 +58,9 @@ float GameObject::GetHeight() const
 
 std::vector<Point2f> GameObject::GetCollider() const
 {
-	Matrix2x3 tMat{ Matrix2x3::CreateTranslationMatrix(m_Pos.x, m_Pos.y) };
-	return std::vector<Point2f>{tMat.Transform(m_BaseCollider)};
+	Matrix2x3 tMat { Matrix2x3::CreateTranslationMatrix(m_Pos.x, m_Pos.y) };
+	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(atan2(m_MoveV.y, m_MoveV.x) * ( 180 / utils::g_Pi)) };
+	return tMat.Transform(rMat.Transform(m_BaseCollider));
 }
 
 Texture* GameObject::GetpTexture()

@@ -12,7 +12,11 @@ Enemy::Enemy(Player* pPlayer, const Point2f& pos, float width, float height, Tex
 
 void Enemy::Draw() const
 {
-	m_pTexture->DrawC(m_Pos, m_Width, m_Height);
+	glPushMatrix();
+	glTranslatef(m_Pos.x, m_Pos.y, 0.f);
+	glRotatef(atan2(m_MoveV.y, m_MoveV.x) * (180 / utils::g_Pi) + 90, 0.f, 0.f, 1.f);
+	m_pTexture->DrawC(Point2f{}, m_Width, m_Height);
+	glPopMatrix();
 	utils::DrawPolygon(GetCollider());
 }
 
