@@ -17,7 +17,7 @@ Game::~Game()
 
 void Game::Initialize()
 {
-	m_Camera.SetLevelBoundaries(Rectf{ 0,0,30000,30000 });
+	m_Camera.SetLevelBoundaries(Rectf{ 0,0,2000,2000 });
 	GameObjectManager::Get();
 	// adding player
 	//Texture* pPlayerText{ new Texture {"./Resources/Textures/player.png"} };
@@ -58,12 +58,15 @@ void Game::Draw() const
 {
 	ClearBackground();
 
-	//glPushMatrix();
-
-	//m_Camera.Transform(GameObjectManager::Get()->GetPlayer());
+	glPushMatrix();
+	
+	m_Camera.Transform(GameObjectManager::Get()->GetPlayer());
+	utils::DrawRect(0, 0, 2000, 2000, 10);
+	utils::SetColor(Color4f{ 1,0,0,1 });
 	GameObjectManager::Get()->Draw();
+	glPopMatrix();
 
-	//glPopMatrix();
+	
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
