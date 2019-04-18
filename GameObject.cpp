@@ -59,7 +59,7 @@ float GameObject::GetHeight() const
 std::vector<Point2f> GameObject::GetCollider() const
 {
 	Matrix2x3 tMat { Matrix2x3::CreateTranslationMatrix(m_Pos.x, m_Pos.y) };
-	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(atan2(m_MoveV.y, m_MoveV.x) * ( 180 / utils::g_Pi)) };
+	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(GetRotation())) };
 	return tMat.Transform(rMat.Transform(m_BaseCollider));
 }
 
@@ -82,4 +82,9 @@ void GameObject::Delete()
 bool GameObject::GetFlag()
 {
 	return m_DelFlag;
+}
+
+float GameObject::GetRotation() const 
+{
+	return atan2(m_MoveV.y, m_MoveV.x);
 }

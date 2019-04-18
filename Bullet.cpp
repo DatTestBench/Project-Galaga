@@ -4,20 +4,18 @@
 #include "GameObjectManager.h"
 #include "Enemy.h"
 
-Bullet::Bullet(const std::string& ownerTag, const Point2f& pos, float width, float height, Texture* pTexture)
-	:GameObject{ pos, width, height, pTexture}
+Bullet::Bullet(const std::string& ownerTag, const Point2f& pos, float launchAngle, float width, float height, Texture* pTexture)
+	: GameObject{ pos, width, height, pTexture}
+	, m_MaxSpeed{ }
 
 {
-	m_MoveV = Vector2f{ 0, 10 };
+	m_MoveV = Vector2f{ cos(launchAngle), sin(launchAngle) };
+	//m_MoveV = Vector2f{ 0, 10 };
 }
 
 void Bullet::Update(float dT)
 {
-	
-	m_MoveV.y += 1;
-	
-	m_Pos.x += m_MoveV.ToPoint2f().x;
-	m_Pos.y += m_MoveV.ToPoint2f().y;
+
 
 	utils::HitInfo hitInfo;
 	utils::HitInfo hitInfoBullet;
@@ -51,6 +49,8 @@ void Bullet::Update(float dT)
 
 		}
 	}
+
+	m_Pos += m_MoveV * dT;
 }
 
 void Bullet::Draw() const

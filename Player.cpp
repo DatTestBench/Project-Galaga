@@ -23,7 +23,7 @@ void Player::Draw() const
 {
 	glPushMatrix();
 	glTranslatef( m_Pos.x, m_Pos.y, 0.f );
-	glRotatef(atan2(m_MoveV.y, m_MoveV.x) * (180 / utils::g_Pi) - 90, 0.f, 0.f, 1.f);
+	glRotatef(utils::ToDeg(atan2(m_MoveV.y, m_MoveV.x)) - 90, 0.f, 0.f, 1.f);
 	m_pTexture->DrawC(Point2f{}, m_Width, m_Height);
 	glPopMatrix();
 	utils::DrawPolygon(GetCollider());
@@ -38,7 +38,7 @@ void Player::Update(float dT)
 	{
 	case SDL_BUTTON_LEFT:
 		//std::cout << "Yeeted that left click" << std::endl;
-		GameObjectManager::Get()->Add(new Bullet{ "player", m_Pos });
+		GameObjectManager::Get()->Add(new Bullet{ "player", m_Pos, GetRotation() });
 		break;
 	}
 

@@ -5,6 +5,10 @@
 #include "utils.h"
 
 #pragma region GeneralUseFunctions
+float utils::ToDeg(float rad)
+{
+	return rad * (180 / utils::g_Pi);
+}
 #pragma endregion GeneralUseFunctions
 
 

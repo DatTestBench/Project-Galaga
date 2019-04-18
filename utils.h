@@ -21,7 +21,7 @@ namespace utils
 		return lerp(start, end, dT * speed);
 	}
 	
-
+	float ToDeg(float rad);
 #pragma endregion GeneralUseFunctions
 	
 #pragma region OpenGLDrawFunctionality

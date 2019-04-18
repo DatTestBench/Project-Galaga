@@ -6,7 +6,7 @@
 class GameObject
 {
 public:
-	GameObject(const Point2f& pos, float width = {10}, float height = {10}, Texture* pTexture = {nullptr} );
+	GameObject(const Point2f& pos, float width, float height, Texture* pTexture = {nullptr} );
 	~GameObject();
 	GameObject(const GameObject&) = delete;
 	GameObject& operator= (const GameObject&) = delete;
@@ -27,6 +27,7 @@ public:
 	bool IsDeleted() const;
 	void Delete();
 	bool GetFlag();
+	float GetRotation() const; 
 protected:
 
 	// Data Members
@@ -40,6 +41,7 @@ protected:
 	float m_Height;
 	Vector2f m_MoveV;
 	bool m_DelFlag;
+
 
 
 };

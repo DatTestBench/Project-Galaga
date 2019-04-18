@@ -57,16 +57,12 @@ void Game::Update(float elapsedSec)
 void Game::Draw() const
 {
 	ClearBackground();
-
 	glPushMatrix();
-	
 	m_Camera.Transform(GameObjectManager::Get()->GetPlayer());
-	utils::DrawRect(0, 0, 2000, 2000, 10);
+	utils::DrawRect(0, 0, 2000, 2000, 10); // temporary level borders
 	utils::SetColor(Color4f{ 1,0,0,1 });
 	GameObjectManager::Get()->Draw();
 	glPopMatrix();
-
-	
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)

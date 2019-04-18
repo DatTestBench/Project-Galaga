@@ -26,19 +26,6 @@ void Camera::Transform(const GameObject* pGameObject) const
 
 Point2f Camera::Track(const GameObject* pGameObject) const
 {
-	/*Point2f center{};
-
-	for (size_t idx{}; idx < collider.size(); idx++)
-	{
-		center.x += collider[idx].x;
-		center.y += collider[idx].y;
-	}
-	center.x /= collider.size();
-	center.y /= collider.size();
-
-	center.x -= m_Width / 2.f;
-	center.y -= m_Height / 2.f;
-	return center;*/
 	return Point2f {pGameObject->GetPos().x - m_Width / 2.f, pGameObject->GetPos().y - m_Height / 2.f};
 }
 
