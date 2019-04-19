@@ -15,17 +15,37 @@ Player::Player(int health, const Point2f& pos, float width, float height, Textur
 	, m_MaxSpeed{ 1000 }
 	, m_Acceleration{ 10000 }
 	, m_Friction{ 10 }
+	, m_MiddleW { 10, 10 }
 {
 
 }
 
+//Player::~Player()
+//{
+//	if (m_pTexture != nullptr)
+//	{
+//		delete m_pTexture;
+//		m_pTexture = nullptr;
+//	}
+//}
+
 void Player::Draw() const
-{
+{	
+	// Open Transform
 	glPushMatrix();
+
+	// Transforms
 	glTranslatef( m_Pos.x, m_Pos.y, 0.f );
 	glRotatef(utils::ToDeg(atan2(m_MoveV.y, m_MoveV.x)) - 90, 0.f, 0.f, 1.f);
-	m_pTexture->DrawC(Point2f{}, m_Width, m_Height);
+
+	// Drawcode needing transform
+	m_pTexture->DrawC(Point2f{}, m_Width, m_Height); //Player Draw
+	m_MiddleW.Draw();
+
+	// Close Transform
 	glPopMatrix();
+
+	//Debug Player Draws
 	utils::DrawPolygon(GetCollider());
 }
 
@@ -38,11 +58,13 @@ void Player::Update(float dT)
 	{
 	case SDL_BUTTON_LEFT:
 		//std::cout << "Yeeted that left click" << std::endl;
-		GameObjectManager::Get()->Add(new Bullet{ "player", m_Pos, GetRotation() });
+		GameObjectManager::Get()->Add(new Bullet{ this, m_Pos, GetAngle() });
 		break;
 	}
+	m_MiddleW.Update(dT);
 
 	HandleMovement(dT);
+	
 }
 
 
@@ -74,7 +96,7 @@ void Player::HandleMovement(float dT)
 	if (m_MoveV.y < -m_MaxSpeed)
 		m_MoveV.y = -m_MaxSpeed;
 
-	std::cout << m_MoveV.x << ' ' << m_MoveV.y << std::endl;
+	//std::cout << m_MoveV.x << ' ' << m_MoveV.y << std::endl;
 
 	m_Pos += m_MoveV * dT;
 }

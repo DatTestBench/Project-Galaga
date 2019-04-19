@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "InputHandling.h"
+#include "structs.h"
+#include "Vector2f.h"
 #include <iostream>
 
 InputHandling* InputHandling::m_pInputHandling = nullptr;
@@ -66,6 +68,11 @@ void InputHandling::InitWindow(const Window& window)
 	m_Window.title = window.title;
 	m_Window.width = window.width;
 }
+
+void InputHandling::UpdateRelMousePos(const Vector2f& offset )
+{
+	m_RelMousePos = m_MousePos + offset;
+}
 #pragma endregion Input
 
 
@@ -86,6 +93,11 @@ SDL_Keycode InputHandling::KeyUp()
 Point2f InputHandling::MousePos()
 {
 	return m_MousePos;
+}
+
+Point2f InputHandling::RelMousePos()
+{
+	return m_RelMousePos;
 }
 
 Uint8 InputHandling::MouseDown()

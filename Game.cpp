@@ -1,11 +1,11 @@
-	#include "pch.h"
+#include "pch.h"
 #include "Game.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "utils.h"
 Game::Game(const Window& window)
 	:m_Window{ window }
-	,m_Camera{window.width, window.height}
+	, m_Camera{ window.width, window.height }
 {
 	Initialize();
 }
@@ -38,7 +38,10 @@ void Game::Cleanup()
 
 void Game::Update(float elapsedSec)
 {
+
 	GameObjectManager::Get()->Update(elapsedSec);
+	InputHandling::Get()->UpdateRelMousePos(m_Camera.GetOffset(GameObjectManager::Get()->GetPlayer()));
+
 
 	// Check keyboard state
 	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
@@ -50,7 +53,7 @@ void Game::Update(float elapsedSec)
 	//{
 	//	std::cout << "Left and up arrow keys are down\n";
 	//}
-	
+
 	//std::cout << elapsedSec << std::endl;
 }
 

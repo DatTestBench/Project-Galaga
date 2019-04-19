@@ -18,11 +18,18 @@ void Camera::SetLevelBoundaries(const Rectf & levelBoundaries)
 
 void Camera::Transform(const GameObject* pGameObject) const
 {
-	
 	Point2f cameraPos{ Track(pGameObject) };
 	Clamp(cameraPos);
 	glTranslatef(-cameraPos.x, -cameraPos.y,0.f);
 }
+
+Vector2f Camera::GetOffset(const GameObject* pGameObject) const
+{
+	Point2f cameraPos{ Track(pGameObject) };
+	Clamp(cameraPos);
+	return Vector2f {cameraPos};
+}
+
 
 Point2f Camera::Track(const GameObject* pGameObject) const
 {

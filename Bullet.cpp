@@ -4,26 +4,25 @@
 #include "GameObjectManager.h"
 #include "Enemy.h"
 
-Bullet::Bullet(const std::string& ownerTag, const Point2f& pos, float launchAngle, float width, float height, Texture* pTexture)
+Bullet::Bullet(GameObject* senderPointer, const Point2f& pos, float launchAngle, float width, float height, Texture* pTexture)
 	: GameObject{ pos, width, height, pTexture}
-	, m_MaxSpeed{ }
-
+	, m_Owner { senderPointer }
+	, m_MaxSpeed{ 3000 }
+	
 {
-	m_MoveV = Vector2f{ cos(launchAngle), sin(launchAngle) };
-	//m_MoveV = Vector2f{ 0, 10 };
+	m_MoveV = Vector2f{ m_MaxSpeed * cos(launchAngle), m_MaxSpeed *sin(launchAngle) };
 }
 
 void Bullet::Update(float dT)
 {
-
-
 	utils::HitInfo hitInfo;
 	utils::HitInfo hitInfoBullet;
 	utils::HitInfo hitInfoGameObject;
 
-	for (GameObject *pGameObject : *GameObjectManager::Get()->GetGameObjects())
+	for (GameObject* pGameObject : *GameObjectManager::Get()->GetGameObjects())
 	{
-		if (typeid (*pGameObject) == typeid (Enemy))
+		//if (m_Owner != pGameObject && typeid(*pGameObject) != typeid(Bullet))
+		if (typeid (*pGameObject) == typeid(Enemy))
 		{
 			/*utils::Raycast(GetCollider(), m_Pos, pGameObject->GetPos(), hitInfoBullet);
 			utils::Raycast(pGameObject->GetCollider(), pGameObject->GetPos(), m_Pos, hitInfoGameObject);
@@ -44,9 +43,7 @@ void Bullet::Update(float dT)
 				//m_MoveV.x += pGameObject->GetPos().x - m_Pos.x;
 				//m_MoveV.y += pGameObject->GetPos().y - m_Pos.y;
 				//std::cout << "hit" << std::endl;
-
 			}
-
 		}
 	}
 

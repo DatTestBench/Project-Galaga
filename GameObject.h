@@ -7,40 +7,42 @@ class GameObject
 {
 public:
 	GameObject(const Point2f& pos, float width, float height, Texture* pTexture = {nullptr} );
-	~GameObject();
+	virtual ~GameObject();
 	GameObject(const GameObject&) = delete;
 	GameObject& operator= (const GameObject&) = delete;
 	GameObject(GameObject&&) = delete;
 	GameObject& operator= (GameObject&&) = delete;
 
 
-
+	// Workers
 	virtual void Draw() const = 0;
 	virtual void Update(float dT) = 0;
-	bool IsOnscreen() const;
+
+	// Getters
 	Point2f GetPos() const;
-	void ChangePos(const Vector2f& dMove);
+	Texture* GetpTexture() const;
+	std::vector<Point2f> GetCollider() const;
 	float GetWidth() const;
 	float GetHeight() const;
-	std::vector<Point2f> GetCollider() const;
-	Texture* GetpTexture();
-	bool IsDeleted() const;
+	bool GetFlag() const;
+	virtual float GetAngle() const; 
+
+	// Changers
+	void ChangePos(const Vector2f& dMove);
 	void Delete();
-	bool GetFlag();
-	float GetRotation() const; 
+	
 protected:
 
-	// Data Members
+	/// Data Members
 	Point2f m_Pos;
 	Texture* m_pTexture;
-	bool m_Onscreen;
-	bool m_Deleted {false}; 
 	std::vector<Point2f> m_BaseCollider;
-	std::vector<Point2f> m_Collider;
 	float m_Width;
 	float m_Height;
-	Vector2f m_MoveV;
 	bool m_DelFlag;
+	Vector2f m_MoveV;
+
+	/// Member Functions
 
 
 
