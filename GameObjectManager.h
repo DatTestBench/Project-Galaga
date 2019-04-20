@@ -27,7 +27,7 @@ public:
 
 	// Getters
 	std::vector<GameObject*>* GetGameObjects() ;
-	GameObject* GetPlayer() const;
+	Player* GetPlayer() const;
 	size_t Size() const;
 
 private:
@@ -43,7 +43,7 @@ private:
 	Buffer<GameObject*> m_RemoveBuffer;
 	Buffer<GameObject*> m_DeleteBuffer;
 
-	GameObject* m_pPlayer;
+	Player* m_pPlayer;
 
 	/// Member Functions
 	//Internal Item Manipulation

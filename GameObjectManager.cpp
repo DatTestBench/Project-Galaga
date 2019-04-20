@@ -45,7 +45,7 @@ void GameObjectManager::Add(GameObject* pGameObject)
 {
 	m_AddBuffer.Add(pGameObject);
 	if (typeid(*pGameObject) == typeid (Player))
-		m_pPlayer = pGameObject;
+		m_pPlayer = static_cast<Player*>(pGameObject);
 }
 
 // WIP
@@ -91,7 +91,7 @@ std::vector<GameObject*>* GameObjectManager::GetGameObjects()
 	return  &m_GameObjects;
 }
 
-GameObject* GameObjectManager::GetPlayer() const
+Player* GameObjectManager::GetPlayer() const
 {
 	return m_pPlayer;
 }

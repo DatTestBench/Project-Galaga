@@ -5,7 +5,7 @@
 #include "utils.h"
 Game::Game(const Window& window)
 	:m_Window{ window }
-	, m_Camera{ window.width, window.height }
+	,m_Camera{window.width, window.height}
 {
 	Initialize();
 }
@@ -38,7 +38,7 @@ void Game::Cleanup()
 
 void Game::Update(float elapsedSec)
 {
-
+	
 	GameObjectManager::Get()->Update(elapsedSec);
 	InputHandling::Get()->UpdateRelMousePos(m_Camera.GetOffset(GameObjectManager::Get()->GetPlayer()));
 
@@ -53,7 +53,7 @@ void Game::Update(float elapsedSec)
 	//{
 	//	std::cout << "Left and up arrow keys are down\n";
 	//}
-
+	
 	//std::cout << elapsedSec << std::endl;
 }
 
@@ -70,6 +70,16 @@ void Game::Draw() const
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
 {
+	switch ( e.keysym.sym )
+	{
+	case SDLK_i:
+		GameObjectManager::Get()->GetPlayer()->AddWeapon();
+		std::cout << "Weapon added" << std::endl;
+		break;
+	
+	default:
+		break;
+	}
 	//std::cout << "KEYDOWN event: " << e.keysym.sym << std::endl;
 }
 
@@ -98,6 +108,15 @@ void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
 
 void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 {
+	switch(e.button)
+	{
+	case SDL_BUTTON_LEFT:
+		if (!GameObjectManager::Get()->GetPlayer()->IsShooting())
+			GameObjectManager::Get()->GetPlayer()->ToggleIsShooting();
+		break;
+	default:
+		break;
+	}
 	//std::cout << "MOUSEBUTTONDOWN event: ";
 	//switch ( e.button )
 	//{
@@ -115,6 +134,15 @@ void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 
 void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
 {
+	switch (e.button)
+	{
+	case SDL_BUTTON_LEFT:
+		if (GameObjectManager::Get()->GetPlayer()->IsShooting())
+			GameObjectManager::Get()->GetPlayer()->ToggleIsShooting();
+		break;
+	default:
+		break;
+	}
 	//std::cout << "MOUSEBUTTONUP event: ";
 	//switch ( e.button )
 	//{

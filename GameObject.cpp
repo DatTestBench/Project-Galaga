@@ -63,7 +63,7 @@ bool GameObject::GetFlag() const
 	return m_DelFlag;
 }
 
-float GameObject::GetAngle() const 
+float GameObject::GetAngle() const
 {
 	return atan2(m_MoveV.y, m_MoveV.x);
 }
