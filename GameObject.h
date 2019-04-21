@@ -21,7 +21,7 @@ public:
 	// Getters
 	Point2f GetPos() const;
 	Texture* GetpTexture() const;
-	std::vector<Point2f> GetCollider() const;
+	virtual std::vector<Point2f> GetCollider() const;
 	float GetWidth() const;
 	float GetHeight() const;
 	bool GetFlag() const;

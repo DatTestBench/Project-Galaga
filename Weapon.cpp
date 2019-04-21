@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "GameObjectManager.h"
+#include "Matrix2x3.h"
 
 Weapon::Weapon(float width, float height, Slot slot, Texture* pTexture)
 	:GameObject(Point2f{ 0,0 }, width, height, pTexture)
@@ -26,21 +27,22 @@ Weapon::Weapon(float width, float height, Slot slot, Texture* pTexture)
 		m_BaseOffset.y -= GameObjectManager::Get()->GetPlayer()->GetHeight() / 2.f;
 		break;
 	}
-	m_Pos = GameObjectManager::Get()->GetPlayer()->GetPos() + m_BaseOffset;
+	m_Pos = GetAbsPos();
 }
 
 void Weapon::Draw() const
 {
 	//m_pTexture->DrawC(Point2f{}, m_Width, m_Height);
-	utils::DrawPolygon(GetCollider());
+	//utils::DrawPolygon(GetCollider());
+	utils::DrawEllipse(GetAbsPos(), 5, 5);
 }
 
 void Weapon::Update(float dT)
 {
-	m_Pos = GameObjectManager::Get()->GetPlayer()->GetPos() + Offset();
+
 	if (m_IsShooting)
 	{
-		GameObjectManager::Get()->Add(new Bullet{ this, m_Pos, GetAngle() });
+		GameObjectManager::Get()->Add(new Bullet{ this, GetAbsPos(), GetAngle() });
 	}
 	//switch (InputHandling::Get()->MouseState())
 	//{
@@ -54,7 +56,7 @@ void Weapon::Update(float dT)
 
 float Weapon::GetAngle() const
 {
-	Vector2f v{ m_Pos, InputHandling::Get()->RelMousePos() };
+	Vector2f v{ GetAbsPos(), InputHandling::Get()->RelMousePos() };
 	//std::cout << "x: " << GameObjectManager::Get()->GetPlayer()->GetPos().x << " y: " << GameObjectManager::Get()->GetPlayer()->GetPos().y << " x: " << InputHandling::Get()->RelMousePos().x << " y: " << InputHandling::Get()->RelMousePos().y << std::endl;
 	return atan2(v.y, v.x);
 }
@@ -64,7 +66,18 @@ void Weapon::ToggleIsShooting()
 	m_IsShooting = !m_IsShooting;
 }
 
-Vector2f Weapon::Offset()  
+Point2f Weapon::GetAbsPos() const
 {
-	return Vector2f{ m_BaseOffset.x * cos(GameObjectManager::Get()->GetPlayer()->GetAngle()), m_BaseOffset.y * sin(GameObjectManager::Get()->GetPlayer()->GetAngle()) };
+	Matrix2x3 tMat { Matrix2x3::CreateTranslationMatrix(Vector2f{GameObjectManager::Get()->GetPlayer()->GetPos()}) };
+	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(GameObjectManager::Get()->GetPlayer()->GetAngle() - utils::g_Pi/ 2.f)) };
+	
+	return tMat.Transform(rMat.Transform(m_BaseOffset.ToPoint2f()));
+	
+}
+
+std::vector<Point2f> Weapon::GetCollider() const
+{
+	Matrix2x3 tMat { Matrix2x3::CreateTranslationMatrix(Vector2f{GetAbsPos()}) };
+	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(GetAngle())) };
+	return tMat.Transform(rMat.Transform(m_BaseCollider));
 }

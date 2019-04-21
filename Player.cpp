@@ -37,13 +37,13 @@ void Player::Draw() const
 
 	// Transforms
 	glTranslatef(m_Pos.x, m_Pos.y, 0.f);
-	glRotatef(utils::ToDeg(atan2(m_MoveV.y, m_MoveV.x)) - 90, 0.f, 0.f, 1.f);
+	glRotatef(utils::ToDeg(atan2(m_MoveV.y, m_MoveV.x) - utils::g_Pi / 2.f), 0.f, 0.f, 1.f);
 
 	// Drawcode needing transform
 	m_pTexture->DrawC(Point2f{}, m_Width, m_Height); //Player Draw
 
-	for (Weapon* pWeapon : m_pWeapons)
-		pWeapon->Draw();
+	/*for (Weapon* pWeapon : m_pWeapons)
+		pWeapon->Draw();*/
 
 	// Close Transform
 	glPopMatrix();

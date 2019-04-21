@@ -43,7 +43,7 @@ Texture* GameObject::GetpTexture() const
 
 std::vector<Point2f> GameObject::GetCollider() const
 {
-	Matrix2x3 tMat { Matrix2x3::CreateTranslationMatrix(m_Pos.x, m_Pos.y) };
+	Matrix2x3 tMat { Matrix2x3::CreateTranslationMatrix(Vector2f{m_Pos}) };
 	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(GetAngle())) };
 	return tMat.Transform(rMat.Transform(m_BaseCollider));
 }
