@@ -26,8 +26,8 @@ void Game::Initialize()
 
 	// adding enemy
 	//Texture* pEnemyText{ new Texture{"./Resources/Textures/enemy.png"} };
-	Enemy* pEnemy{ new Enemy {pPlayer, Point2f{}} };
-	GameObjectManager::Get()->Add(pEnemy);
+	//Enemy* pEnemy{ new Enemy {GameObjectManager::Get()->GetPlayer(), Point2f{rand()% int(m_Window.width) + 1, rand()% int(m_Window.height)}} };
+	//GameObjectManager::Get()->Add(pEnemy);
 }
 
 void Game::Cleanup()
@@ -72,13 +72,15 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
 {
 	switch ( e.keysym.sym )
 	{
-	case SDLK_i:
+	case SDLK_q:
 		GameObjectManager::Get()->GetPlayer()->AddWeapon();
 		std::cout << "Weapon added" << std::endl;
 		break;
-	
-	default:
-		break;
+	case SDLK_e:
+		// adding enemy
+		//Point2f pos{ float { rand() % int{ m_Window.width + 1 } },  float { rand() % int{m_Window.height + 1} } };
+		Enemy* pEnemy{ new Enemy {GameObjectManager::Get()->GetPlayer(), Point2f{ static_cast<float>(rand() % static_cast<int>(m_Window.width + 1)), static_cast<float>(rand() % static_cast<int>(m_Window.height + 1)) } } };
+		GameObjectManager::Get()->Add(pEnemy);
 	}
 	//std::cout << "KEYDOWN event: " << e.keysym.sym << std::endl;
 }
