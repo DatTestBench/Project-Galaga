@@ -25,6 +25,8 @@ private:
 	// DATA MEMBERS
 	const Window m_Window;
 	Camera m_Camera;
+	float m_Frames;
+	float m_dT;
 	// FUNCTIONS
 	void Initialize( );
 	void Cleanup( );

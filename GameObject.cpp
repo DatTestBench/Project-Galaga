@@ -20,11 +20,11 @@ GameObject::GameObject(const Point2f& pos, float width, float height, Texture* p
 
 GameObject::~GameObject()
 {
-	if (m_pTexture != nullptr)
+	/*if (m_pTexture != nullptr)
 	{
 		delete m_pTexture;
 		m_pTexture = nullptr;
-	}
+	}*/
 }
 
 // Deleted Draw

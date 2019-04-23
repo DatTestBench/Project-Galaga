@@ -19,6 +19,8 @@ void Game::Initialize()
 {
 	m_Camera.SetLevelBoundaries(Rectf{ 0,0,2000,2000 });
 	GameObjectManager::Get();
+	TextureManager::Get();
+
 	// adding player
 	//Texture* pPlayerText{ new Texture {"./Resources/Textures/player.png"} };
 	Player* pPlayer{ new Player {10, Point2f{m_Window.width / 2.f, m_Window.height / 2.f}} };
@@ -32,6 +34,7 @@ void Game::Initialize()
 
 void Game::Cleanup()
 {
+	TextureManager::Get()->Destroy();
 	GameObjectManager::Get()->Destroy();
 	InputHandling::Get()->Destroy();
 }
@@ -42,6 +45,7 @@ void Game::Update(float elapsedSec)
 	GameObjectManager::Get()->Update(elapsedSec);
 	InputHandling::Get()->UpdateRelMousePos(m_Camera.GetOffset(GameObjectManager::Get()->GetPlayer()));
 
+	std::cout << 1 / elapsedSec << std::endl; // Debug FPS counter
 
 	// Check keyboard state
 	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
@@ -79,7 +83,7 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
 	case SDLK_e:
 		// adding enemy
 		//Point2f pos{ float { rand() % int{ m_Window.width + 1 } },  float { rand() % int{m_Window.height + 1} } };
-		Enemy* pEnemy{ new Enemy {GameObjectManager::Get()->GetPlayer(), Point2f{ static_cast<float>(rand() % static_cast<int>(m_Window.width + 1)), static_cast<float>(rand() % static_cast<int>(m_Window.height + 1)) } } };
+		Enemy* pEnemy{ new Enemy {Point2f{ static_cast<float>(rand() % static_cast<int>(m_Window.width + 1)), static_cast<float>(rand() % static_cast<int>(m_Window.height + 1)) } } };
 		GameObjectManager::Get()->Add(pEnemy);
 	}
 	//std::cout << "KEYDOWN event: " << e.keysym.sym << std::endl;

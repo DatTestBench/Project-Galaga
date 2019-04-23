@@ -20,11 +20,11 @@ Player::Player(int health, const Point2f& pos, float width, float height, Textur
 
 Player::~Player()
 {
-	if (m_pTexture != nullptr)
+	/*if (m_pTexture != nullptr)
 	{
 		delete m_pTexture;
 		m_pTexture = nullptr;
-	}
+	}*/
 
 	for (Weapon* pWeapon : m_pWeapons)
 		delete pWeapon;

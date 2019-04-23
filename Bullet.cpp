@@ -18,7 +18,7 @@ void Bullet::Update(float dT)
 
 	for (GameObject* pGameObject : *GameObjectManager::Get()->GetGameObjects())
 	{
-		if (static_cast<Bullet*>(pGameObject) == nullptr)
+		//if (static_cast<Bullet*>(pGameObject) == nullptr)
 		{
 			//if (m_Owner != pGameObject && typeid(*pGameObject) != typeid(Bullet))
 			if (typeid (*pGameObject) == typeid(Enemy))
@@ -46,6 +46,9 @@ void Bullet::Update(float dT)
 			}
 		}
 	}
+
+	if (m_Pos.x > 2000 || m_Pos.x < 0 || m_Pos.y > 2000 || m_Pos.x < 0)
+		Delete();
 
 	m_Pos += m_MoveV * dT;
 }

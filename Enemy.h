@@ -1,11 +1,12 @@
 #pragma once
 #include "GameObject.h"
 #include "Vector2f.h"
+#include "TextureManager.h"
 class Player;
 class Enemy : public GameObject
 {
 public:
-	Enemy(Player* pPlayer, const Point2f& pos, float width = {50}, float height = {50}, Texture* pTexture = {new Texture { "./Resources/Textures/enemy.png"}});
+	Enemy(const Point2f& pos, float width = {50}, float height = {50}, Texture* pTexture = {TextureManager::Get()->GetEnemyTextp()});
 	
 	void Draw() const override;
 	void Update(float dT) override;
