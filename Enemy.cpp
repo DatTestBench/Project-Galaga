@@ -4,7 +4,7 @@
 #include "utils.h" 
 #include "Player.h"
 #include "SAT.h"
-Enemy::Enemy(const Point2f& pos, float width, float height, Texture* pTexture)
+Enemy::Enemy(const Vector2f& pos, float width, float height, Texture* pTexture)
 	: GameObject{ pos, width, height, pTexture }
 	, m_pPlayer{ GameObjectManager::Get()->GetPlayer() }
 
@@ -24,7 +24,7 @@ void Enemy::Draw() const
 void Enemy::Update(float dT)
 {
 	float maxspeed{ 100 };
-	m_MoveV = Vector2f{ m_Pos, m_pPlayer->GetPos() }.Normalized();
+	m_MoveV = Vector2f( m_Pos, m_pPlayer->GetPos() ).Normalized();
 	m_Pos += m_MoveV * maxspeed * dT;
 	HandleCollision();
 }
@@ -42,9 +42,9 @@ void Enemy::HandleCollision()
 			result = sat::PolygonCollision(this, pGameObject);
 			if (result.Intersect)
 			{
-				std::cout << "hit";
+				//std::cout << "hit";
 				m_Pos += result.MinimumTranslationVector;
-				std::cout << result.MinimumTranslationVector;
+				//std::cout << result.MinimumTranslationVector;
 			}
 		}
 

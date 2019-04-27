@@ -12,8 +12,8 @@ private:
 	float m_Height;
 	Rectf m_LevelBoundaries;
 
-	Point2f Track(const GameObject* pGameObject) const;
-	void Clamp(Point2f& bottomLeftPos) const;
+	Vector2f Track(const GameObject* pGameObject) const;
+	void Clamp(Vector2f& bottomLeftPos) const;
 
 };
 

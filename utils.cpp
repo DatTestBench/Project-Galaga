@@ -127,6 +127,11 @@ void utils::DrawEllipse(const Point2f& center, float radX, float radY, float lin
 	DrawEllipse(center.x, center.y, radX, radY, lineWidth);
 }
 
+void utils::DrawEllipse(const Vector2f& center, float radX, float radY, float lineWidth)
+{
+	DrawEllipse(center.x, center.y, radX, radY, lineWidth);
+}
+
 void utils::DrawEllipse(const Ellipsef& ellipse, float lineWidth)
 {
 	DrawEllipse(ellipse.center.x, ellipse.center.y, ellipse.radiusX, ellipse.radiusY, lineWidth);
@@ -211,7 +216,24 @@ void utils::DrawPolygon(const std::vector<Point2f>& vertices, bool closed, float
 {
 	DrawPolygon(vertices.data(), vertices.size(), closed, lineWidth);
 }
+void utils::DrawPolygon(const std::vector<Vector2f>& vertices, bool closed, float lineWidth)
+{
+	DrawPolygon(vertices.data(), vertices.size(), closed, lineWidth);
+}
+
 void utils::DrawPolygon(const Point2f *pVertices, size_t nrVertices, bool closed, float lineWidth)
+{
+	glLineWidth(lineWidth);
+	closed ? glBegin(GL_LINE_LOOP) : glBegin(GL_LINE_STRIP);
+	{
+		for (size_t idx{ 0 }; idx < nrVertices; ++idx)
+		{
+			glVertex2f(pVertices[idx].x, pVertices[idx].y);
+		}
+	}
+	glEnd();
+}
+void utils::DrawPolygon(const Vector2f *pVertices, size_t nrVertices, bool closed, float lineWidth)
 {
 	glLineWidth(lineWidth);
 	closed ? glBegin(GL_LINE_LOOP) : glBegin(GL_LINE_STRIP);

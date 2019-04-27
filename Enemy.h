@@ -6,7 +6,7 @@ class Player;
 class Enemy : public GameObject
 {
 public:
-	Enemy(const Point2f& pos, float width = {50}, float height = {50}, Texture* pTexture = {TextureManager::Get()->GetEnemyTextp()});
+	Enemy(const Vector2f& pos, float width = {50}, float height = {50}, Texture* pTexture = {TextureManager::Get()->GetEnemyTextp()});
 	
 	void Draw() const override;
 	void Update(float dT) override;

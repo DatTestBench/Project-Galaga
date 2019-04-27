@@ -44,6 +44,7 @@ namespace utils
 
 	void DrawEllipse(float centerX, float centerY, float radX, float radY, float lineWidth = 1.0f);
 	void DrawEllipse(const Point2f& center, float radX, float radY, float lineWidth = 1.0f);
+	void DrawEllipse(const Vector2f& center, float radX, float radY, float lineWidth = 1.0f);
 	void DrawEllipse(const Ellipsef& ellipse , float lineWidth = 1.0f );
 	void FillEllipse( float centerX, float centerY, float radX, float radY );
 	void FillEllipse(const Ellipsef& ellipse );
@@ -55,7 +56,9 @@ namespace utils
 	void FillArc( const Point2f& center, float radX, float radY, float fromAngle, float tillAngle );
 
 	void DrawPolygon( const std::vector<Point2f>& vertices, bool closed = true, float lineWidth = 1.0f );
+	void DrawPolygon( const std::vector<Vector2f>& vertices, bool closed = true, float lineWidth = 1.0f );
 	void DrawPolygon( const Point2f *pVertices, size_t nrVertices, bool closed = true, float lineWidth = 1.0f );
+	void DrawPolygon( const Vector2f *pVertices, size_t nrVertices, bool closed = true, float lineWidth = 1.0f );
 	void FillPolygon( const std::vector<Point2f>& vertices);
 	void FillPolygon( const Point2f *pVertices, size_t nrVertices);
 #pragma endregion OpenGLDrawFunctionality

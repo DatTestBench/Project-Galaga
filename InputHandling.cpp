@@ -90,12 +90,12 @@ SDL_Keycode InputHandling::KeyUp()
 	return m_KeyUp;
 }
 
-Point2f InputHandling::MousePos()
+Vector2f InputHandling::MousePos()
 {
 	return m_MousePos;
 }
 
-Point2f InputHandling::RelMousePos()
+Vector2f InputHandling::AbsMousePos()
 {
 	return m_RelMousePos;
 }

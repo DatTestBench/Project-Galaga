@@ -11,7 +11,7 @@ class Bullet : public GameObject
 
 
 public:
-	Bullet(GameObject* senderPointer, const Point2f& pos, float launchAngle, float width = { 3 }, float height = { 3 }, Texture* pTexture = { nullptr });
+	Bullet(GameObject* senderPointer, const Vector2f& pos, float launchAngle, float width = { 3 }, float height = { 3 }, Texture* pTexture = { nullptr });
 	void Draw() const override;
 	void Update(float dT) override;
 

@@ -9,7 +9,7 @@
 #include "InputHandling.h"
 #include "Weapon.h"
 
-Player::Player(int health, const Point2f& pos, float width, float height, Texture* pTexture)
+Player::Player(int health, const Vector2f& pos, float width, float height, Texture* pTexture)
 	: GameObject{ pos, width, height, pTexture }
 	, m_Health{ health }
 	, m_MaxSpeed{ 1000 }

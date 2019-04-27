@@ -6,7 +6,7 @@
 class GameObject
 {
 public:
-	GameObject(const Point2f& pos, float width, float height, Texture* pTexture = {nullptr} );
+	GameObject(const Vector2f& pos, float width, float height, Texture* pTexture = {nullptr} );
 	virtual ~GameObject();
 	GameObject(const GameObject&) = delete;
 	GameObject& operator= (const GameObject&) = delete;
@@ -19,9 +19,9 @@ public:
 	virtual void Update(float dT) = 0;
 
 	// Getters
-	Point2f GetPos() const;
+	Vector2f GetPos() const;
 	Texture* GetpTexture() const;
-	virtual std::vector<Point2f> GetCollider() const;
+	virtual std::vector<Vector2f> GetCollider() const;
 	float GetWidth() const;
 	float GetHeight() const;
 	bool GetFlag() const;
@@ -35,9 +35,9 @@ public:
 protected:
 
 	/// Data Members
-	Point2f m_Pos;
+	Vector2f m_Pos;
 	Texture* m_pTexture;
-	std::vector<Point2f> m_BaseCollider;
+	std::vector<Vector2f> m_BaseCollider;
 	float m_Width;
 	float m_Height;
 	bool m_DelFlag;

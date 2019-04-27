@@ -11,6 +11,8 @@ struct Vector2f
 	Vector2f( );
 	explicit Vector2f( float x, float y );
 	explicit Vector2f( const Point2f& fromPoint, const Point2f& tillPoint );
+	// Use for using Vector2f as points
+	explicit Vector2f( const Vector2f& fromPoint, const Vector2f& tillPoint ); 
 	explicit Vector2f( const Point2f& point );
 
 	// -------------------------

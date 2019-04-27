@@ -51,6 +51,17 @@ std::vector<Point2f> Matrix2x3::Transform( const std::vector<Point2f>& vertices 
 	return transformedVertices;
 }
 
+std::vector<Vector2f> Matrix2x3::Transform(const std::vector<Vector2f>& vertices) const
+{
+	size_t nrVectices{ vertices.size() };
+	std::vector<Vector2f> transformedVertices{ nrVectices };
+	for (size_t idx{ 0 }; idx < nrVectices; ++idx)
+	{
+		transformedVertices[idx] = Vector2f (Transform( vertices[idx].ToPoint2f() ));
+	}
+	return transformedVertices;
+}
+
 void Matrix2x3::Transform( const std::vector<Point2f>& vertices, Point2f* transVertices ) const
 {
 	Transform( vertices.data( ), transVertices, vertices.size( ) );

@@ -19,8 +19,8 @@ public:
 	void Update(float dT) override;
 	float GetAngle() const override;
 	void ToggleIsShooting();
-	Point2f GetAbsPos() const;
-	std::vector<Point2f> GetCollider() const override;
+	Vector2f GetAbsPos() const;
+	std::vector<Vector2f> GetCollider() const override;
 protected:
 	bool m_IsShooting;
 	Slot m_Slot;

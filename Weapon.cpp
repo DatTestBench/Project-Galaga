@@ -7,7 +7,7 @@
 #include "Matrix2x3.h"
 
 Weapon::Weapon(float width, float height, Slot slot, Texture* pTexture)
-	:GameObject(Point2f{ 0,0 }, width, height, pTexture)
+	:GameObject(Vector2f{ 0,0 }, width, height, pTexture)
 	, m_Slot{ slot }
 {
 	switch (m_Slot)
@@ -56,8 +56,9 @@ void Weapon::Update(float dT)
 
 float Weapon::GetAngle() const
 {
-	Vector2f v{ GetAbsPos(), InputHandling::Get()->RelMousePos() };
+	Vector2f v{ GetAbsPos(), InputHandling::Get()->AbsMousePos() };
 	//std::cout << "x: " << GameObjectManager::Get()->GetPlayer()->GetPos().x << " y: " << GameObjectManager::Get()->GetPlayer()->GetPos().y << " x: " << InputHandling::Get()->RelMousePos().x << " y: " << InputHandling::Get()->RelMousePos().y << std::endl;
+	//std::cout << GetAbsPos() << std::endl;;
 	return atan2(v.y, v.x);
 }
 
@@ -66,18 +67,18 @@ void Weapon::ToggleIsShooting()
 	m_IsShooting = !m_IsShooting;
 }
 
-Point2f Weapon::GetAbsPos() const
+Vector2f Weapon::GetAbsPos() const
 {
-	Matrix2x3 tMat { Matrix2x3::CreateTranslationMatrix(Vector2f{GameObjectManager::Get()->GetPlayer()->GetPos()}) };
+	//std::cout << GameObjectManager::Get()->GetPlayer()->GetPos() << std::endl;
+	Matrix2x3 tMat { Matrix2x3::CreateTranslationMatrix(GameObjectManager::Get()->GetPlayer()->GetPos()) };
 	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(GameObjectManager::Get()->GetPlayer()->GetAngle() - utils::g_Pi/ 2.f)) };
-	
-	return tMat.Transform(rMat.Transform(m_BaseOffset.ToPoint2f()));
-	
+	std::cout << tMat << std::endl;
+	return Vector2f(tMat.Transform(rMat.Transform(m_BaseOffset.ToPoint2f())));
 }
 
-std::vector<Point2f> Weapon::GetCollider() const
+std::vector<Vector2f> Weapon::GetCollider() const
 {
-	Matrix2x3 tMat { Matrix2x3::CreateTranslationMatrix(Vector2f{GetAbsPos()}) };
+	Matrix2x3 tMat { Matrix2x3::CreateTranslationMatrix(GetAbsPos()) };
 	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(GetAngle())) };
 	return tMat.Transform(rMat.Transform(m_BaseCollider));
 }

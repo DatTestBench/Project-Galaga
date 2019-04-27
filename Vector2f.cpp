@@ -22,6 +22,11 @@ Vector2f::Vector2f( const Point2f& fromPoint, const Point2f& tillPoint )
 {
 }
 
+Vector2f::Vector2f(const Vector2f& fromPoint, const Vector2f& tillPoint)
+	: Vector2f{ tillPoint.x - fromPoint.x, tillPoint.y - fromPoint.y }
+{
+}
+
 Vector2f::Vector2f(const Point2f & point) 
 	: Vector2f{ Point2f{ 0.0f, 0.0f }, point }
 {

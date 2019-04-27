@@ -13,27 +13,27 @@ PolygonCollisionResult sat::PolygonCollision(GameObject* pGameObjectA, GameObjec
 	result.Intersect = true;
 	result.WillIntersect = true;
 
-	std::vector<Point2f>vertexSetA{ pGameObjectA->GetCollider() };
-	std::vector<Point2f>vertexSetB{ pGameObjectB->GetCollider() };
+	std::vector<Vector2f>vertexSetA{ pGameObjectA->GetCollider() };
+	std::vector<Vector2f>vertexSetB{ pGameObjectB->GetCollider() };
 	size_t vertexCountA{ vertexSetA.size() };
 	size_t vertexCountB{ vertexSetB.size() };
 	float minIntervalDistance{ std::numeric_limits<float>::infinity() };
 	Vector2f translationAxis{};
-	Point2f vertex{};
-	Point2f nextVertex{};
+	Vector2f vertex{};
+	Vector2f nextVertex{};
 
 	// Loop through all the vertecis of both polygons
-	for (size_t vertexIndex = 0; vertexIndex < vertexCountA + vertexCountB; vertexIndex++) 
+	for (size_t vertexIndex{ 0 }; vertexIndex < vertexCountA + vertexCountB; vertexIndex++)
 	{
 		if (vertexIndex < vertexCountA)
 		{
-			vertex = Point2f{ vertexSetA[vertexIndex] };
-			nextVertex = Point2f{vertexSetA[vertexIndex + 1 == vertexCountA ? 0 : vertexIndex + 1] };
+			vertex = vertexSetA[vertexIndex];
+			nextVertex = vertexSetA[vertexIndex + 1 == vertexCountA ? 0 : vertexIndex + 1];
 		}
 		else
 		{
-			vertex = Point2f{ vertexSetB[vertexIndex - vertexCountA] };
-			nextVertex = Point2f{ vertexSetB[vertexIndex - vertexCountA + 1 == vertexCountA ? 0 : vertexIndex - vertexCountA + 1] };
+			vertex = vertexSetB[vertexIndex - vertexCountA];
+			nextVertex = vertexSetB[vertexIndex - vertexCountA + 1 == vertexCountA ? 0 : vertexIndex - vertexCountA + 1];
 		}
 
 		// ===== 1. Find if the polygons are currently intersecting =====
@@ -83,7 +83,7 @@ PolygonCollisionResult sat::PolygonCollision(GameObject* pGameObjectA, GameObjec
 			minIntervalDistance = intervalDistance;
 			translationAxis = axis;
 
-			Vector2f d = pGameObjectA->GetPos() - pGameObjectB->GetPos();
+			Vector2f d{ pGameObjectA->GetPos() - pGameObjectB->GetPos() };
 			if (d.DotProduct(translationAxis) < 0)
 				translationAxis = -translationAxis;
 		}
@@ -97,16 +97,15 @@ PolygonCollisionResult sat::PolygonCollision(GameObject* pGameObjectA, GameObjec
 	return result;
 }
 
-void sat::ProjectPolygon(Vector2f axis, const std::vector<Point2f>& vertexSet, float& min, float& max)
+void sat::ProjectPolygon(Vector2f axis, const std::vector<Vector2f>& vertexSet, float& min, float& max)
 {
 	// To project a point on an axis use the dot product
-	float dotProduct = axis.DotProduct(Vector2f(vertexSet[0]));
+	float dotProduct = axis.DotProduct(vertexSet[0]);
 	min = dotProduct;
 	max = dotProduct;
 	for (int i = 0; i < vertexSet.size(); i++)
 	{
-		dotProduct = Vector2f(vertexSet[i]).DotProduct(axis);
-		//dotProduct = axis.DotProduct(Vector2f(pGameObject->GetCollider()[i]));
+		dotProduct = vertexSet[i].DotProduct(axis);
 		if (dotProduct < min)
 			min = dotProduct;
 		else if (dotProduct > max)
@@ -122,10 +121,10 @@ float sat::IntervalDistance(float minA, float maxA, float minB, float maxB)
 		return minA - maxB;
 }
 
-Vector2f sat::MakeAxis(Point2f vertexA, Point2f vertexB)
+Vector2f sat::MakeAxis(Vector2f vertexA, Vector2f vertexB)
 {
 	// Get edge
-	Vector2f edge{ vertexA, vertexB };
+	Vector2f edge{ vertexA.ToPoint2f(), vertexB.ToPoint2f() };
 	// get either perpendicular vector
 	Vector2f normal{ edge.Orthogonal() };
 	//return normalized

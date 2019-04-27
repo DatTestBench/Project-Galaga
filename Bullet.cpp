@@ -5,13 +5,13 @@
 #include "Enemy.h"
 #include "SAT.h"
 
-Bullet::Bullet(GameObject* senderPointer, const Point2f& pos, float launchAngle, float width, float height, Texture* pTexture)
+Bullet::Bullet(GameObject* senderPointer, const Vector2f& pos, float launchAngle, float width, float height, Texture* pTexture)
 	: GameObject{ pos, width, height, pTexture }
 	, m_Owner{ senderPointer }
 	, m_MaxSpeed{ 1000 }
 
 {
-	m_MoveV = Vector2f{ m_MaxSpeed * cos(launchAngle), m_MaxSpeed *sin(launchAngle) };
+	m_MoveV = Vector2f(m_MaxSpeed * cos(launchAngle), m_MaxSpeed *sin(launchAngle));
 }
 
 void Bullet::Update(float dT)
@@ -35,7 +35,7 @@ void Bullet::HandleCollision()
 		if (typeid (*pGameObject) == typeid(Enemy))
 		{
 			result = sat::PolygonCollision(this, pGameObject);
-			
+
 			if (result.Intersect)
 			{
 				//pGameObject->Delete();
