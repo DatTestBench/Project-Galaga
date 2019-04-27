@@ -33,7 +33,7 @@ void InputHandling::Destroy()
 void InputHandling::ProcessInput(const SDL_Event& e)
 {
 	m_Event = e;
-	
+
 	switch (e.type)
 	{
 	case SDL_QUIT:
@@ -69,7 +69,7 @@ void InputHandling::InitWindow(const Window& window)
 	m_Window.width = window.width;
 }
 
-void InputHandling::UpdateRelMousePos(const Vector2f& offset )
+void InputHandling::UpdateRelMousePos(const Vector2f& offset)
 {
 	m_RelMousePos = m_MousePos + offset;
 }
@@ -86,7 +86,7 @@ SDL_Keycode InputHandling::KeyDown()
 
 SDL_Keycode InputHandling::KeyUp()
 {
-	
+
 	return m_KeyUp;
 }
 
@@ -147,7 +147,7 @@ void InputHandling::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 
 void InputHandling::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
 {
-	m_MousePos.x = e.x;
+	m_MousePos.x = float(e.x);
 	m_MousePos.y = m_Window.height - e.y;
 }
 

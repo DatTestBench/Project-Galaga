@@ -20,11 +20,7 @@ GameObject::GameObject(const Point2f& pos, float width, float height, Texture* p
 
 GameObject::~GameObject()
 {
-	/*if (m_pTexture != nullptr)
-	{
-		delete m_pTexture;
-		m_pTexture = nullptr;
-	}*/
+
 }
 
 // Deleted Draw
@@ -43,7 +39,7 @@ Texture* GameObject::GetpTexture() const
 
 std::vector<Point2f> GameObject::GetCollider() const
 {
-	Matrix2x3 tMat { Matrix2x3::CreateTranslationMatrix(Vector2f{m_Pos}) };
+	Matrix2x3 tMat { Matrix2x3::CreateTranslationMatrix(Vector2f(m_Pos)) };
 	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(GetAngle())) };
 	return tMat.Transform(rMat.Transform(m_BaseCollider));
 }
@@ -67,6 +63,11 @@ float GameObject::GetAngle() const
 {
 	return atan2(m_MoveV.y, m_MoveV.x);
 }
+
+Vector2f GameObject::GetVelocity() const
+{
+	return m_MoveV;
+}
 #pragma endregion Getters
 
 #pragma region Changers
@@ -82,5 +83,14 @@ void GameObject::Delete()
 }
 #pragma endregion Changers
 
+
+#pragma region InternalWorkers
+
+void GameObject::HandleCollision() // Temporary declaration, remove when fully implemented ToDo
+{
+
+}
+
+#pragma endregion InternalWorkers
 
 

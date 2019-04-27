@@ -45,7 +45,7 @@ void Game::Update(float elapsedSec)
 	GameObjectManager::Get()->Update(elapsedSec);
 	InputHandling::Get()->UpdateRelMousePos(m_Camera.GetOffset(GameObjectManager::Get()->GetPlayer()));
 
-	std::cout << 1 / elapsedSec << std::endl; // Debug FPS counter
+	//std::cout << 1 / elapsedSec << std::endl; // Debug FPS counter
 
 	// Check keyboard state
 	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );

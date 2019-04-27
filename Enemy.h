@@ -18,7 +18,7 @@ private:
 	Vector2f m_MoveV;
 
 	//Member Functions 
-	void HandleCollision(float dT);
+	void HandleCollision() override;
 
 
 };

@@ -26,6 +26,7 @@ public:
 	float GetHeight() const;
 	bool GetFlag() const;
 	virtual float GetAngle() const; 
+	Vector2f GetVelocity() const;
 
 	// Changers
 	void ChangePos(const Vector2f& dMove);
@@ -43,6 +44,8 @@ protected:
 	Vector2f m_MoveV;
 
 	/// Member Functions
+	// Internal Workers
+	virtual void HandleCollision(); // = 0 when fully implemented ToDo
 
 
 
