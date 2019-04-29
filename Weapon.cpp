@@ -69,10 +69,8 @@ void Weapon::ToggleIsShooting()
 
 Vector2f Weapon::GetAbsPos() const
 {
-	//std::cout << GameObjectManager::Get()->GetPlayer()->GetPos() << std::endl;
 	Matrix2x3 tMat { Matrix2x3::CreateTranslationMatrix(GameObjectManager::Get()->GetPlayer()->GetPos()) };
 	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(GameObjectManager::Get()->GetPlayer()->GetAngle() - utils::g_Pi/ 2.f)) };
-	std::cout << tMat << std::endl;
 	return Vector2f(tMat.Transform(rMat.Transform(m_BaseOffset.ToPoint2f())));
 }
 
@@ -80,5 +78,5 @@ std::vector<Vector2f> Weapon::GetCollider() const
 {
 	Matrix2x3 tMat { Matrix2x3::CreateTranslationMatrix(GetAbsPos()) };
 	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(GetAngle())) };
-	return tMat.Transform(rMat.Transform(m_BaseCollider));
+	return (tMat*rMat).Transform(m_BaseCollider);
 }

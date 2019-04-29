@@ -15,8 +15,9 @@ private:
 	
 	// Data Members
 	Player* m_pPlayer;
-	Vector2f m_MoveV;
-
+	const float m_MaxSpeed;
+	const float m_Acceleration;
+	const float m_Friction;
 	//Member Functions 
 	void HandleCollision() override;
 

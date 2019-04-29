@@ -7,32 +7,51 @@
 Enemy::Enemy(const Vector2f& pos, float width, float height, Texture* pTexture)
 	: GameObject{ pos, width, height, pTexture }
 	, m_pPlayer{ GameObjectManager::Get()->GetPlayer() }
+	, m_MaxSpeed{ 100 }
+	, m_Acceleration{  }
+	, m_Friction{  }
 
 {
+	
 }
 
 void Enemy::Draw() const
 {
+	// Open Transform
 	glPushMatrix();
+
+	// Transforms
 	glTranslatef(m_Pos.x, m_Pos.y, 0.f);
-	glRotatef(atan2(m_MoveV.y, m_MoveV.x) * (180 / utils::g_Pi) + 90, 0.f, 0.f, 1.f);
-	m_pTexture->DrawC(Point2f{}, m_Width, m_Height);
+	glRotatef(utils::ToDeg(GetAngle() + utils::g_Pi / 2.f), 0.f, 0.f, 1.f);
+
+	// Drawcode needing transform
+	m_pTexture->DrawC(Point2f{}, m_Width, m_Height); //Enemy Draw
+
+	
+	// Close Transform
 	glPopMatrix();
+
+	//Debug Player Draws
 	utils::DrawPolygon(GetCollider());
+	
 }
 
 void Enemy::Update(float dT)
 {
-	float maxspeed{ 100 };
-	m_MoveV = Vector2f( m_Pos, m_pPlayer->GetPos() ).Normalized();
-	m_Pos += m_MoveV * maxspeed * dT;
+	m_Speed = m_MaxSpeed;
+	Vector2f eToPVector ( m_Pos, m_pPlayer->GetPos() );
+	m_Angle = atan2(eToPVector.y, eToPVector.x);
 	HandleCollision();
+	
+	m_Pos += GetVelocity() * dT;
+
+	//std::cout << m_MoveV << ' ' << GetAngle() << ' ' << atan2(m_MoveV.y, m_MoveV.x) << std::endl;
+	//std::cout << GetAngle() << std::endl;
 }
 
 void Enemy::HandleCollision()
 {
 	PolygonCollisionResult result;
-
 
 	for (GameObject* pGameObject : *GameObjectManager::Get()->GetGameObjects())
 	{

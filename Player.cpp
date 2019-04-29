@@ -37,7 +37,7 @@ void Player::Draw() const
 
 	// Transforms
 	glTranslatef(m_Pos.x, m_Pos.y, 0.f);
-	glRotatef(utils::ToDeg(atan2(m_MoveV.y, m_MoveV.x) - utils::g_Pi / 2.f), 0.f, 0.f, 1.f);
+	glRotatef(utils::ToDeg(GetAngle() - utils::g_Pi / 2.f), 0.f, 0.f, 1.f);
 
 	// Drawcode needing transform
 	m_pTexture->DrawC(Point2f{}, m_Width, m_Height); //Player Draw
@@ -70,7 +70,7 @@ void Player::Update(float dT)
 		pWeapon->Update(dT);
 
 	HandleMovement(dT);
-
+	std::cout << m_MoveV << ' ' << GetAngle() << ' ' << atan2(m_MoveV.y, m_MoveV.x) << std::endl;
 }
 
 bool Player::IsShooting()
@@ -95,32 +95,52 @@ void Player::AddWeapon()
 void Player::HandleMovement(float dT)
 {
 	const Uint8* state = InputHandling::Get()->KeyState();
-
+	
 	if (state[SDL_SCANCODE_W])
-		m_MoveV.y += m_Acceleration * dT;
-	if (state[SDL_SCANCODE_S])
-		m_MoveV.y -= m_Acceleration * dT;
-	if (state[SDL_SCANCODE_D])
-		m_MoveV.x += m_Acceleration * dT;
-	if (state[SDL_SCANCODE_A])
-		m_MoveV.x -= m_Acceleration * dT;
-
-	//if ((abs(m_MoveV.x) > DBL_EPSILON && abs(m_MoveV.y) > DBL_EPSILON) && (abs(m_MoveV.x) < DBL_EPSILON*2 && abs(m_MoveV.y) < DBL_EPSILON*2))
-	if (!(m_MoveV.Length() < DBL_EPSILON))
 	{
-		m_MoveV = utils::lerp(m_MoveV, Vector2f{}, dT, m_Friction);
+		if (m_Angle > 3.f * utils::g_Pi / 2.f)
+			m_Angle = utils::lerp(m_Angle, 5.f * utils::g_Pi / 2.f, dT, 10);
+		else
+			m_Angle = utils::lerp(m_Angle, utils::g_Pi / 2.f, dT, 10);
+
+		m_Speed += m_Acceleration * dT;
+	}
+	if (state[SDL_SCANCODE_S])
+	{
+		if (m_Angle < utils::g_Pi / 2.f)
+			m_Angle = utils::lerp(m_Angle, -utils::g_Pi / 2.f, dT, 10);
+		else
+			m_Angle = utils::lerp(m_Angle, 3.f * utils::g_Pi / 2.f, dT, 10);
+
+		m_Speed += m_Acceleration * dT;
+	}
+	if (state[SDL_SCANCODE_D])
+	{
+		if (m_Angle < utils::g_Pi) 
+			m_Angle = utils::lerp(m_Angle, 0.f, dT, 10);
+		else
+			m_Angle = utils::lerp(m_Angle, 2 * utils::g_Pi, dT, 10);
+		m_Speed += m_Acceleration * dT;
+	}
+	if (state[SDL_SCANCODE_A])
+	{
+		m_Angle = utils::lerp(m_Angle, utils::g_Pi, dT, 10);
+
+		m_Speed += m_Acceleration * dT;
 	}
 
-	if (m_MoveV.x > m_MaxSpeed)
-		m_MoveV.x = m_MaxSpeed;
-	if (m_MoveV.x < -m_MaxSpeed)
-		m_MoveV.x = -m_MaxSpeed;
-	if (m_MoveV.y > m_MaxSpeed)
-		m_MoveV.y = m_MaxSpeed;
-	if (m_MoveV.y < -m_MaxSpeed)
-		m_MoveV.y = -m_MaxSpeed;
+	m_Angle = m_Angle < 0 ? m_Angle + 2*utils::g_Pi : m_Angle;
+	m_Angle = m_Angle > 2 * utils::g_Pi ? m_Angle - 2*utils::g_Pi : m_Angle;
+	
+	if (!(m_Speed < DBL_EPSILON))
+	{
+		m_Speed = utils::lerp(m_Speed, 0.f, dT, m_Friction);
+	}
+
+	if (m_Speed > m_MaxSpeed)
+		m_Speed = m_MaxSpeed;
 
 	//std::cout << m_MoveV.x << ' ' << m_MoveV.y << std::endl;
 
-	m_Pos += m_MoveV * dT;
+	m_Pos += Vector2f (m_Speed * cos(m_Angle), m_Speed * sin (m_Angle)) *dT;
 }

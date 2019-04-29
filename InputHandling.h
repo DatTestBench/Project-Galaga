@@ -30,8 +30,8 @@ public:
 	Uint8 MouseDown();
 	Uint8 MouseUp();
 	const Uint8* KeyState();
+	Uint32 MouseState(int &x, int &y);
 	Uint32 MouseState();
-
 	SDL_Event Event();
 	SDL_EventType Type();
 private:
@@ -45,7 +45,7 @@ private:
 	SDL_Keycode m_KeyDown;
 	SDL_Keycode m_KeyUp;
 	Vector2f m_MousePos;
-	Vector2f m_RelMousePos;
+	Vector2f m_AbsMousePos;
 	Uint8 m_MouseDown;
 	Uint8 m_MouseUp;
 

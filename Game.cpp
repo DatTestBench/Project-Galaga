@@ -44,6 +44,8 @@ void Game::Update(float elapsedSec)
 	
 	GameObjectManager::Get()->Update(elapsedSec);
 	InputHandling::Get()->UpdateRelMousePos(m_Camera.GetOffset(GameObjectManager::Get()->GetPlayer()));
+
+
 	//std::cout << m_Camera.GetOffset(GameObjectManager::Get()->GetPlayer()) << std::endl;
 	//std::cout << 1 / elapsedSec << std::endl; // Debug FPS counter
 

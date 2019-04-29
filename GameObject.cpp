@@ -41,7 +41,7 @@ std::vector<Vector2f> GameObject::GetCollider() const
 {
 	Matrix2x3 tMat { Matrix2x3::CreateTranslationMatrix(m_Pos) };
 	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(GetAngle())) };
-	return tMat.Transform(rMat.Transform((m_BaseCollider)));
+	return (tMat*rMat).Transform(m_BaseCollider);
 }
 
 float GameObject::GetWidth() const
@@ -61,13 +61,19 @@ bool GameObject::GetFlag() const
 
 float GameObject::GetAngle() const
 {
-	return atan2(m_MoveV.y, m_MoveV.x);
+	return m_Angle;
+}
+
+float GameObject::GetSpeed() const
+{
+	return m_Speed;
 }
 
 Vector2f GameObject::GetVelocity() const
 {
-	return m_MoveV;
+	return Vector2f(m_Speed * cos(m_Angle), m_Speed * sin(m_Angle));
 }
+
 #pragma endregion Getters
 
 #pragma region Changers

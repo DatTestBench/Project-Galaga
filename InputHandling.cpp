@@ -71,7 +71,7 @@ void InputHandling::InitWindow(const Window& window)
 
 void InputHandling::UpdateRelMousePos(const Vector2f& offset)
 {
-	m_RelMousePos = m_MousePos + offset;
+	m_AbsMousePos = m_MousePos + offset;
 }
 #pragma endregion Input
 
@@ -97,7 +97,7 @@ Vector2f InputHandling::MousePos()
 
 Vector2f InputHandling::AbsMousePos()
 {
-	return m_RelMousePos;
+	return m_AbsMousePos;
 }
 
 Uint8 InputHandling::MouseDown()
@@ -115,10 +115,16 @@ const Uint8* InputHandling::KeyState()
 	return SDL_GetKeyboardState(nullptr);
 }
 
+Uint32 InputHandling::MouseState(int &x, int &y)
+{
+	Uint32 state{ SDL_GetMouseState(&x, &y) };
+	y = m_Window.height - y;
+	return state;
+}
+
 Uint32 InputHandling::MouseState()
 {
-	int x, y;
-	return SDL_GetMouseState(&x, &y);
+	return SDL_GetMouseState(nullptr, nullptr);
 }
 
 SDL_Event InputHandling::Event()
