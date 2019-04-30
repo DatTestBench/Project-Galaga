@@ -42,13 +42,15 @@ protected:
 	float m_Width;
 	float m_Height;
 	bool m_DelFlag;
-	Vector2f m_MoveV;
+	//Vector2f m_MoveV;
 	float m_Angle;
 	float m_Speed;
 	float m_MaxSpeed;
+	Vector2f m_MoveOffset;
+	Vector2f m_Velocity;
 	/// Member Functions
 	// Internal Workers
-	virtual void HandleCollision(); // = 0 when fully implemented ToDo
+	virtual void HandleCollision(float dT); // = 0 when fully implemented ToDo
 
 
 

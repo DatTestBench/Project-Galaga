@@ -23,6 +23,6 @@ private:
 	float m_MaxSpeed;
 
 	/// Memeber functions
-	void HandleCollision() override;
+	void HandleCollision(float dT) override;
 };
 

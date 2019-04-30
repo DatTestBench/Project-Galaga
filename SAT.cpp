@@ -38,7 +38,7 @@ PolygonCollisionResult sat::PolygonCollision(GameObject* pGameObjectA, GameObjec
 
 		// ===== 1. Find if the polygons are currently intersecting =====
 
-		// Find the axis perpendicular to the current edge
+		// Find the axis perpendicular to the current edge (vertexpair)s
 		Vector2f axis = MakeAxis(vertex, nextVertex);
 
 		// Find the projection of the polygon on the current axis
@@ -49,6 +49,8 @@ PolygonCollisionResult sat::PolygonCollision(GameObject* pGameObjectA, GameObjec
 		// Check if the polygon projections are currentlty intersecting
 		if (IntervalDistance(minA, maxA, minB, maxB) > 0)
 			result.Intersect = false;
+
+		/***DEPRECATED**
 
 		// ===== 2. Now find if the polygons *will* intersect =====
 
@@ -66,18 +68,24 @@ PolygonCollisionResult sat::PolygonCollision(GameObject* pGameObjectA, GameObjec
 		}
 
 		// Do the same test as above for the new projection
-		float intervalDistance = IntervalDistance(minA, maxA, minB, maxB);
-		if (intervalDistance > 0)
+		
+		if (IntervalDistance(minA, maxA, minB, maxB) > 0)
 			result.WillIntersect = false;
 
 		// If the polygons are not intersecting and won't intersect, exit the loop
 		if (!result.Intersect && !result.WillIntersect)
 			break;
+		**DEPRECATED***/
+
+
+		// If the polygon does not intersect, exit the loop
+		if (!result.Intersect)
+			break;
 
 		// Check if the current interval distance is the minimum one. If so store
 		// the interval distance and the current distance.
 		// This will be used to calculate the minimum translation vector
-		intervalDistance = abs(intervalDistance);
+		float intervalDistance = abs(IntervalDistance(minA, maxA, minB, maxB));
 		if (intervalDistance < minIntervalDistance)
 		{
 			minIntervalDistance = intervalDistance;
@@ -105,7 +113,7 @@ void sat::ProjectPolygon(Vector2f axis, const std::vector<Vector2f>& vertexSet, 
 	max = dotProduct;
 	for (int i = 0; i < vertexSet.size(); i++)
 	{
-		dotProduct = vertexSet[i].DotProduct(axis);
+		dotProduct = axis.DotProduct(vertexSet[i]);
 		if (dotProduct < min)
 			min = dotProduct;
 		else if (dotProduct > max)

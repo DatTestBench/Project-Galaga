@@ -5,21 +5,21 @@
 #include "Enemy.h"
 #include "SAT.h"
 
-Bullet::Bullet(GameObject* senderPointer, const Vector2f& pos, float launchAngle, float width, float height, Texture* pTexture)
+Bullet::Bullet(GameObject* pSender, const Vector2f& pos, float launchAngle, float width, float height, Texture* pTexture)
 	: GameObject{ pos, width, height, pTexture }
-	, m_Owner{ senderPointer }
+	, m_Owner{ pSender }
 	, m_MaxSpeed{ 1000 }
 
 {
-	m_MoveV = Vector2f(m_MaxSpeed * cos(launchAngle), m_MaxSpeed *sin(launchAngle));
+	m_Velocity = Vector2f(m_MaxSpeed * cos(launchAngle), m_MaxSpeed *sin(launchAngle));
 }
 
 void Bullet::Update(float dT)
 {
 
-	HandleCollision();
+	HandleCollision(dT);
 
-	m_Pos += m_MoveV * dT;
+	m_Pos += m_Velocity * dT;
 }
 
 void Bullet::Draw() const
@@ -27,7 +27,7 @@ void Bullet::Draw() const
 	utils::DrawPolygon(GetCollider());
 }
 
-void Bullet::HandleCollision()
+void Bullet::HandleCollision(float dT)
 {
 	PolygonCollisionResult result;
 	for (GameObject* pGameObject : *GameObjectManager::Get()->GetGameObjects())
@@ -38,7 +38,7 @@ void Bullet::HandleCollision()
 
 			if (result.Intersect)
 			{
-				//pGameObject->Delete();
+				pGameObject->Delete();
 				Delete();
 				return;
 			}

@@ -92,7 +92,7 @@ void GameObject::Delete()
 
 #pragma region InternalWorkers
 
-void GameObject::HandleCollision() // Temporary declaration, remove when fully implemented ToDo
+void GameObject::HandleCollision(float dT) // Temporary declaration, remove when fully implemented ToDo
 {
 
 }

@@ -19,7 +19,7 @@ private:
 	const float m_Acceleration;
 	const float m_Friction;
 	//Member Functions 
-	void HandleCollision() override;
+	void HandleCollision(float dT) override;
 
 
 };

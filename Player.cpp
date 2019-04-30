@@ -8,7 +8,8 @@
 #include"Game.h"
 #include "InputHandling.h"
 #include "Weapon.h"
-
+#include "SAT.h"
+#include "Matrix2x3.h"
 Player::Player(int health, const Vector2f& pos, float width, float height, Texture* pTexture)
 	: GameObject{ pos, width, height, pTexture }
 	, m_Health{ health }
@@ -70,7 +71,6 @@ void Player::Update(float dT)
 		pWeapon->Update(dT);
 
 	HandleMovement(dT);
-	std::cout << m_MoveV << ' ' << GetAngle() << ' ' << atan2(m_MoveV.y, m_MoveV.x) << std::endl;
 }
 
 bool Player::IsShooting()
@@ -140,7 +140,42 @@ void Player::HandleMovement(float dT)
 	if (m_Speed > m_MaxSpeed)
 		m_Speed = m_MaxSpeed;
 
-	//std::cout << m_MoveV.x << ' ' << m_MoveV.y << std::endl;
 
-	m_Pos += Vector2f (m_Speed * cos(m_Angle), m_Speed * sin (m_Angle)) *dT;
+
+	HandleCollision(dT);
+	m_Pos += (GetVelocity() * dT);
 }
+
+void Player::HandleCollision(float dT)
+{
+	PolygonCollisionResult result;
+	m_MoveOffset = Vector2f(0,0);
+	for (GameObject* pGameObject : *GameObjectManager::Get()->GetGameObjects())
+	{
+		//if (typeid (*pGameObject) == typeid(Enemy) && pGameObject != this)
+		if (pGameObject != this)
+		{
+			result = sat::PolygonCollision(this, pGameObject);
+			if (result.Intersect)
+			{
+				//std::cout << "hit";
+				
+				//m_Pos += Vector2f(result.MinimumTranslationVector.Length() * cos(m_Angle), result.MinimumTranslationVector.Length() * sin(m_Angle));
+				//m_Speed = -m_Speed;
+				//m_Pos += result.MinimumTranslationVector;
+				std::cout << "Player" << result.MinimumTranslationVector.Length() << ' ' << utils::DistPointPoint(m_Pos.ToPoint2f(), pGameObject->GetPos().ToPoint2f()) << std::endl;
+				std::cout << result.MinimumTranslationVector << ' ' << Vector2f(m_Pos, pGameObject->GetPos()) << std::endl;
+				//std::cout << "Player: " << m_Pos << " Enemy: " << pGameObject->GetPos() << std::endl;
+				
+				//Matrix2x3 tMat = Matrix2x3::CreateTranslationMatrix(result.MinimumTranslationVector.Normalized() * (result.MinimumTranslationVector.Length() < utils::DistPointPoint(m_Pos.ToPoint2f(), pGameObject->GetPos().ToPoint2f()) ? utils::DistPointPoint(m_Pos.ToPoint2f(), pGameObject->GetPos().ToPoint2f()) - result.MinimumTranslationVector.Length() : result.MinimumTranslationVector.Length() - utils::DistPointPoint(m_Pos.ToPoint2f(), pGameObject->GetPos().ToPoint2f())));
+				//m_Pos = Vector2f(tMat.Transform(m_Pos.ToPoint2f()));
+				m_Pos += result.MinimumTranslationVector;
+				//m_MoveOffset += result.MinimumTranslationVector;
+			}
+		}
+
+	}
+}
+
+
+

@@ -24,4 +24,5 @@ private:
 	
 	/// Member Functions
 	void HandleMovement(float dT);
+	void HandleCollision(float dT) override;
 };

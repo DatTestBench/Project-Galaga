@@ -4,6 +4,7 @@
 #include "utils.h" 
 #include "Player.h"
 #include "SAT.h"
+#include "Matrix2x3.h"
 Enemy::Enemy(const Vector2f& pos, float width, float height, Texture* pTexture)
 	: GameObject{ pos, width, height, pTexture }
 	, m_pPlayer{ GameObjectManager::Get()->GetPlayer() }
@@ -41,17 +42,18 @@ void Enemy::Update(float dT)
 	m_Speed = m_MaxSpeed;
 	Vector2f eToPVector ( m_Pos, m_pPlayer->GetPos() );
 	m_Angle = atan2(eToPVector.y, eToPVector.x);
-	HandleCollision();
+	HandleCollision(dT);
 	
-	m_Pos += GetVelocity() * dT;
+	m_Pos += (GetVelocity() * dT);
 
 	//std::cout << m_MoveV << ' ' << GetAngle() << ' ' << atan2(m_MoveV.y, m_MoveV.x) << std::endl;
 	//std::cout << GetAngle() << std::endl;
 }
 
-void Enemy::HandleCollision()
+void Enemy::HandleCollision(float dT)
 {
 	PolygonCollisionResult result;
+	m_MoveOffset = Vector2f(0, 0);
 
 	for (GameObject* pGameObject : *GameObjectManager::Get()->GetGameObjects())
 	{
@@ -62,9 +64,12 @@ void Enemy::HandleCollision()
 			if (result.Intersect)
 			{
 				//std::cout << "hit";
+			
+				//Matrix2x3 tMat = Matrix2x3::CreateTranslationMatrix(result.MinimumTranslationVector.Normalized() * (result.MinimumTranslationVector.Length() < utils::DistPointPoint(m_Pos.ToPoint2f(), pGameObject->GetPos().ToPoint2f()) ? utils::DistPointPoint(m_Pos.ToPoint2f(), pGameObject->GetPos().ToPoint2f()) - result.MinimumTranslationVector.Length() : result.MinimumTranslationVector.Length() - utils::DistPointPoint(m_Pos.ToPoint2f(), pGameObject->GetPos().ToPoint2f())));
+				//m_Pos = Vector2f(tMat.Transform(m_Pos.ToPoint2f()));
 				m_Pos += result.MinimumTranslationVector;
-				//std::cout << result.MinimumTranslationVector;
-			}
+				//std::cout << "Enemy" << result.MinimumTranslationVector <<std::endl;
+			} 
 		}
 
 	}
