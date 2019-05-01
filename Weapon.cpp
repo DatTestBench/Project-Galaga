@@ -6,25 +6,26 @@
 #include "GameObjectManager.h"
 #include "Matrix2x3.h"
 
-Weapon::Weapon(float width, float height, Slot slot, Texture* pTexture)
-	:GameObject(Vector2f{ 0,0 }, width, height, pTexture)
+Weapon::Weapon(GameObject* pOwner, float width, float height, Slot slot, Texture* pTexture)
+	: GameObject(Vector2f{ 0,0 }, width, height, pTexture)
 	, m_Slot{ slot }
+	, m_pOwner { pOwner }
 {
 	switch (m_Slot)
 	{
 	case Slot::front:
-		m_BaseOffset.y += GameObjectManager::Get()->GetPlayer()->GetHeight() / 2.f;
+		m_BaseOffset.y += m_pOwner->GetHeight() / 2.f;
 		break;
 	case Slot::middle:
 		break;
 	case Slot::left:
-		m_BaseOffset.x -= GameObjectManager::Get()->GetPlayer()->GetWidth() / 2.f;
+		m_BaseOffset.x -= m_pOwner->GetWidth() / 2.f;
 		break;
 	case Slot::right:
-		m_BaseOffset.x += GameObjectManager::Get()->GetPlayer()->GetWidth() / 2.f;
+		m_BaseOffset.x += m_pOwner->GetWidth() / 2.f;
 		break;
 	case Slot::rear:
-		m_BaseOffset.y -= GameObjectManager::Get()->GetPlayer()->GetHeight() / 2.f;
+		m_BaseOffset.y -= m_pOwner->GetHeight() / 2.f;
 		break;
 	}
 	m_Pos = GetAbsPos();
@@ -33,8 +34,7 @@ Weapon::Weapon(float width, float height, Slot slot, Texture* pTexture)
 void Weapon::Draw() const
 {
 	//m_pTexture->DrawC(Point2f{}, m_Width, m_Height);
-	//utils::DrawPolygon(GetCollider());
-	utils::DrawEllipse(GetAbsPos(), 5, 5);
+	utils::DrawPolygon(GetCollider());
 }
 
 void Weapon::Update(float dT)
@@ -42,7 +42,7 @@ void Weapon::Update(float dT)
 
 	if (m_IsShooting)
 	{
-		GameObjectManager::Get()->Add(new Bullet{ this, GetAbsPos(), GetAngle() });
+		m_pGameObjectMananger->Add(new Bullet{ this, GetAbsPos(), GetAngle() });
 	}
 	//switch (InputHandling::Get()->MouseState())
 	//{
@@ -57,8 +57,6 @@ void Weapon::Update(float dT)
 float Weapon::GetAngle() const
 {
 	Vector2f v{ GetAbsPos(), InputHandling::Get()->AbsMousePos() };
-	//std::cout << "x: " << GameObjectManager::Get()->GetPlayer()->GetPos().x << " y: " << GameObjectManager::Get()->GetPlayer()->GetPos().y << " x: " << InputHandling::Get()->RelMousePos().x << " y: " << InputHandling::Get()->RelMousePos().y << std::endl;
-	//std::cout << GetAbsPos() << std::endl;;
 	return atan2(v.y, v.x);
 }
 
@@ -69,8 +67,8 @@ void Weapon::ToggleIsShooting()
 
 Vector2f Weapon::GetAbsPos() const
 {
-	Matrix2x3 tMat { Matrix2x3::CreateTranslationMatrix(GameObjectManager::Get()->GetPlayer()->GetPos()) };
-	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(GameObjectManager::Get()->GetPlayer()->GetAngle() - utils::g_Pi/ 2.f)) };
+	Matrix2x3 tMat { Matrix2x3::CreateTranslationMatrix(m_pOwner->GetPos()) };
+	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(m_pOwner->GetAngle() - utils::g_Pi/ 2.f)) };
 	return Vector2f(tMat.Transform(rMat.Transform(m_BaseOffset.ToPoint2f())));
 }
 

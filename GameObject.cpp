@@ -11,6 +11,7 @@ GameObject::GameObject(const Vector2f& pos, float width, float height, Texture* 
 	, m_pTexture{ pTexture }
 	, m_Width{ width  }
 	, m_Height { height }
+	, m_pGameObjectMananger { GameObjectManager::Get() }
 {
 	m_BaseCollider.push_back(Vector2f{ - m_Width / 2.f,  -m_Height / 2.f });
 	m_BaseCollider.push_back(Vector2f{ m_Width / 2.f, -m_Height / 2.f });

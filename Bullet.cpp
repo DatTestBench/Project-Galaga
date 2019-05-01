@@ -30,7 +30,7 @@ void Bullet::Draw() const
 void Bullet::HandleCollision(float dT)
 {
 	PolygonCollisionResult result;
-	for (GameObject* pGameObject : *GameObjectManager::Get()->GetGameObjects())
+	for (GameObject* pGameObject : *m_pGameObjectMananger->GetGameObjects())
 	{
 		if (typeid (*pGameObject) == typeid(Enemy))
 		{
@@ -47,7 +47,7 @@ void Bullet::HandleCollision(float dT)
 
 	if (m_Pos.x > 2000 || m_Pos.x < 0 || m_Pos.y > 2000 || m_Pos.x < 0)
 	{
-		//Delete();
+		Delete();
 		return;
 	}
 

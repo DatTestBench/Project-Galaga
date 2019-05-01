@@ -3,6 +3,9 @@
 #include <vector>
 #include "Vector2f.h"
 #include "InputHandling.h"
+#include "GameObjectManager.h"
+
+class GameObjectManager;
 class GameObject
 {
 public:
@@ -42,12 +45,13 @@ protected:
 	float m_Width;
 	float m_Height;
 	bool m_DelFlag;
-	//Vector2f m_MoveV;
 	float m_Angle;
 	float m_Speed;
 	float m_MaxSpeed;
-	Vector2f m_MoveOffset;
+	
 	Vector2f m_Velocity;
+	GameObjectManager* m_pGameObjectMananger;
+
 	/// Member Functions
 	// Internal Workers
 	virtual void HandleCollision(float dT); // = 0 when fully implemented ToDo

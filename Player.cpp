@@ -21,12 +21,6 @@ Player::Player(int health, const Vector2f& pos, float width, float height, Textu
 
 Player::~Player()
 {
-	/*if (m_pTexture != nullptr)
-	{
-		delete m_pTexture;
-		m_pTexture = nullptr;
-	}*/
-
 	for (Weapon* pWeapon : m_pWeapons)
 		delete pWeapon;
 }
@@ -43,13 +37,13 @@ void Player::Draw() const
 	// Drawcode needing transform
 	m_pTexture->DrawC(Point2f{}, m_Width, m_Height); //Player Draw
 
-	/*for (Weapon* pWeapon : m_pWeapons)
-		pWeapon->Draw();*/
+	for (Weapon* pWeapon : m_pWeapons)
+		pWeapon->Draw();
 
 	// Close Transform
 	glPopMatrix();
 
-	//Debug Player Draws
+	//Debug Draws
 	utils::DrawPolygon(GetCollider());
 	for (Weapon* pWeapon : m_pWeapons)
 		pWeapon->Draw();
@@ -88,7 +82,7 @@ void Player::ToggleIsShooting()
 
 void Player::AddWeapon()
 {
-	Weapon* pWeapon = new Weapon { 10, 10, Slot(m_pWeapons.size() + 1) };
+	Weapon* pWeapon = new Weapon { this, 10, 10, Slot(m_pWeapons.size() + 1) };
 	m_pWeapons.push_back(pWeapon);
 }
 
@@ -149,8 +143,7 @@ void Player::HandleMovement(float dT)
 void Player::HandleCollision(float dT)
 {
 	PolygonCollisionResult result;
-	m_MoveOffset = Vector2f(0,0);
-	for (GameObject* pGameObject : *GameObjectManager::Get()->GetGameObjects())
+	for (GameObject* pGameObject : *m_pGameObjectMananger->GetGameObjects())
 	{
 		//if (typeid (*pGameObject) == typeid(Enemy) && pGameObject != this)
 		if (pGameObject != this)
@@ -158,19 +151,7 @@ void Player::HandleCollision(float dT)
 			result = sat::PolygonCollision(this, pGameObject);
 			if (result.Intersect)
 			{
-				//std::cout << "hit";
-				
-				//m_Pos += Vector2f(result.MinimumTranslationVector.Length() * cos(m_Angle), result.MinimumTranslationVector.Length() * sin(m_Angle));
-				//m_Speed = -m_Speed;
-				//m_Pos += result.MinimumTranslationVector;
-				std::cout << "Player" << result.MinimumTranslationVector.Length() << ' ' << utils::DistPointPoint(m_Pos.ToPoint2f(), pGameObject->GetPos().ToPoint2f()) << std::endl;
-				std::cout << result.MinimumTranslationVector << ' ' << Vector2f(m_Pos, pGameObject->GetPos()) << std::endl;
-				//std::cout << "Player: " << m_Pos << " Enemy: " << pGameObject->GetPos() << std::endl;
-				
-				//Matrix2x3 tMat = Matrix2x3::CreateTranslationMatrix(result.MinimumTranslationVector.Normalized() * (result.MinimumTranslationVector.Length() < utils::DistPointPoint(m_Pos.ToPoint2f(), pGameObject->GetPos().ToPoint2f()) ? utils::DistPointPoint(m_Pos.ToPoint2f(), pGameObject->GetPos().ToPoint2f()) - result.MinimumTranslationVector.Length() : result.MinimumTranslationVector.Length() - utils::DistPointPoint(m_Pos.ToPoint2f(), pGameObject->GetPos().ToPoint2f())));
-				//m_Pos = Vector2f(tMat.Transform(m_Pos.ToPoint2f()));
 				m_Pos += result.MinimumTranslationVector;
-				//m_MoveOffset += result.MinimumTranslationVector;
 			}
 		}
 

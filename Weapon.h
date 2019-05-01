@@ -14,7 +14,7 @@ enum class Slot
 class Weapon : public GameObject
 {
 public:
-	Weapon(float width, float height, Slot slot, Texture* pTexture = {nullptr});
+	Weapon(GameObject* pOwner, float width, float height, Slot slot, Texture* pTexture = {nullptr});
 	void Draw() const override;
 	void Update(float dT) override;
 	float GetAngle() const override;
@@ -25,6 +25,7 @@ protected:
 	bool m_IsShooting;
 	Slot m_Slot;
 	Vector2f m_BaseOffset;
+	GameObject* m_pOwner;
 private:
 	
 };
