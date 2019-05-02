@@ -1,20 +1,20 @@
 #include "pch.h"
-#include "Bullet.h"
+#include "Projectile.h"
 #include "utils.h"
 #include "GameObjectManager.h"
 #include "Enemy.h"
 #include "SAT.h"
 
-Bullet::Bullet(GameObject* pSender, const Vector2f& pos, float launchAngle, float width, float height, Texture* pTexture)
+Projectile::Projectile(GameObject* pSender, const Vector2f& pos, float launchAngle, float width, float height, Texture* pTexture)
 	: GameObject{ pos, width, height, pTexture }
-	, m_Owner{ pSender }
+	, m_pSender{ pSender }
 	, m_MaxSpeed{ 1000 }
 
 {
 	m_Velocity = Vector2f(m_MaxSpeed * cos(launchAngle), m_MaxSpeed *sin(launchAngle));
 }
 
-void Bullet::Update(float dT)
+void Projectile::Update(float dT)
 {
 
 	HandleCollision(dT);
@@ -22,22 +22,23 @@ void Bullet::Update(float dT)
 	m_Pos += m_Velocity * dT;
 }
 
-void Bullet::Draw() const
+void Projectile::Draw() const
 {
 	utils::DrawPolygon(GetCollider());
 }
 
-void Bullet::HandleCollision(float dT)
+void Projectile::HandleCollision(float dT)
 {
 	PolygonCollisionResult result;
 	for (GameObject* pGameObject : *m_pGameObjectMananger->GetGameObjects())
 	{
-		if (typeid (*pGameObject) == typeid(Enemy))
+		if (pGameObject != m_pSender && pGameObject != this && typeid(*pGameObject) != typeid (Projectile))
 		{
 			result = sat::PolygonCollision(this, pGameObject);
 
 			if (result.Intersect)
 			{
+				//ToDo: Change delete to discrete damage values
 				pGameObject->Delete();
 				Delete();
 				return;

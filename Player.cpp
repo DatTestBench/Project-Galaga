@@ -3,13 +3,14 @@
 #include "Texture.h"
 #include <iostream>
 #include "utils.h"
-#include "Bullet.h"
+#include "Projectile.h"
 #include <string>
 #include"Game.h"
 #include "InputHandling.h"
 #include "Weapon.h"
 #include "SAT.h"
 #include "Matrix2x3.h"
+#include "Enemy.h"
 Player::Player(int health, const Vector2f& pos, float width, float height, Texture* pTexture)
 	: GameObject{ pos, width, height, pTexture }
 	, m_Health{ health }
@@ -58,7 +59,7 @@ void Player::Update(float dT)
 	//{
 	//case SDL_BUTTON_LEFT:
 	//	//std::cout << "Yeeted that left click" << std::endl;
-	//	GameObjectManager::Get()->Add(new Bullet{ this, m_Pos, GetAngle() });
+	//	GameObjectManager::Get()->Add(new Projectile{ this, m_Pos, GetAngle() });
 	//	break;
 	//}
 	for (Weapon* pWeapon : m_pWeapons)
@@ -82,8 +83,11 @@ void Player::ToggleIsShooting()
 
 void Player::AddWeapon()
 {
-	Weapon* pWeapon = new Weapon { this, 10, 10, Slot(m_pWeapons.size() + 1) };
-	m_pWeapons.push_back(pWeapon);
+	if (m_pWeapons.size() < int (Slot::size))
+	{
+		Weapon* pWeapon = new Weapon { this, 10, 10, Slot(m_pWeapons.size()) };
+		m_pWeapons.push_back(pWeapon);
+	}
 }
 
 void Player::HandleMovement(float dT)
@@ -145,8 +149,7 @@ void Player::HandleCollision(float dT)
 	PolygonCollisionResult result;
 	for (GameObject* pGameObject : *m_pGameObjectMananger->GetGameObjects())
 	{
-		//if (typeid (*pGameObject) == typeid(Enemy) && pGameObject != this)
-		if (pGameObject != this)
+		if (typeid (*pGameObject) == typeid(Enemy))
 		{
 			result = sat::PolygonCollision(this, pGameObject);
 			if (result.Intersect)

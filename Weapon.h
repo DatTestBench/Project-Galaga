@@ -3,12 +3,13 @@
 #include "GameObjectManager.h"
 
 enum class Slot
-	{
-		front = 1,
-		middle = 2,
-		left = 3,
-		right = 4,
-		rear = 5
+{
+		front = 0,
+		middle = 1,
+		left = 2,
+		right = 3,
+		rear = 4,
+		size = 5 // Used to return the max amount of slots
 	};
 
 class Weapon : public GameObject

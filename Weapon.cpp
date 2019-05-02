@@ -2,7 +2,7 @@
 #include "Weapon.h"
 #include "utils.h"
 #include "Player.h"
-#include "Bullet.h"
+#include "Projectile.h"
 #include "GameObjectManager.h"
 #include "Matrix2x3.h"
 
@@ -10,6 +10,7 @@ Weapon::Weapon(GameObject* pOwner, float width, float height, Slot slot, Texture
 	: GameObject(Vector2f{ 0,0 }, width, height, pTexture)
 	, m_Slot{ slot }
 	, m_pOwner { pOwner }
+	, m_IsShooting { m_pGameObjectMananger->GetPlayer()->IsShooting() }
 {
 	switch (m_Slot)
 	{
@@ -42,13 +43,13 @@ void Weapon::Update(float dT)
 
 	if (m_IsShooting)
 	{
-		m_pGameObjectMananger->Add(new Bullet{ this, GetAbsPos(), GetAngle() });
+		m_pGameObjectMananger->Add(new Projectile{ m_pOwner, GetAbsPos(), GetAngle() });
 	}
 	//switch (InputHandling::Get()->MouseState())
 	//{
 	//case SDL_BUTTON_MIDDLE:
 	//	//std::cout << "Yeeted that left click" << std::endl;
-	//	GameObjectManager::Get()->Add(new Bullet{ this, GameObjectManager::Get()->GetPlayer()->GetPos(), GetAngle() });
+	//	GameObjectManager::Get()->Add(new Projectile{ this, GameObjectManager::Get()->GetPlayer()->GetPos(), GetAngle() });
 	//	break;
 	//}
 	

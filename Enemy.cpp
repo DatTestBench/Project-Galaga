@@ -7,7 +7,7 @@
 #include "Matrix2x3.h"
 Enemy::Enemy(const Vector2f& pos, float width, float height, Texture* pTexture)
 	: GameObject{ pos, width, height, pTexture }
-	, m_pPlayer{ GameObjectManager::Get()->GetPlayer() }
+	, m_pPlayer{ m_pGameObjectMananger->GetPlayer() }
 	, m_MaxSpeed{ 100 }
 	, m_Acceleration{  }
 	, m_Friction{  }
@@ -51,7 +51,7 @@ void Enemy::HandleCollision(float dT)
 {
 	PolygonCollisionResult result;
 
-	for (GameObject* pGameObject : *GameObjectManager::Get()->GetGameObjects())
+	for (GameObject* pGameObject : *m_pGameObjectMananger->GetGameObjects())
 	{
 		//if (typeid (*pGameObject) == typeid(Enemy) && pGameObject != this)
 		if (pGameObject != this)

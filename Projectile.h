@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-class Bullet : public GameObject
+class Projectile : public GameObject
 {
 	enum class Owner
 	{
@@ -11,7 +11,7 @@ class Bullet : public GameObject
 
 
 public:
-	Bullet(GameObject* senderPointer, const Vector2f& pos, float launchAngle, float width = { 3 }, float height = { 3 }, Texture* pTexture = { nullptr });
+	Projectile(GameObject* senderPointer, const Vector2f& pos, float launchAngle, float width = { 3 }, float height = { 3 }, Texture* pTexture = { nullptr });
 	void Draw() const override;
 	void Update(float dT) override;
 
@@ -19,7 +19,7 @@ public:
 private:
 	/// Data Members
 
-	GameObject* m_Owner;
+	GameObject* m_pSender;
 	float m_MaxSpeed;
 
 	/// Memeber functions
