@@ -47,7 +47,6 @@ protected:
 	bool m_DelFlag;
 	float m_Angle;
 	float m_Speed;
-	float m_MaxSpeed;
 	
 	Vector2f m_Velocity;
 	GameObjectManager* m_pGameObjectMananger;

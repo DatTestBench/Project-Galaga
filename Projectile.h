@@ -3,12 +3,6 @@
 
 class Projectile : public GameObject
 {
-	enum class Owner
-	{
-		enemy
-		, player
-	};
-
 
 public:
 	Projectile(GameObject* senderPointer, const Vector2f& pos, float launchAngle, float width = { 3 }, float height = { 3 }, Texture* pTexture = { nullptr });

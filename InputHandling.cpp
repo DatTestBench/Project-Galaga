@@ -118,7 +118,7 @@ const Uint8* InputHandling::KeyState()
 Uint32 InputHandling::MouseState(int &x, int &y)
 {
 	Uint32 state{ SDL_GetMouseState(&x, &y) };
-	y = m_Window.height - y;
+	y = int(m_Window.height) - y;
 	return state;
 }
 
