@@ -4,6 +4,8 @@
 #include "GameObjectManager.h"
 #include "Enemy.h"
 #include "SAT.h"
+#include "MachineGunBullet.h"
+#include "ShotgunPellet.h"
 
 Projectile::Projectile(GameObject* pSender, const Vector2f& pos, float launchAngle, float width, float height, Texture* pTexture)
 	: GameObject{ pos, width, height, pTexture }
@@ -11,7 +13,7 @@ Projectile::Projectile(GameObject* pSender, const Vector2f& pos, float launchAng
 	, m_MaxSpeed{ 1000 }
 
 {
-	m_Velocity = Vector2f(m_MaxSpeed * cos(launchAngle), m_MaxSpeed *sin(launchAngle));
+	m_Velocity = Vector2f(m_MaxSpeed * cos(launchAngle), m_MaxSpeed * sin(launchAngle));
 }
 
 void Projectile::Update(float dT)
@@ -30,9 +32,9 @@ void Projectile::Draw() const
 void Projectile::HandleCollision(float dT)
 {
 	PolygonCollisionResult result;
-	for (GameObject* pGameObject : *m_pGameObjectMananger->GetGameObjects())
+	for (GameObject* pGameObject : *m_pGameObjectManager->GetGameObjects())
 	{
-		if (pGameObject != m_pSender && pGameObject != this && typeid(*pGameObject) != typeid (Projectile))
+		if (pGameObject != m_pSender && pGameObject != this && typeid(*pGameObject) != typeid (MachinegunBullet) && typeid (*pGameObject) != typeid (ShotgunPellet))
 		{
 			result = sat::PolygonCollision(this, pGameObject);
 

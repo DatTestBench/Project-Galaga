@@ -11,6 +11,10 @@
 #include "SAT.h"
 #include "Matrix2x3.h"
 #include "Enemy.h"
+#include "MachineGun.h"
+#include "Shotgun.h"
+
+
 Player::Player(int health, const Vector2f& pos, float width, float height, Texture* pTexture)
 	: GameObject{ pos, width, height, pTexture }
 	, m_Health{ health }
@@ -85,7 +89,8 @@ void Player::AddWeapon()
 {
 	if (m_pWeapons.size() < int (Slot::size))
 	{
-		Weapon* pWeapon = new Weapon { this, 10, 10, Slot(m_pWeapons.size()) };
+		//Machinegun* pWeapon = new Machinegun { this, 10, 10, Slot(m_pWeapons.size()) };
+		Shotgun* pWeapon = new Shotgun{ this, 10, 10, Slot(m_pWeapons.size()) };
 		m_pWeapons.push_back(pWeapon);
 	}
 }
@@ -147,7 +152,7 @@ void Player::HandleMovement(float dT)
 void Player::HandleCollision(float dT)
 {
 	PolygonCollisionResult result;
-	for (GameObject* pGameObject : *m_pGameObjectMananger->GetGameObjects())
+	for (GameObject* pGameObject : *m_pGameObjectManager->GetGameObjects())
 	{
 		if (typeid (*pGameObject) == typeid(Enemy))
 		{

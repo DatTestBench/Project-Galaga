@@ -6,11 +6,12 @@
 #include "GameObjectManager.h"
 #include "Matrix2x3.h"
 
-Weapon::Weapon(GameObject* pOwner, float width, float height, Slot slot, Texture* pTexture)
-	: GameObject(Vector2f{ 0,0 }, width, height, pTexture)
+Weapon::Weapon(GameObject* pOwner, float width, float height, const Slot& slot, float fireRate, Texture* pTexture)
+	: GameObject{ Vector2f{ 0,0 }, width, height, pTexture }
 	, m_Slot{ slot }
 	, m_pOwner{ pOwner }
-	, m_IsShooting{ m_pGameObjectMananger->GetPlayer()->IsShooting() }
+	, m_IsShooting{m_pGameObjectManager->GetPlayer()->IsShooting() } // change to a general usecase, for all gameobjects capable of owning a weapon ToDo
+	, m_FireRate{ fireRate }
 {
 	switch (m_Slot)
 	{
@@ -35,16 +36,11 @@ Weapon::Weapon(GameObject* pOwner, float width, float height, Slot slot, Texture
 void Weapon::Draw() const
 {
 	//m_pTexture->DrawC(Point2f{}, m_Width, m_Height);
-	utils::DrawPolygon(m_BaseCollider);
+	utils::DrawPolygon(GetCollider());
 }
 
 void Weapon::Update(float dT)
 {
-
-	if (m_IsShooting)
-	{
-		m_pGameObjectMananger->Add(new Projectile{ m_pOwner, GetAbsPos(), GetAngle() });
-	}
 	//switch (InputHandling::Get()->MouseState())
 	//{
 	//case SDL_BUTTON_MIDDLE:
@@ -103,6 +99,10 @@ float Weapon::GetAngle() const
 void Weapon::ToggleIsShooting()
 {
 	m_IsShooting = !m_IsShooting;
+	if (m_IsShooting)
+		std::cout << " Is now shooting " << std::endl;
+	else
+		std::cout << " Is now not shooting " << std::endl;
 }
 
 Vector2f Weapon::GetAbsPos() const

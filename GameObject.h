@@ -49,7 +49,7 @@ protected:
 	float m_Speed;
 	
 	Vector2f m_Velocity;
-	GameObjectManager* m_pGameObjectMananger;
+	GameObjectManager* m_pGameObjectManager;
 
 	/// Member Functions
 	// Internal Workers

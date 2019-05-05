@@ -5,7 +5,7 @@ class Projectile : public GameObject
 {
 
 public:
-	Projectile(GameObject* senderPointer, const Vector2f& pos, float launchAngle, float width = { 3 }, float height = { 3 }, Texture* pTexture = { nullptr });
+	Projectile(GameObject* pSender, const Vector2f& pos, float launchAngle, float width, float height, Texture* pTexture = { nullptr });
 	void Draw() const override;
 	void Update(float dT) override;
 
