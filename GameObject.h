@@ -9,7 +9,7 @@ class GameObjectManager;
 class GameObject
 {
 public:
-	GameObject(const Vector2f& pos, float width, float height, Texture* pTexture = {nullptr} );
+	GameObject(const Vector2f& pos, float width, float height, Texture* pTexture);
 	virtual ~GameObject();
 	GameObject(const GameObject&) = delete;
 	GameObject& operator= (const GameObject&) = delete;

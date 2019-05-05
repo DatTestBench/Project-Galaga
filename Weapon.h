@@ -15,7 +15,7 @@ enum class Slot
 class Weapon : public GameObject
 {
 public:
-	Weapon(GameObject* pOwner, float width, float height, const Slot& slot, float fireRate, Texture* pTexture = {nullptr});
+	Weapon(float width, float height, Texture* pTexture, GameObject* pOwner, int level, /*float baseDamage, */const Slot& slot, float baseFireRate);
 	void Draw() const override;
 	virtual void Update(float dT) override;
 	float GetAngle() const override;
@@ -26,13 +26,15 @@ public:
 protected:
 	bool m_IsShooting;
 	Slot m_Slot;
+	int m_Level;
 	Vector2f m_BaseOffset;
 	GameObject* m_pOwner;
-	float m_FireRate; // Firerate in shots / second
+	float m_BaseFireRate; // Firerate in shots / second
 	float m_TimeSinceLastShot; // Time in seconds since the last shot was fired, used to prevent players abusing spamclicking to improve firerate
 	float m_Cooldown; // Time it takes for m_TimeSinceLastShot to reset
 
 	virtual void DoShoot(float dT) = 0;
+	float GetFireRate();
 private:
 	
 };

@@ -3,7 +3,7 @@
 class Shotgun : public Weapon
 {
 public:
-	Shotgun(GameObject* pOwner, float width, float height, const Slot& slot, float fireRate = { 1 }, Texture* pTexture = { nullptr });
+	Shotgun(float width, float height, Texture* pTexture, GameObject* pOwner, int level, const Slot& slot);
 	void Update(float dT) override;
 
 private:

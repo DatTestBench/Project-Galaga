@@ -23,7 +23,7 @@ void Game::Initialize()
 
 	// adding player
 	//Texture* pPlayerText{ new Texture {"./Resources/Textures/player.png"} };
-	Player* pPlayer{ new Player { 10, Vector2f ( m_Window.width / 2.f, m_Window.height / 2.f ) } };
+	Player* pPlayer{ new Player { Vector2f(m_Window.width / 2.f, m_Window.height / 2.f), 50, 50, TextureManager::Get()->GetPlayerTextp(), 10 } };
 	GameObjectManager::Get()->Add(pPlayer);
 
 	// adding enemy
@@ -85,7 +85,7 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
 	case SDLK_e:
 		// adding enemy
 		//Point2f pos{ float { rand() % int{ m_Window.width + 1 } },  float { rand() % int{m_Window.height + 1} } };
-		Enemy* pEnemy{ new Enemy { Vector2f( static_cast<float>(rand() % static_cast<int>(m_Window.width + 1)), static_cast<float>(rand() % static_cast<int>(m_Window.height + 1)) ) } };
+		Enemy* pEnemy{ new Enemy { Vector2f( static_cast<float>(rand() % static_cast<int>(m_Window.width + 1)), static_cast<float>(rand() % static_cast<int>(m_Window.height + 1))), 50, 50, TextureManager::Get()->GetEnemyTextp()} };
 		GameObjectManager::Get()->Add(pEnemy);
 	}
 	//std::cout << "KEYDOWN event: " << e.keysym.sym << std::endl;

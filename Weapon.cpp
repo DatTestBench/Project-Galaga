@@ -6,12 +6,13 @@
 #include "GameObjectManager.h"
 #include "Matrix2x3.h"
 
-Weapon::Weapon(GameObject* pOwner, float width, float height, const Slot& slot, float fireRate, Texture* pTexture)
+Weapon::Weapon(float width, float height, Texture* pTexture, GameObject* pOwner, int level, /*float baseDamage, */ const Slot& slot, float baseFireRate)
 	: GameObject{ Vector2f{ 0,0 }, width, height, pTexture }
 	, m_Slot{ slot }
 	, m_pOwner{ pOwner }
 	, m_IsShooting{m_pGameObjectManager->GetPlayer()->IsShooting() } // change to a general usecase, for all gameobjects capable of owning a weapon ToDo
-	, m_FireRate{ fireRate }
+	, m_BaseFireRate{ baseFireRate }
+	, m_Level{ 1 }
 {
 	switch (m_Slot)
 	{
@@ -117,4 +118,9 @@ std::vector<Vector2f> Weapon::GetCollider() const
 	Matrix2x3 tMat{ Matrix2x3::CreateTranslationMatrix(GetAbsPos()) };
 	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(GetAngle())) };
 	return (tMat*rMat).Transform(m_BaseCollider);
+}
+
+float Weapon::GetFireRate()
+{
+	return m_BaseFireRate * m_Level; // ToDo: Adding powerup effects into the calculation;
 }

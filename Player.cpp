@@ -15,7 +15,7 @@
 #include "Shotgun.h"
 
 
-Player::Player(int health, const Vector2f& pos, float width, float height, Texture* pTexture)
+Player::Player(const Vector2f& pos, float width, float height, Texture* pTexture, int health)
 	: GameObject{ pos, width, height, pTexture }
 	, m_Health{ health }
 	, m_MaxSpeed{ 1000 }
@@ -89,8 +89,8 @@ void Player::AddWeapon()
 {
 	if (m_pWeapons.size() < int (Slot::size))
 	{
-		//Machinegun* pWeapon = new Machinegun { this, 10, 10, Slot(m_pWeapons.size()) };
-		Shotgun* pWeapon = new Shotgun{ this, 10, 10, Slot(m_pWeapons.size()) };
+		Machinegun* pWeapon = new Machinegun { 10, 10, nullptr, this, 1, Slot(m_pWeapons.size()) };
+		//Shotgun* pWeapon = new Shotgun{ 10, 10, nullptr, this, 1, Slot(m_pWeapons.size()) };
 		m_pWeapons.push_back(pWeapon);
 	}
 }

@@ -7,13 +7,13 @@
 #include "MachineGunBullet.h"
 #include "ShotgunPellet.h"
 
-Projectile::Projectile(GameObject* pSender, const Vector2f& pos, float launchAngle, float width, float height, Texture* pTexture)
+Projectile::Projectile(const Vector2f& pos, float width, float height, Texture* pTexture, float launchAngle, float baseSpeed, GameObject* pSender /*int level, float baseDamage*/)
 	: GameObject{ pos, width, height, pTexture }
 	, m_pSender{ pSender }
-	, m_MaxSpeed{ 1000 }
+	, m_BaseSpeed{ baseSpeed }
 
 {
-	m_Velocity = Vector2f(m_MaxSpeed * cos(launchAngle), m_MaxSpeed * sin(launchAngle));
+	m_Velocity = Vector2f(m_BaseSpeed * cos(launchAngle), m_BaseSpeed * sin(launchAngle));
 }
 
 void Projectile::Update(float dT)

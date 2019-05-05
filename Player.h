@@ -5,7 +5,7 @@
 class Player : public GameObject
 {
 public:
-	Player(int health, const Vector2f& pos, float width = { 50 }, float height = { 50 }, Texture* pTexture = { TextureManager::Get()->GetPlayerTextp() });
+	Player(const Vector2f& pos, float width, float height, Texture* pTexture, int health);
 	~Player() override;
 	void Draw() const override;
 	void Update(float dT) override;

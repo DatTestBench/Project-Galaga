@@ -2,8 +2,8 @@
 #include "MachineGunBullet.h"
 
 
-MachinegunBullet::MachinegunBullet(GameObject* pSender, const Vector2f& pos, float launchAngle, float width, float height, Texture* pTexture)
-	:Projectile { pSender, pos, launchAngle, width, height, pTexture }
+MachinegunBullet::MachinegunBullet(const Vector2f& pos, float width, float height, Texture* pTexture, float launchAngle, GameObject* pSender/*, int level*/)
+	:Projectile{ pos, width, height, pTexture, launchAngle, 1000 /*baseSpeed*/, pSender /*, level, baseDamage*/}
 {
 }
 

@@ -4,8 +4,8 @@
 #include "Projectile.h"
 #include "MachineGunBullet.h"
 
-Machinegun::Machinegun(GameObject* pOwner, float width, float height, const Slot& slot, float fireRate, Texture* pTexture)
-	: Weapon{ pOwner, width, height, slot, fireRate, pTexture }
+Machinegun::Machinegun(float width, float height, Texture* pTexture, GameObject* pOwner, int level, const Slot& slot)
+	: Weapon{ width, height, pTexture, pOwner, level, slot, 30 /*baseFireRate*/}
 {
 }
 
@@ -26,9 +26,9 @@ void Machinegun::DoShoot(float dT)
 {
 	m_TimeSinceLastShot += dT;
 
-	if (m_TimeSinceLastShot > 1.f / m_FireRate)
+	if (m_TimeSinceLastShot > 1.f / GetFireRate())
 	{
-		m_pGameObjectManager->Add(new MachinegunBullet{ m_pOwner, GetAbsPos(), GetAngle() });
+		m_pGameObjectManager->Add(new MachinegunBullet{ GetAbsPos(), 3, 3, nullptr, GetAngle(), m_pOwner });
 		m_TimeSinceLastShot = 0;
 	}
 }
