@@ -15,13 +15,14 @@
 #include "Shotgun.h"
 
 
-Player::Player(const Vector2f& pos, float width, float height, Texture* pTexture, int health)
+Player::Player(const Vector2f& pos, float width, float height, Texture* pTexture, float baseHealth)
 	: GameObject{ pos, width, height, pTexture }
-	, m_Health{ health }
-	, m_MaxSpeed{ 1000 }
+	, m_BaseHealth{ baseHealth }
+	, m_BaseSpeed{ 500 }
 	, m_Acceleration{ 10000 }
 	, m_Friction{ 10 }
 {	
+	m_CurrentHealth = m_BaseHealth;
 }
 
 Player::~Player()
@@ -89,10 +90,17 @@ void Player::AddWeapon()
 {
 	if (m_pWeapons.size() < int (Slot::size))
 	{
-		Machinegun* pWeapon = new Machinegun { 10, 10, nullptr, this, 1, Slot(m_pWeapons.size()) };
-		//Shotgun* pWeapon = new Shotgun{ 10, 10, nullptr, this, 1, Slot(m_pWeapons.size()) };
+		//Machinegun* pWeapon = new Machinegun { 10, 10, nullptr, this, 1, Slot(m_pWeapons.size()) };
+		Shotgun* pWeapon = new Shotgun{ 10, 10, nullptr, this, 1, Slot(m_pWeapons.size()) };
 		m_pWeapons.push_back(pWeapon);
 	}
+}
+
+void Player::Hit(float damage)
+{
+	m_CurrentHealth -= damage;
+	if (m_CurrentHealth <= 0)
+		Delete();
 }
 
 void Player::HandleMovement(float dT)
@@ -140,8 +148,8 @@ void Player::HandleMovement(float dT)
 		m_Speed = utils::lerp(m_Speed, 0.f, dT, m_Friction);
 	}
 
-	if (m_Speed > m_MaxSpeed)
-		m_Speed = m_MaxSpeed;
+	if (m_Speed > m_BaseSpeed)
+		m_Speed = m_BaseSpeed;
 
 
 

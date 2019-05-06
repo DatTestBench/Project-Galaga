@@ -5,15 +5,16 @@
 #include "Player.h"
 #include "SAT.h"
 #include "Matrix2x3.h"
-Enemy::Enemy(const Vector2f& pos, float width, float height, Texture* pTexture)
+Enemy::Enemy(const Vector2f& pos, float width, float height, Texture* pTexture, int level, float baseHealth)
 	: GameObject{ pos, width, height, pTexture }
 	, m_pPlayer{ m_pGameObjectManager->GetPlayer() }
 	, m_MaxSpeed{ 100 }
 	, m_Acceleration{  }
 	, m_Friction{  }
+	, m_BaseHealth { baseHealth }
 
 {
-	
+	m_CurrentHealth = m_BaseHealth;
 }
 
 void Enemy::Draw() const
@@ -47,14 +48,25 @@ void Enemy::Update(float dT)
 
 }
 
+void Enemy::Hit(float damage)
+{
+	std::cout << "Enemy hit" << std::endl;
+	m_CurrentHealth -= damage;
+	if (m_CurrentHealth <= 0)
+	{
+		Delete();
+		std::cout << "Enemy died" << std::endl;
+
+	}
+}
+
 void Enemy::HandleCollision(float dT)
 {
 	PolygonCollisionResult result;
 
 	for (GameObject* pGameObject : *m_pGameObjectManager->GetGameObjects())
 	{
-		//if (typeid (*pGameObject) == typeid(Enemy) && pGameObject != this)
-		if (pGameObject != this)
+		if ( (typeid (*pGameObject) == typeid(Enemy) || typeid (*pGameObject) == typeid(Player)) && pGameObject != this)
 		{
 			result = sat::PolygonCollision(this, pGameObject);
 			if (result.Intersect)

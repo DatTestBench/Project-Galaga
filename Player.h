@@ -5,19 +5,21 @@
 class Player : public GameObject
 {
 public:
-	Player(const Vector2f& pos, float width, float height, Texture* pTexture, int health);
+	Player(const Vector2f& pos, float width, float height, Texture* pTexture, float baseHealth);
 	~Player() override;
 	void Draw() const override;
 	void Update(float dT) override;
 	bool IsShooting();
 	void ToggleIsShooting();
 	void AddWeapon();
+	void Hit(float damage);
 private:
 	/// Data Members
-	int m_Health;
-	const float m_MaxSpeed;
+	const float m_BaseSpeed;
 	const float m_Acceleration;
 	const float m_Friction;
+	const float m_BaseHealth;
+	float m_CurrentHealth;
 
 	std::vector<Weapon*> m_pWeapons;
 	bool m_IsShooting;

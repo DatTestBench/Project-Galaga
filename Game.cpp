@@ -85,7 +85,9 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
 	case SDLK_e:
 		// adding enemy
 		//Point2f pos{ float { rand() % int{ m_Window.width + 1 } },  float { rand() % int{m_Window.height + 1} } };
-		Enemy* pEnemy{ new Enemy { Vector2f( static_cast<float>(rand() % static_cast<int>(m_Window.width + 1)), static_cast<float>(rand() % static_cast<int>(m_Window.height + 1))), 50, 50, TextureManager::Get()->GetEnemyTextp()} };
+		Enemy* pEnemy{ new Enemy { Vector2f( float(rand() % int(m_Window.width + 1)), float(rand() % int(m_Window.height + 1))), 50, 50, TextureManager::Get()->GetEnemyTextp(), 1, 20 } };
+
+		
 		GameObjectManager::Get()->Add(pEnemy);
 	}
 	//std::cout << "KEYDOWN event: " << e.keysym.sym << std::endl;

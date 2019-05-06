@@ -6,11 +6,14 @@
 #include "SAT.h"
 #include "MachineGunBullet.h"
 #include "ShotgunPellet.h"
+#include "Player.h"
 
-Projectile::Projectile(const Vector2f& pos, float width, float height, Texture* pTexture, float launchAngle, float baseSpeed, GameObject* pSender /*int level, float baseDamage*/)
+Projectile::Projectile(const Vector2f& pos, float width, float height, Texture* pTexture, float launchAngle, float baseSpeed, GameObject* pSender, int level, float baseDamage)
 	: GameObject{ pos, width, height, pTexture }
 	, m_pSender{ pSender }
 	, m_BaseSpeed{ baseSpeed }
+	, m_Level { level }
+	, m_BaseDamage { baseDamage }
 
 {
 	m_Velocity = Vector2f(m_BaseSpeed * cos(launchAngle), m_BaseSpeed * sin(launchAngle));
@@ -41,7 +44,12 @@ void Projectile::HandleCollision(float dT)
 			if (result.Intersect)
 			{
 				//ToDo: Change delete to discrete damage values
-				pGameObject->Delete();
+				if (typeid(*pGameObject) == typeid(Player))
+					static_cast<Player*>(pGameObject)->Hit(m_BaseDamage);
+				else
+				{
+					static_cast<Enemy*>(pGameObject)->Hit(m_BaseDamage);
+				}
 				Delete();
 				return;
 			}

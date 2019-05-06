@@ -28,7 +28,7 @@ void Machinegun::DoShoot(float dT)
 
 	if (m_TimeSinceLastShot > 1.f / GetFireRate())
 	{
-		m_pGameObjectManager->Add(new MachinegunBullet{ GetAbsPos(), 3, 3, nullptr, GetAngle(), m_pOwner });
+		m_pGameObjectManager->Add(new MachinegunBullet{ GetAbsPos(), 3, 3, nullptr, GetAngle(), m_pOwner, m_Level });
 		m_TimeSinceLastShot = 0;
 	}
 }
