@@ -5,17 +5,16 @@
 #include "utils.h"
 Rocket::Rocket(const Vector2f& pos, float width, float height, Texture* pTexture, float launchAngle, GameObject* pSender, int level)
 	: Projectile{ pos, width, height, pTexture, launchAngle, 500 /*baseSpeed*/, pSender, level, 50.f /*baseDamage*/ }
+	, m_Lifespan{ 50.f }
 {
 }
 
 void Rocket::Update(float dT)
 {
-	std::cout << m_Angle << std::endl;
-	m_Pos += GetVelocity() * dT;
+	
 	HandleCollision(dT);
 	HandleLogic(dT);
-
-
+	m_Pos += GetVelocity() * dT;
 }
 
 void Rocket::HandleLogic(float dT)

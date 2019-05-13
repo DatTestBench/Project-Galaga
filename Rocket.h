@@ -9,5 +9,6 @@ public:
 
 private:
 	void HandleLogic(float dT) override;
+	const float m_Lifespan;
 };
 

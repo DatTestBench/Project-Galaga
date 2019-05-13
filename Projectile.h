@@ -8,6 +8,7 @@ public:
 	Projectile(const Vector2f& pos, float width, float height, Texture* pTexture, float launchAngle, float baseSpeed, GameObject* pSender, int level, float baseDamage);
 	void Draw() const override;
 	void Update(float dT) override;
+	static const float m_Lifespan;
 protected:
 	void HandleCollision(float dT) override final;
 	
