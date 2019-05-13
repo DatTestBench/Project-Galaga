@@ -9,8 +9,8 @@ public:
 	~Player() override;
 	void Draw() const override;
 	void Update(float dT) override;
-	bool IsShooting();
-	void ToggleIsShooting();
+	bool IsShooting() override;
+	void ToggleShoot() override;
 	void AddWeapon();
 	void Hit(float damage);
 private:
@@ -23,7 +23,7 @@ private:
 
 	std::vector<Weapon*> m_pWeapons;
 	bool m_IsShooting;
-	
+		
 	/// Member Functions
 	void HandleMovement(float dT);
 	void HandleCollision(float dT) override;

@@ -590,5 +590,9 @@ float utils::DistPointPoint(const Point2f& p1, const Point2f& p2)
 {
 	return  sqrt(float(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2)));
 }
+float utils::DistPointPoint(const Vector2f& p1, const Vector2f& p2)
+{
+	return DistPointPoint(p1.ToPoint2f(), p2.ToPoint2f());
+}
 
 #pragma endregion CollisionFunctionality

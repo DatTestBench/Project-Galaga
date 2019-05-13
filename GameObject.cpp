@@ -24,8 +24,28 @@ GameObject::~GameObject()
 
 }
 
+#pragma region Workers
 // Deleted Draw
 // Deleted Update
+
+void GameObject::DoAction(float dT)
+{}
+
+void GameObject::ToggleAction()
+{}
+
+void GameObject::DoShoot(float dT)
+{}
+
+void GameObject::ToggleShoot()
+{}
+
+bool GameObject::IsShooting()
+{
+	return false;
+}
+
+#pragma endregion Workers
 
 #pragma region Getters
 Vector2f GameObject::GetPos() const
@@ -47,12 +67,12 @@ std::vector<Vector2f> GameObject::GetCollider() const
 
 float GameObject::GetWidth() const
 {
-	return m_pTexture->GetWidth();
+	return m_Width;
 }
 
 float GameObject::GetHeight() const
 {
-	return m_pTexture->GetHeight();
+	return m_Width;
 }
 
 bool GameObject::GetFlag() const
@@ -88,15 +108,19 @@ void GameObject::Delete()
 	GameObjectManager::Get()->Delete(this);
 	m_DelFlag = true;
 }
+
+void GameObject::AddWeapon()
+{}
 #pragma endregion Changers
 
 
 #pragma region InternalWorkers
 
 void GameObject::HandleCollision(float dT) // Temporary declaration, remove when fully implemented ToDo
-{
+{}
 
-}
+void GameObject::HandleLogic(float dT)
+{}
 
 #pragma endregion InternalWorkers
 

@@ -20,7 +20,9 @@ public:
 	// Workers
 	virtual void Draw() const = 0;
 	virtual void Update(float dT) = 0;
-
+	
+	
+	
 	// Getters
 	Vector2f GetPos() const;
 	Texture* GetpTexture() const;
@@ -35,7 +37,14 @@ public:
 	// Changers
 	void ChangePos(const Vector2f& dMove);
 	void Delete();
+	virtual void AddWeapon();
 	
+	virtual void DoAction(float dT);
+	virtual void ToggleAction();
+
+	virtual void DoShoot(float dT);
+	virtual void ToggleShoot();
+	virtual bool IsShooting();
 protected:
 
 	/// Data Members
@@ -54,6 +63,8 @@ protected:
 	/// Member Functions
 	// Internal Workers
 	virtual void HandleCollision(float dT); // = 0 when fully implemented ToDo
+	virtual void HandleLogic(float dT);
+
 
 
 

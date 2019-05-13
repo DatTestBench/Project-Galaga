@@ -6,6 +6,7 @@
 #include "SAT.h"
 #include "MachineGunBullet.h"
 #include "ShotgunPellet.h"
+#include "Rocket.h"
 #include "Player.h"
 
 Projectile::Projectile(const Vector2f& pos, float width, float height, Texture* pTexture, float launchAngle, float baseSpeed, GameObject* pSender, int level, float baseDamage)
@@ -16,7 +17,9 @@ Projectile::Projectile(const Vector2f& pos, float width, float height, Texture* 
 	, m_BaseDamage { baseDamage }
 
 {
-	m_Velocity = Vector2f(m_BaseSpeed * cos(launchAngle), m_BaseSpeed * sin(launchAngle));
+	m_Speed = m_BaseSpeed;
+	m_Angle = launchAngle;
+	m_Velocity = Vector2f{ m_Speed * cos(m_Angle), m_Speed * sin(m_Angle) };
 }
 
 void Projectile::Update(float dT)
@@ -37,13 +40,12 @@ void Projectile::HandleCollision(float dT)
 	PolygonCollisionResult result;
 	for (GameObject* pGameObject : *m_pGameObjectManager->GetGameObjects())
 	{
-		if (pGameObject != m_pSender && pGameObject != this && typeid(*pGameObject) != typeid (MachinegunBullet) && typeid (*pGameObject) != typeid (ShotgunPellet))
+		if (pGameObject != m_pSender && pGameObject != this && typeid(*pGameObject) != typeid (MachinegunBullet) && typeid (*pGameObject) != typeid (ShotgunPellet) && typeid(*pGameObject) != typeid (Rocket))
 		{
 			result = sat::PolygonCollision(this, pGameObject);
 
 			if (result.Intersect)
 			{
-				//ToDo: Change delete to discrete damage values
 				if (typeid(*pGameObject) == typeid(Player))
 					static_cast<Player*>(pGameObject)->Hit(m_BaseDamage);
 				else

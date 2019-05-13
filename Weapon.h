@@ -19,7 +19,7 @@ public:
 	void Draw() const override;
 	virtual void Update(float dT) override;
 	float GetAngle() const override;
-	void ToggleIsShooting();
+	void ToggleShoot() override;
 	Vector2f GetAbsPos() const;
 	std::vector<Vector2f> GetCollider() const override;
 
@@ -33,7 +33,7 @@ protected:
 	float m_TimeSinceLastShot; // Time in seconds since the last shot was fired, used to prevent players abusing spamclicking to improve firerate
 	float m_Cooldown; // Time it takes for m_TimeSinceLastShot to reset
 
-	virtual void DoShoot(float dT) = 0;
+	virtual void DoShoot(float dT);
 	float GetFireRate();
 private:
 	

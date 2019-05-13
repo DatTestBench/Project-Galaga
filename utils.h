@@ -91,6 +91,7 @@ namespace utils
 	bool IsPointOnLineSegment(const Point2f& p, const Point2f& a, const Point2f& b);
 
 	float DistPointPoint(const Point2f& p1, const Point2f& p2); // Manually added function
+	float DistPointPoint(const Vector2f& p1, const Vector2f& p2); // Manually added function
 #pragma endregion CollisionFunctionality
 
 }

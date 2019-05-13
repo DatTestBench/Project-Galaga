@@ -111,7 +111,7 @@ void sat::ProjectPolygon(Vector2f axis, const std::vector<Vector2f>& vertexSet, 
 	float dotProduct = axis.DotProduct(vertexSet[0]);
 	min = dotProduct;
 	max = dotProduct;
-	for (int i = 0; i < vertexSet.size(); i++)
+	for (size_t i{ 0 }; i < vertexSet.size(); i++)
 	{
 		dotProduct = axis.DotProduct(vertexSet[i]);
 		if (dotProduct < min)

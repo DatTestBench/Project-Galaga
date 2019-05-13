@@ -38,10 +38,14 @@ void Weapon::Draw() const
 {
 	//m_pTexture->DrawC(Point2f{}, m_Width, m_Height);
 	utils::DrawPolygon(GetCollider());
+	
 }
 
 void Weapon::Update(float dT)
 {
+
+
+
 	//switch (InputHandling::Get()->MouseState())
 	//{
 	//case SDL_BUTTON_MIDDLE:
@@ -97,7 +101,7 @@ float Weapon::GetAngle() const
 	return atan2(v.y, v.x);
 }
 
-void Weapon::ToggleIsShooting()
+void Weapon::ToggleShoot()
 {
 	m_IsShooting = !m_IsShooting;
 	if (m_IsShooting)
@@ -110,7 +114,7 @@ Vector2f Weapon::GetAbsPos() const
 {
 	Matrix2x3 tMat{ Matrix2x3::CreateTranslationMatrix(m_pOwner->GetPos()) };
 	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(m_pOwner->GetAngle() - utils::g_Pi / 2.f)) };
-	return Vector2f(tMat.Transform(rMat.Transform(m_BaseOffset.ToPoint2f())));
+	return Vector2f((tMat*rMat).Transform(m_BaseOffset.ToPoint2f()));
 }
 
 std::vector<Vector2f> Weapon::GetCollider() const
@@ -119,6 +123,9 @@ std::vector<Vector2f> Weapon::GetCollider() const
 	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(GetAngle())) };
 	return (tMat*rMat).Transform(m_BaseCollider);
 }
+
+void Weapon::DoShoot(float dT)
+{}
 
 float Weapon::GetFireRate()
 {

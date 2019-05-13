@@ -13,7 +13,7 @@
 #include "Enemy.h"
 #include "MachineGun.h"
 #include "Shotgun.h"
-
+#include "RocketLauncher.h"
 
 Player::Player(const Vector2f& pos, float width, float height, Texture* pTexture, float baseHealth)
 	: GameObject{ pos, width, height, pTexture }
@@ -78,12 +78,12 @@ bool Player::IsShooting()
 	return m_IsShooting;
 }
 
-void Player::ToggleIsShooting()
+void Player::ToggleShoot()
 {
 	m_IsShooting = !m_IsShooting;
 
 	for (Weapon* pWeapon : m_pWeapons)
-		pWeapon->ToggleIsShooting();
+		pWeapon->ToggleShoot();
 }
 
 void Player::AddWeapon()
@@ -91,7 +91,8 @@ void Player::AddWeapon()
 	if (m_pWeapons.size() < int (Slot::size))
 	{
 		//Machinegun* pWeapon = new Machinegun { 10, 10, nullptr, this, 1, Slot(m_pWeapons.size()) };
-		Shotgun* pWeapon = new Shotgun{ 10, 10, nullptr, this, 1, Slot(m_pWeapons.size()) };
+		//Shotgun* pWeapon = new Shotgun{ 10, 10, nullptr, this, 1, Slot(m_pWeapons.size()) };
+		RocketLauncher* pWeapon = new RocketLauncher{ 10, 10, nullptr, this, 1, Slot(m_pWeapons.size()) };
 		m_pWeapons.push_back(pWeapon);
 	}
 }
@@ -100,7 +101,7 @@ void Player::Hit(float damage)
 {
 	m_CurrentHealth -= damage;
 	if (m_CurrentHealth <= 0)
-		Delete();
+		std::cout << "Dead";
 }
 
 void Player::HandleMovement(float dT)
@@ -140,8 +141,8 @@ void Player::HandleMovement(float dT)
 		m_Speed += m_Acceleration * dT;
 	}
 
-	m_Angle = m_Angle < 0 ? m_Angle + 2*utils::g_Pi : m_Angle;
-	m_Angle = m_Angle > 2 * utils::g_Pi ? m_Angle - 2*utils::g_Pi : m_Angle;
+	m_Angle = m_Angle < 0 ? m_Angle + 2 * utils::g_Pi : m_Angle;
+	m_Angle = m_Angle > 2 * utils::g_Pi ? m_Angle - 2 * utils::g_Pi : m_Angle;
 	
 	if (!(m_Speed < DBL_EPSILON))
 	{

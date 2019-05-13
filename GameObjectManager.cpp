@@ -91,7 +91,7 @@ std::vector<GameObject*>* GameObjectManager::GetGameObjects()
 	return  &m_GameObjects;
 }
 
-Player* GameObjectManager::GetPlayer() const
+GameObject* GameObjectManager::GetPlayer() const
 {
 	return m_pPlayer;
 }

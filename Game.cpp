@@ -23,7 +23,7 @@ void Game::Initialize()
 
 	// adding player
 	//Texture* pPlayerText{ new Texture {"./Resources/Textures/player.png"} };
-	Player* pPlayer{ new Player { Vector2f(m_Window.width / 2.f, m_Window.height / 2.f), 50, 50, TextureManager::Get()->GetPlayerTextp(), 10 } };
+	Player* pPlayer{ new Player { Vector2f(m_Window.width / 2.f, m_Window.height / 2.f), 50, 50, TextureManager::Get()->GetPlayerTextp(), 9999999999999999999.f } };
 	GameObjectManager::Get()->Add(pPlayer);
 
 	// adding enemy
@@ -85,7 +85,7 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
 	case SDLK_e:
 		// adding enemy
 		//Point2f pos{ float { rand() % int{ m_Window.width + 1 } },  float { rand() % int{m_Window.height + 1} } };
-		Enemy* pEnemy{ new Enemy { Vector2f( float(rand() % int(m_Window.width + 1)), float(rand() % int(m_Window.height + 1))), 50, 50, TextureManager::Get()->GetEnemyTextp(), 1, 20 } };
+		Enemy* pEnemy{ new Enemy { Vector2f( float(rand() % int(m_Window.width + 1)), float(rand() % int(m_Window.height + 1))), 50, 50, TextureManager::Get()->GetEnemyTextp(), 1, 100 } };
 
 		
 		GameObjectManager::Get()->Add(pEnemy);
@@ -122,7 +122,7 @@ void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 	{
 	case SDL_BUTTON_LEFT:
 		if (!GameObjectManager::Get()->GetPlayer()->IsShooting())
-			GameObjectManager::Get()->GetPlayer()->ToggleIsShooting();
+			GameObjectManager::Get()->GetPlayer()->ToggleShoot();
 		break;
 	default:
 		break;
@@ -148,7 +148,7 @@ void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
 	{
 	case SDL_BUTTON_LEFT:
 		if (GameObjectManager::Get()->GetPlayer()->IsShooting())
-			GameObjectManager::Get()->GetPlayer()->ToggleIsShooting();
+			GameObjectManager::Get()->GetPlayer()->ToggleShoot();
 		break;
 	default:
 		break;
