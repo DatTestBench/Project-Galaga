@@ -4,12 +4,15 @@
 #include "Vector2f.h"
 #include "InputHandling.h"
 #include "GameObjectManager.h"
+#include "Sprite.h"
+#include "Steering.h"
 
 class GameObjectManager;
+class SteeringManager;
 class GameObject
 {
 public:
-	GameObject(const Vector2f& pos, float width, float height, Texture* pTexture);
+	GameObject(const Vector2f& pos, float width, float height, Sprite* pSprite);
 	virtual ~GameObject();
 	GameObject(const GameObject&) = delete;
 	GameObject& operator= (const GameObject&) = delete;
@@ -32,12 +35,17 @@ public:
 	bool GetFlag() const;
 	virtual float GetAngle() const; 
 	float GetSpeed() const;
+	float GetMaxSpeed() const;
 	Vector2f GetVelocity() const;
+	float GetMass() const;
 
 	// Changers
 	void ChangePos(const Vector2f& dMove);
 	void Delete();
 	virtual void AddWeapon();
+	void SetVelocity(const Vector2f& vNew);
+	void SetAngle(float angleNew);
+	void SetSpeed(float speedNew);
 	
 	virtual void DoAction(float dT);
 	virtual void ToggleAction();
@@ -50,15 +58,22 @@ protected:
 	/// Data Members
 	Vector2f m_Pos;
 	Texture* m_pTexture;
+	Sprite* m_pSprite;
 	std::vector<Vector2f> m_BaseCollider;
 	float m_Width;
 	float m_Height;
 	bool m_DelFlag;
 	float m_Angle;
 	float m_Speed;
-	
+	float m_Acceleration;
+	float m_MaxSpeed;
+	float m_Mass;
+
 	Vector2f m_Velocity;
 	GameObjectManager* m_pGameObjectManager;
+
+	SteeringManager* m_pSteeringManager;
+
 
 	/// Member Functions
 	// Internal Workers

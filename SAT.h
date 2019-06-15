@@ -16,7 +16,6 @@ struct PolygonCollisionResult
 };
 namespace sat
 {
-
 	PolygonCollisionResult PolygonCollision(GameObject* pGameObjectA, GameObject* pGameObjectB);
 	void ProjectPolygon(Vector2f axis, const std::vector<Vector2f>& vertexSet, float& min, float& max);
 	float IntervalDistance(float minA, float maxA, float minB, float maxB);

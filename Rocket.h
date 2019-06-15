@@ -4,7 +4,7 @@
 class Rocket : public Projectile
 {
 public:
-	Rocket(const Vector2f& pos, float width, float height, Texture* pTexture, float launchAngle, GameObject* pSender, int level);
+	Rocket(const Vector2f& pos, float width, float height, Sprite* pSprite, float launchAngle, GameObject* pSender, int level);
 	void Update (float dT) override;
 
 private:

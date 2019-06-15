@@ -15,13 +15,13 @@
 #include "Shotgun.h"
 #include "RocketLauncher.h"
 
-Player::Player(const Vector2f& pos, float width, float height, Texture* pTexture, float baseHealth)
-	: GameObject{ pos, width, height, pTexture }
+Player::Player(const Vector2f& pos, float width, float height, Sprite* pSprite, float baseHealth)
+	: GameObject{ pos, width, height, pSprite }
 	, m_BaseHealth{ baseHealth }
-	, m_BaseSpeed{ 500 }
-	, m_Acceleration{ 10000 }
 	, m_Friction{ 10 }
 {	
+	m_MaxSpeed = 500;
+	m_Acceleration = 10000;
 	m_CurrentHealth = m_BaseHealth;
 }
 
@@ -41,7 +41,7 @@ void Player::Draw() const
 	glRotatef(utils::ToDeg(GetAngle() - utils::g_Pi / 2.f), 0.f, 0.f, 1.f);
 
 	// Drawcode needing transform
-	m_pTexture->DrawC(Point2f{}, m_Width, m_Height); //Player Draw
+	m_pSprite->DrawC(Point2f{}, m_Width, m_Height, 1); //Player Draw
 
 	for (Weapon* pWeapon : m_pWeapons)
 		pWeapon->Draw();
@@ -67,6 +67,8 @@ void Player::Update(float dT)
 	//	GameObjectManager::Get()->Add(new Projectile{ this, m_Pos, GetAngle() });
 	//	break;
 	//}
+	m_pSprite->Update(dT);
+
 	for (Weapon* pWeapon : m_pWeapons)
 		pWeapon->Update(dT);
 
@@ -149,13 +151,13 @@ void Player::HandleMovement(float dT)
 		m_Speed = utils::lerp(m_Speed, 0.f, dT, m_Friction);
 	}
 
-	if (m_Speed > m_BaseSpeed)
-		m_Speed = m_BaseSpeed;
+	if (m_Speed > m_MaxSpeed)
+		m_Speed = m_MaxSpeed;
 
 
 
 	HandleCollision(dT);
-	m_Pos += (GetVelocity() * dT);
+	m_Pos += (Vector2f(m_Speed * cos(m_Angle), m_Speed * sin(m_Angle)) * dT);
 }
 
 void Player::HandleCollision(float dT)

@@ -2,8 +2,8 @@
 #include "RocketLauncher.h"
 #include "Rocket.h"
 
-RocketLauncher::RocketLauncher(float width, float height, Texture* pTexture, GameObject* pOwner, int level, const Slot& slot)
-	: Weapon{ width, height, pTexture, pOwner, level, slot, 2 /*baseFireRate*/}
+RocketLauncher::RocketLauncher(float width, float height, Sprite* pSprite, GameObject* pOwner, int level, const Slot& slot)
+	: Weapon{ width, height, pSprite, pOwner, level, slot, 2 /*baseFireRate*/}
 {
 }
 

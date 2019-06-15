@@ -5,7 +5,7 @@
 class Player : public GameObject
 {
 public:
-	Player(const Vector2f& pos, float width, float height, Texture* pTexture, float baseHealth);
+	Player(const Vector2f& pos, float width, float height, Sprite* pSprite, float baseHealth);
 	~Player() override;
 	void Draw() const override;
 	void Update(float dT) override;
@@ -15,8 +15,6 @@ public:
 	void Hit(float damage);
 private:
 	/// Data Members
-	const float m_BaseSpeed;
-	const float m_Acceleration;
 	const float m_Friction;
 	const float m_BaseHealth;
 	float m_CurrentHealth;

@@ -3,11 +3,12 @@
 #include "Vector2f.h"
 #include "TextureManager.h"
 #include "Weapon.h"
+
 class Player;
 class Enemy : public GameObject
 {
 public:
-	Enemy(const Vector2f& pos, float width, float height, Texture* pTexture, int level, float baseHealth);
+	Enemy(const Vector2f& pos, float width, float height, Sprite* pSprite, int level, float baseHealth);
 	~Enemy() override;
 	void Draw() const override;
 	void Update(float dT) override;
@@ -18,8 +19,6 @@ private:
 	
 	// Data Members
 	GameObject* m_pPlayer;
-	const float m_MaxSpeed;
-	const float m_Acceleration;
 	const float m_Friction;
 	const float m_BaseHealth;
 	float m_CurrentHealth;

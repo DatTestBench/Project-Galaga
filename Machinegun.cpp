@@ -4,8 +4,8 @@
 #include "Projectile.h"
 #include "MachineGunBullet.h"
 
-Machinegun::Machinegun(float width, float height, Texture* pTexture, GameObject* pOwner, int level, const Slot& slot)
-	: Weapon{ width, height, pTexture, pOwner, level, slot, 30 /*baseFireRate*/}
+Machinegun::Machinegun(float width, float height, Sprite* pSprite, GameObject* pOwner, int level, const Slot& slot)
+	: Weapon{ width, height, pSprite, pOwner, level, slot, 30 /*baseFireRate*/}
 {
 }
 

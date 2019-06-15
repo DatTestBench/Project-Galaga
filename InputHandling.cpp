@@ -71,7 +71,7 @@ void InputHandling::InitWindow(const Window& window)
 
 void InputHandling::UpdateRelMousePos(const Vector2f& offset)
 {
-	m_AbsMousePos = m_MousePos + offset;
+	m_RelMousePos = m_MousePos + offset;
 }
 #pragma endregion Input
 
@@ -95,9 +95,9 @@ Vector2f InputHandling::MousePos()
 	return m_MousePos;
 }
 
-Vector2f InputHandling::AbsMousePos()
+Vector2f InputHandling::RelMousePos()
 {
-	return m_AbsMousePos;
+	return m_RelMousePos;
 }
 
 Uint8 InputHandling::MouseDown()

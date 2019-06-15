@@ -4,7 +4,7 @@
 class RocketLauncher : public Weapon
 {
 public:
-	RocketLauncher(float widht, float height, Texture* pTexture, GameObject* pOwner, int level, const Slot& slot);
+	RocketLauncher(float widht, float height, Sprite* pSprite, GameObject* pOwner, int level, const Slot& slot);
 	void Update(float dT) override;
 
 private:

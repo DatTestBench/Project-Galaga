@@ -6,8 +6,8 @@
 #include "GameObjectManager.h"
 #include "Matrix2x3.h"
 
-Weapon::Weapon(float width, float height, Texture* pTexture, GameObject* pOwner, int level, /*float baseDamage, */ const Slot& slot, float baseFireRate)
-	: GameObject{ Vector2f{ 0,0 }, width, height, pTexture }
+Weapon::Weapon(float width, float height, Sprite* pSprite, GameObject* pOwner, int level, /*float baseDamage, */ const Slot& slot, float baseFireRate)
+	: GameObject{ Vector2f{ 0,0 }, width, height, pSprite }
 	, m_Slot{ slot }
 	, m_pOwner{ pOwner }
 	, m_IsShooting{m_pGameObjectManager->GetPlayer()->IsShooting() } // change to a general usecase, for all gameobjects capable of owning a weapon ToDo
@@ -67,7 +67,7 @@ float Weapon::GetAngle() const
 		break;
 
 	case Slot::middle:
-		v = Vector2f(GetAbsPos(), InputHandling::Get()->AbsMousePos());
+		v = Vector2f(GetAbsPos(), InputHandling::Get()->RelMousePos());
 		return atan2(v.y, v.x);
 		break;
 
@@ -76,7 +76,7 @@ float Weapon::GetAngle() const
 		break;
 
 	case Slot::right:
-		v = Vector2f(GetAbsPos(), InputHandling::Get()->AbsMousePos());
+		v = Vector2f(GetAbsPos(), InputHandling::Get()->RelMousePos());
 		/*if ( ( atan2(v.y, v.x) - m_pOwner->GetAngle() < utils::g_Pi / 3.f && atan2(v.y,v.x) - m_pOwner->GetAngle() > 0 ) ||
 			atan2(v.y, v.x) + m_pOwner->GetAngle() > 5 * utils::g_Pi && atan2(v.y, v.x) < 2 * utils::g_Pi)
 		{
@@ -97,7 +97,7 @@ float Weapon::GetAngle() const
 		break;
 	}
 
-	v = Vector2f(GetAbsPos(), InputHandling::Get()->AbsMousePos());
+	v = Vector2f(GetAbsPos(), InputHandling::Get()->RelMousePos());
 	return atan2(v.y, v.x);
 }
 

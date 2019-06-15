@@ -30,7 +30,7 @@ Vector2f Camera::GetOffset(const GameObject* pGameObject) const
 	return Vector2f {cameraPos};
 }
 
-
+ 
 Vector2f Camera::Track(const GameObject* pGameObject) const
 {
 	return Vector2f {pGameObject->GetPos().x - m_Width / 2.f, pGameObject->GetPos().y - m_Height / 2.f};

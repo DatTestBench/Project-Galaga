@@ -5,13 +5,15 @@
 #include "structs.h"
 #include "Game.h"
 #include "utils.h"
-
-GameObject::GameObject(const Vector2f& pos, float width, float height, Texture* pTexture)
+#include "Steering.h"
+GameObject::GameObject(const Vector2f& pos, float width, float height, Sprite* pSprite)
 	: m_Pos{ pos }
-	, m_pTexture{ pTexture }
+	//, m_pTexture{ pTexture }
+	, m_pSprite { pSprite }
 	, m_Width{ width  }
 	, m_Height { height }
 	, m_pGameObjectManager { GameObjectManager::Get() }
+	, m_pSteeringManager { new SteeringManager { this } }
 {
 	m_BaseCollider.push_back(Vector2f{ - m_Width / 2.f,  -m_Height / 2.f });
 	m_BaseCollider.push_back(Vector2f{ m_Width / 2.f, -m_Height / 2.f });
@@ -21,7 +23,7 @@ GameObject::GameObject(const Vector2f& pos, float width, float height, Texture* 
 
 GameObject::~GameObject()
 {
-
+	delete m_pSteeringManager;	
 }
 
 #pragma region Workers
@@ -80,6 +82,7 @@ bool GameObject::GetFlag() const
 	return m_DelFlag;
 }
 
+// Possibly deprecated, only used for draw methods, calculate on the fly if neccesairy
 float GameObject::GetAngle() const
 {
 	return m_Angle;
@@ -87,12 +90,24 @@ float GameObject::GetAngle() const
 
 float GameObject::GetSpeed() const
 {
-	return m_Speed;
+	//return m_Speed;
+	return m_Velocity.Length();
+}
+
+float GameObject::GetMaxSpeed() const
+{
+	return m_MaxSpeed;
 }
 
 Vector2f GameObject::GetVelocity() const
 {
-	return Vector2f(m_Speed * cos(m_Angle), m_Speed * sin(m_Angle));
+	//return Vector2f(m_Speed * cos(m_Angle), m_Speed * sin(m_Angle));
+	return m_Velocity;
+}
+
+float GameObject::GetMass() const
+{
+	return m_Mass;
 }
 
 #pragma endregion Getters
@@ -111,6 +126,22 @@ void GameObject::Delete()
 
 void GameObject::AddWeapon()
 {}
+
+void GameObject::SetVelocity(const Vector2f& vNew)
+{
+	m_Velocity = vNew;
+}
+
+void GameObject::SetAngle(float angleNew)
+{
+	m_Angle = angleNew;
+}
+
+void GameObject::SetSpeed(float speedNew)
+{
+	m_Speed = speedNew;
+}
+
 #pragma endregion Changers
 
 

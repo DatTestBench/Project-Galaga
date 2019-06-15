@@ -8,15 +8,16 @@
 #include "RocketLauncher.h"
 #include "Shotgun.h"
 #include "utils.h"
-Enemy::Enemy(const Vector2f& pos, float width, float height, Texture* pTexture, int level, float baseHealth)
-	: GameObject{ pos, width, height, pTexture }
+#include "Steering.h"
+Enemy::Enemy(const Vector2f& pos, float width, float height, Sprite* pSprite, int level, float baseHealth)
+	: GameObject{ pos, width, height, pSprite }
 	, m_pPlayer{ m_pGameObjectManager->GetPlayer() }
-	, m_MaxSpeed{ 100 }
-	, m_Acceleration{  }
 	, m_Friction{  }
-	, m_BaseHealth { baseHealth }
+	, m_BaseHealth{ baseHealth }
 
 {
+	m_MaxSpeed = 100;
+	m_Mass = 10;
 	m_CurrentHealth = m_BaseHealth;
 	RocketLauncher* pWeapon = new RocketLauncher{ 10, 10, nullptr, this, 1, Slot(m_pWeapons.size()) };
 	m_pWeapons.push_back(pWeapon);
@@ -38,26 +39,26 @@ void Enemy::Draw() const
 	glRotatef(utils::ToDeg(GetAngle() + utils::g_Pi / 2.f), 0.f, 0.f, 1.f);
 
 	// Drawcode needing transform
-	m_pTexture->DrawC(Point2f{}, m_Width, m_Height); //Enemy Draw
+	m_pSprite->DrawC(Point2f{}, m_Width, m_Height, 1); //Enemy Draw
 
 	/*for (Weapon* pWeapon : m_pWeapons)
 		pWeapon->Draw();*/
 
-	// Close Transform
+		// Close Transform
 	glPopMatrix();
 
 	//Debug Draws
 	utils::DrawPolygon(GetCollider());
 	for (Weapon* pWeapon : m_pWeapons)
 		pWeapon->Draw();
-	
+
 }
 
+#include <vector>
 void Enemy::Update(float dT)
 {
-	m_Speed = m_MaxSpeed;
 	Vector2f eToPVector(m_Pos, m_pPlayer->GetPos());
-	m_Angle = atan2(eToPVector.y, eToPVector.x);
+	//m_Angle = atan2(eToPVector.y, eToPVector.x);
 	HandleCollision(dT);
 
 	if (!IsShooting())
@@ -80,7 +81,26 @@ void Enemy::Update(float dT)
 	for (Weapon* pWeapon : m_pWeapons)
 		pWeapon->Update(dT);
 
-	m_Pos += (GetVelocity() * dT);
+	/*if (utils::DistPointPoint(m_pPlayer->GetPos(), m_Pos) < 300)
+	{
+		m_pSteeringManager->Evade(m_pPlayer);
+	}
+	else
+	{
+		m_pSteeringManager->Seek(m_pPlayer);
+	}*/
+	if (utils::DistPointPoint(m_pPlayer->GetPos(), m_Pos) < 100)
+	{
+		m_pSteeringManager->Pursuit(m_pPlayer);
+
+	}
+	else
+	{
+		m_pSteeringManager->Wander(dT);
+
+	}
+	m_pSteeringManager->Update(dT);
+	m_pSteeringManager->Reset();
 
 }
 
@@ -115,14 +135,14 @@ void Enemy::HandleCollision(float dT)
 
 	for (GameObject* pGameObject : *m_pGameObjectManager->GetGameObjects())
 	{
-		if ( (typeid (*pGameObject) == typeid(Enemy) || typeid (*pGameObject) == typeid(Player)) && pGameObject != this)
+		if ((typeid (*pGameObject) == typeid(Enemy) || typeid (*pGameObject) == typeid(Player)) && pGameObject != this)
 		{
 			result = sat::PolygonCollision(this, pGameObject);
 			if (result.Intersect)
 			{
 				// What happens when hit
 				m_Pos += result.MinimumTranslationVector;
-			} 
+			}
 		}
 
 	}

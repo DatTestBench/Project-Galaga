@@ -26,7 +26,7 @@ public:
 	SDL_Keycode KeyDown();
 	SDL_Keycode KeyUp();
 	Vector2f MousePos();
-	Vector2f AbsMousePos();
+	Vector2f RelMousePos();
 	Uint8 MouseDown();
 	Uint8 MouseUp();
 	const Uint8* KeyState();
@@ -45,7 +45,7 @@ private:
 	SDL_Keycode m_KeyDown;
 	SDL_Keycode m_KeyUp;
 	Vector2f m_MousePos;
-	Vector2f m_AbsMousePos;
+	Vector2f m_RelMousePos;
 	Uint8 m_MouseDown;
 	Uint8 m_MouseUp;
 

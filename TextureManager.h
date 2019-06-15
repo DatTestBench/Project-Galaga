@@ -1,5 +1,6 @@
 #pragma once
 #include "Texture.h"
+#include "Sprite.h"
 class TextureManager
 {
 public:
@@ -9,23 +10,29 @@ public:
 	TextureManager(TextureManager&&) = delete;
 	TextureManager& operator=(TextureManager&&) = delete;
 
-	//Singleton Functionality
+	// Singleton Functionality
 	static TextureManager* Get();
 	void Destroy();
 
-	//Getters
+	// Getters
 	Texture* GetPlayerTextp();
 	Texture* GetEnemyTextp();
+	Sprite* GetPlayerSpritep();
+	Sprite* GetEnemySpritep();
 
 private:
 	TextureManager();
 
-	///Data Members
+	/// Data Members
 	static TextureManager* m_pTextureManager;
 
-	//Textures
+	// Textures
 	Texture* m_pPlayerText;
 	Texture* m_pEnemyText;
+
+	// Sprites
+	Sprite* m_pPlayerSprite;
+	Sprite* m_pEnemySprite;
 
 
 };

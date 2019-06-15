@@ -8,18 +8,18 @@
 #include "ShotgunPellet.h"
 #include "Rocket.h"
 #include "Player.h"
-
-Projectile::Projectile(const Vector2f& pos, float width, float height, Texture* pTexture, float launchAngle, float baseSpeed, GameObject* pSender, int level, float baseDamage)
-	: GameObject{ pos, width, height, pTexture }
+#include "Steering.h"
+Projectile::Projectile(const Vector2f& pos, float width, float height, Sprite* pSprite, float launchAngle, float baseSpeed, GameObject* pSender, int level, float baseDamage)
+	: GameObject{ pos, width, height, pSprite }
 	, m_pSender{ pSender }
 	, m_BaseSpeed{ baseSpeed }
-	, m_Level { level }
-	, m_BaseDamage { baseDamage }
+	, m_Level{ level }
+	, m_BaseDamage{ baseDamage }
 
 {
 	m_Speed = m_BaseSpeed;
 	m_Angle = launchAngle;
-	m_Velocity = Vector2f{ m_Speed * cos(m_Angle), m_Speed * sin(m_Angle) };
+	//m_Velocity = Vector2f{ m_Speed * cos(m_Angle), m_Speed * sin(m_Angle) };
 }
 
 void Projectile::Update(float dT)
@@ -27,7 +27,7 @@ void Projectile::Update(float dT)
 
 	HandleCollision(dT);
 
-	m_Pos += m_Velocity * dT;
+	//m_Pos += m_Velocity * dT;
 }
 
 void Projectile::Draw() const
@@ -40,20 +40,24 @@ void Projectile::HandleCollision(float dT)
 	PolygonCollisionResult result;
 	for (GameObject* pGameObject : *m_pGameObjectManager->GetGameObjects())
 	{
-		if (pGameObject != m_pSender && pGameObject != this && typeid(*pGameObject) != typeid (MachinegunBullet) && typeid (*pGameObject) != typeid (ShotgunPellet) && typeid(*pGameObject) != typeid (Rocket))
+		//Temporary check, so the enemies can't shoot eachother
+		if (typeid(*pGameObject) != typeid(*m_pSender))
 		{
-			result = sat::PolygonCollision(this, pGameObject);
-
-			if (result.Intersect)
+			if (pGameObject != m_pSender && pGameObject != this && typeid(*pGameObject) != typeid (MachinegunBullet) && typeid (*pGameObject) != typeid (ShotgunPellet) && typeid(*pGameObject) != typeid (Rocket))
 			{
-				if (typeid(*pGameObject) == typeid(Player))
-					static_cast<Player*>(pGameObject)->Hit(m_BaseDamage);
-				else
+				result = sat::PolygonCollision(this, pGameObject);
+
+				if (result.Intersect)
 				{
-					static_cast<Enemy*>(pGameObject)->Hit(m_BaseDamage);
+					if (typeid(*pGameObject) == typeid(Player))
+						static_cast<Player*>(pGameObject)->Hit(m_BaseDamage);
+					else
+					{
+						static_cast<Enemy*>(pGameObject)->Hit(m_BaseDamage);
+					}
+					Delete();
+					return;
 				}
-				Delete();
-				return;
 			}
 		}
 	}

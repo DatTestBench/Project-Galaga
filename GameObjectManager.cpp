@@ -124,6 +124,7 @@ void GameObjectManager::HandleDeletion()
 	for (size_t idx{}; idx < m_DeleteBuffer.buffer.size(); idx++)
 	{
 		delete m_GameObjects.back();
+		m_GameObjects.back() = nullptr;
 		m_GameObjects.pop_back();
 	}
 	m_DeleteBuffer.Reset();

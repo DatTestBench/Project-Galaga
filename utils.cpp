@@ -9,6 +9,19 @@ float utils::ToDeg(float rad)
 {
 	return rad * (180 / utils::g_Pi);
 }
+
+Vector2f utils::Truncate(const Vector2f& v, float max)
+{
+	float scale{};
+	scale = max / v.Length();
+	scale = scale < 1.f ? scale : 1.f;
+	return Vector2f{ v * scale };
+}
+
+float utils::RandFloat(float min, float max)
+{
+	return ((max - min) * ((float)rand() / RAND_MAX)) + min;
+}
 #pragma endregion GeneralUseFunctions
 
 

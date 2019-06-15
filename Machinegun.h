@@ -4,7 +4,7 @@
 class Machinegun : public Weapon
 {
 public:
-	Machinegun(float width, float height, Texture* pTexture, GameObject* pOwner, int level, const Slot& slot);
+	Machinegun(float width, float height, Sprite* pSprite, GameObject* pOwner, int level, const Slot& slot);
 	void Update(float dT) override;
 
 private:

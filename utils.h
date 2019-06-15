@@ -22,6 +22,9 @@ namespace utils
 	}
 	
 	float ToDeg(float rad);
+	Vector2f Truncate(const Vector2f& v, float max);
+
+	float RandFloat(float min, float max);
 #pragma endregion GeneralUseFunctions
 	
 #pragma region OpenGLDrawFunctionality
