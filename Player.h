@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Weapon.h"
-#include "TextureManager.h"
+#include "ResourceManager.h"
 class Player : public GameObject
 {
 public:

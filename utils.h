@@ -25,6 +25,8 @@ namespace utils
 	Vector2f Truncate(const Vector2f& v, float max);
 
 	float RandFloat(float min, float max);
+
+	Vector2f PolyCenter(const std::vector<Vector2f>& polyVerts);
 #pragma endregion GeneralUseFunctions
 	
 #pragma region OpenGLDrawFunctionality

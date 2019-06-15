@@ -24,6 +24,7 @@ struct Vector2f
 	Vector2f& operator/=( float rhs);
 	Vector2f& operator+=( const Vector2f& rhs);
 	Vector2f& operator-=( const Vector2f& rhs);
+	Vector2f& operator=(const Point2f& rhs);
 	explicit operator Point2f(); 
 
 	// -------------------------

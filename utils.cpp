@@ -22,6 +22,15 @@ float utils::RandFloat(float min, float max)
 {
 	return ((max - min) * ((float)rand() / RAND_MAX)) + min;
 }
+
+Vector2f utils::PolyCenter(const std::vector<Vector2f>& polyVerts)
+{
+	Vector2f vertexSum;
+
+	for (Vector2f vertex : polyVerts)
+		vertexSum += vertex;
+	return Vector2f(vertexSum.x / polyVerts.size(), vertexSum.y / polyVerts.size());
+}
 #pragma endregion GeneralUseFunctions
 
 

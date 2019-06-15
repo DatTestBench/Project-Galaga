@@ -138,10 +138,10 @@ void Enemy::HandleCollision(float dT)
 		if ((typeid (*pGameObject) == typeid(Enemy) || typeid (*pGameObject) == typeid(Player)) && pGameObject != this)
 		{
 			result = sat::PolygonCollision(this, pGameObject);
-			if (result.Intersect)
+			if (result.intersect)
 			{
 				// What happens when hit
-				m_Pos += result.MinimumTranslationVector;
+				m_Pos += result.minimumTranslationVector;
 			}
 		}
 

@@ -47,7 +47,7 @@ void Projectile::HandleCollision(float dT)
 			{
 				result = sat::PolygonCollision(this, pGameObject);
 
-				if (result.Intersect)
+				if (result.intersect)
 				{
 					if (typeid(*pGameObject) == typeid(Player))
 						static_cast<Player*>(pGameObject)->Hit(m_BaseDamage);

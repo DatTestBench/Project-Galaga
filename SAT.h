@@ -8,15 +8,16 @@
 struct PolygonCollisionResult
 {
 	// Are the polygons going to intersect forward in time?
-	bool WillIntersect;
+	bool willIntersect;
 	// Are the polygons currently intersecting?
-	bool Intersect;
+	bool intersect;
 	// The translation to apply to the first polygon to push the polygons apart.
-	Vector2f MinimumTranslationVector;
+	Vector2f minimumTranslationVector;
 };
 namespace sat
 {
 	PolygonCollisionResult PolygonCollision(GameObject* pGameObjectA, GameObject* pGameObjectB);
+	PolygonCollisionResult PolygonCollision(GameObject* pGameObjectA, const std::vector<Vector2f>& staticPoly);
 	void ProjectPolygon(Vector2f axis, const std::vector<Vector2f>& vertexSet, float& min, float& max);
 	float IntervalDistance(float minA, float maxA, float minB, float maxB);
 	Vector2f MakeAxis(Vector2f vertexA, Vector2f vertexB);

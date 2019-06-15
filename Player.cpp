@@ -168,12 +168,11 @@ void Player::HandleCollision(float dT)
 		if (typeid (*pGameObject) == typeid(Enemy))
 		{
 			result = sat::PolygonCollision(this, pGameObject);
-			if (result.Intersect)
+			if (result.intersect)
 			{
-				m_Pos += result.MinimumTranslationVector;
+				m_Pos += result.minimumTranslationVector;
 			}
 		}
-
 	}
 }
 

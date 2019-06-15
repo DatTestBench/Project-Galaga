@@ -5,7 +5,8 @@
 #include "utils.h"
 Game::Game(const Window& window)
 	:m_Window{ window }
-	,m_Camera{window.width, window.height}
+	,m_Camera{ window.width, window.height}
+	,m_Level{  }
 {
 	Initialize();
 }
@@ -17,13 +18,15 @@ Game::~Game()
 
 void Game::Initialize()
 {
-	m_Camera.SetLevelBoundaries(Rectf{ 0,0,2000,2000 });
+	m_Camera.SetLevelBoundaries(m_Level.GetBoundaries());
 	GameObjectManager::Get();
-	TextureManager::Get();
+	ResourceManager::Get();
+
+
 
 	// adding player
 	//Texture* pPlayerText{ new Texture {"./Resources/Textures/player.png"} };
-	Player* pPlayer{ new Player { Vector2f(m_Window.width / 2.f, m_Window.height / 2.f), 50, 50, TextureManager::Get()->GetPlayerSpritep(), 9999999999999999999.f } };
+	Player* pPlayer{ new Player { Vector2f(m_Window.width / 2.f, m_Window.height / 2.f), 50, 50, ResourceManager::Get()->GetPlayerSpritep(), 9999999999999999999.f } };
 	GameObjectManager::Get()->Add(pPlayer);
 
 	// adding enemy
@@ -34,7 +37,7 @@ void Game::Initialize()
 
 void Game::Cleanup()
 {
-	TextureManager::Get()->Destroy();
+	ResourceManager::Get()->Destroy();
 	GameObjectManager::Get()->Destroy();
 	InputHandling::Get()->Destroy();
 }
@@ -44,7 +47,7 @@ void Game::Update(float elapsedSec)
 	
 	GameObjectManager::Get()->Update(elapsedSec);
 	InputHandling::Get()->UpdateRelMousePos(m_Camera.GetOffset(GameObjectManager::Get()->GetPlayer()));
-
+	m_Level.HandleCollision();
 
 	//std::cout << m_Camera.GetOffset(GameObjectManager::Get()->GetPlayer()) << std::endl;
 	//std::cout << 1 / elapsedSec << std::endl; // Debug FPS counter
@@ -67,8 +70,11 @@ void Game::Draw() const
 {
 	ClearBackground();
 	glPushMatrix();
+
+
 	m_Camera.Transform(GameObjectManager::Get()->GetPlayer());
-	utils::DrawRect(0, 0, 2000, 2000, 10); // temporary level borders
+	m_Level.Draw();
+	//utils::DrawRect(0, 0, 2000, 2000, 10); // temporary level borders
 	utils::SetColor(Color4f{ 1,0,0,1 });
 	GameObjectManager::Get()->Draw();
 	glPopMatrix();
@@ -85,7 +91,7 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
 	case SDLK_e:
 		// adding enemy
 		//Point2f pos{ float { rand() % int{ m_Window.width + 1 } },  float { rand() % int{m_Window.height + 1} } };
-		Enemy* pEnemy{ new Enemy { Vector2f( float(rand() % int(m_Window.width + 1)), float(rand() % int(m_Window.height + 1))), 50, 50, TextureManager::Get()->GetEnemySpritep(), 1, 100 } };
+		Enemy* pEnemy{ new Enemy { Vector2f( float(rand() % int(m_Window.width + 1)), float(rand() % int(m_Window.height + 1))), 50, 50, ResourceManager::Get()->GetEnemySpritep(), 1, 100 } };
 
 		
 		GameObjectManager::Get()->Add(pEnemy);

@@ -1,24 +1,31 @@
 #include "pch.h"
-#include "TextureManager.h"
+#include "ResourceManager.h"
 #include "Texture.h"
 #include "Sprite.h"
 
-TextureManager* TextureManager::m_pTextureManager = nullptr;
+ResourceManager* ResourceManager::m_pResourceManager = nullptr;
 
-TextureManager::TextureManager()
+ResourceManager::ResourceManager()
 	: m_pPlayerText{ new Texture{ "./Resources/Textures/player.png" } }
 	, m_pEnemyText{ new Texture { "./Resources/Textures/enemy.png" } }
+	, m_pLevelText{ new Texture { "./Resources/Textures/level.png" } }
 	, m_pPlayerSprite{ new Sprite { new Texture {"./Resources/Textures/player.png"}, 4, 4 ,4.f } }
 	, m_pEnemySprite{ new Sprite { new Texture { "./Resources/Textures/enemy.png"}, 1, 1, 1.f } }
+
 {
 }
 
-TextureManager::~TextureManager()
+ResourceManager::~ResourceManager()
 {
+	// Textures
 	if (m_pPlayerText != nullptr)
 		delete m_pPlayerText;
 	if (m_pEnemyText != nullptr)
 		delete m_pEnemyText;
+	if (m_pLevelText != nullptr)
+		delete m_pLevelText;
+
+	// Sprites
 	if (m_pPlayerSprite != nullptr)
 		delete m_pPlayerSprite;
 	if (m_pEnemySprite != nullptr)
@@ -26,37 +33,43 @@ TextureManager::~TextureManager()
 }
 
 #pragma region SingletonFunctionality
-TextureManager* TextureManager::Get()
+ResourceManager* ResourceManager::Get()
 {
-	if (m_pTextureManager == nullptr)
-		m_pTextureManager = new TextureManager();
-	return m_pTextureManager;
+	if (m_pResourceManager == nullptr)
+		m_pResourceManager = new ResourceManager();
+	return m_pResourceManager;
 }
 
-void TextureManager::Destroy()
+void ResourceManager::Destroy()
 {
-	delete TextureManager::Get();
+	delete ResourceManager::Get();
 }
 #pragma endregion SingletonFunctionality
 
 #pragma region Getters
-Texture* TextureManager::GetPlayerTextp()
+// Textures
+Texture* ResourceManager::GetPlayerTextp()
 {
 
 	return m_pPlayerText;
 }
 
-Texture* TextureManager::GetEnemyTextp()
+Texture* ResourceManager::GetEnemyTextp()
 {
 	return m_pEnemyText;
 }
 
-Sprite* TextureManager::GetPlayerSpritep()
+Texture* ResourceManager::GetLevelTextp()
+{
+	return m_pLevelText;
+}
+// Sprites
+Sprite* ResourceManager::GetPlayerSpritep()
 {
 	return m_pPlayerSprite;
 }
 
-Sprite* TextureManager::GetEnemySpritep()
+Sprite* ResourceManager::GetEnemySpritep()
 {
 	return m_pEnemySprite;
 }

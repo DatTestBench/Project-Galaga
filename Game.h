@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObjectManager.h"
 #include "Camera.h"
+#include "Level.h"
 class Game
 {
 public:
@@ -25,6 +26,7 @@ private:
 	// DATA MEMBERS
 	const Window m_Window;
 	Camera m_Camera;
+	Level m_Level;
 	float m_Frames;
 	float m_dT;
 	// FUNCTIONS

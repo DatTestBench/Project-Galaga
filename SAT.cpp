@@ -4,14 +4,14 @@
 #include "GameObject.h"
 #include "utils.h"
 
-/// SAT V2
+// Collision for GameObjects
 PolygonCollisionResult sat::PolygonCollision(GameObject* pGameObjectA, GameObject* pGameObjectB)
 {
 	Vector2f dVelocity{ pGameObjectA->GetVelocity() - pGameObjectB->GetVelocity() };
 
 	PolygonCollisionResult result{};
-	result.Intersect = true;
-	result.WillIntersect = true;
+	result.intersect = true;
+	result.willIntersect = true;
 
 	std::vector<Vector2f>vertexSetA{ pGameObjectA->GetCollider() };
 	std::vector<Vector2f>vertexSetB{ pGameObjectB->GetCollider() };
@@ -48,7 +48,7 @@ PolygonCollisionResult sat::PolygonCollision(GameObject* pGameObjectA, GameObjec
 
 		// Check if the polygon projections are currentlty intersecting
 		if (IntervalDistance(minA, maxA, minB, maxB) > 0)
-			result.Intersect = false;
+			result.intersect = false;
 
 		/***DEPRECATED**
 
@@ -70,16 +70,16 @@ PolygonCollisionResult sat::PolygonCollision(GameObject* pGameObjectA, GameObjec
 		// Do the same test as above for the new projection
 		
 		if (IntervalDistance(minA, maxA, minB, maxB) > 0)
-			result.WillIntersect = false;
+			result.willIntersect = false;
 
 		// If the polygons are not intersecting and won't intersect, exit the loop
-		if (!result.Intersect && !result.WillIntersect)
+		if (!result.intersect && !result.willIntersect)
 			break;
 		**DEPRECATED***/
 
 
 		// If the polygon does not intersect, exit the loop
-		if (!result.Intersect)
+		if (!result.intersect)
 			break;
 
 		// Check if the current interval distance is the minimum one. If so store
@@ -99,8 +99,82 @@ PolygonCollisionResult sat::PolygonCollision(GameObject* pGameObjectA, GameObjec
 
 	// The minimum translation vector
 	// can be used to push the polygons appart.
-	if (result.WillIntersect)
-		result.MinimumTranslationVector = translationAxis * minIntervalDistance;
+	if (result.willIntersect)
+		result.minimumTranslationVector = translationAxis * minIntervalDistance;
+
+	return result;
+}
+
+
+// Collision for GameObject to static collider
+PolygonCollisionResult sat::PolygonCollision(GameObject* pGameObjectA, const std::vector<Vector2f>& staticPoly)
+{
+	Vector2f dVelocity{ pGameObjectA->GetVelocity() };
+
+	PolygonCollisionResult result{};
+	result.intersect = true;
+	result.willIntersect = true;
+
+	std::vector<Vector2f>vertexSetA{ pGameObjectA->GetCollider() };
+	std::vector<Vector2f>vertexSetB{ staticPoly };
+	size_t vertexCountA{ vertexSetA.size() };
+	size_t vertexCountB{ vertexSetB.size() };
+	float minIntervalDistance{ std::numeric_limits<float>::infinity() };
+	Vector2f translationAxis{};
+	Vector2f vertex{};
+	Vector2f nextVertex{};
+
+	// Loop through all the vertecis of both polygons
+	for (size_t vertexIndex{ 0 }; vertexIndex < vertexCountA + vertexCountB; vertexIndex++)
+	{
+		if (vertexIndex < vertexCountA)
+		{
+			vertex = vertexSetA[vertexIndex];
+			nextVertex = vertexSetA[vertexIndex + 1 == vertexCountA ? 0 : vertexIndex + 1];
+		}
+		else
+		{
+			vertex = vertexSetB[vertexIndex - vertexCountA];
+			nextVertex = vertexSetB[vertexIndex - vertexCountA + 1 == vertexCountA ? 0 : vertexIndex - vertexCountA + 1];
+		}
+
+		// ===== 1. Find if the polygons are currently intersecting =====
+
+		// Find the axis perpendicular to the current edge (vertexpair)s
+		Vector2f axis = MakeAxis(vertex, nextVertex);
+
+		// Find the projection of the polygon on the current axis
+		float minA{ 0 }, minB{ 0 }, maxA{ 0 }, maxB{ 0 };
+		ProjectPolygon(axis, vertexSetA, minA, maxA);
+		ProjectPolygon(axis, vertexSetB, minB, maxB);
+
+		// Check if the polygon projections are currentlty intersecting
+		if (IntervalDistance(minA, maxA, minB, maxB) > 0)
+			result.intersect = false;
+
+		// If the polygon does not intersect, exit the loop
+		if (!result.intersect)
+			break;
+
+		// Check if the current interval distance is the minimum one. If so store
+		// the interval distance and the current distance.
+		// This will be used to calculate the minimum translation vector
+		float intervalDistance = abs(IntervalDistance(minA, maxA, minB, maxB));
+		if (intervalDistance < minIntervalDistance)
+		{
+			minIntervalDistance = intervalDistance;
+			translationAxis = axis;
+
+			Vector2f d{ pGameObjectA->GetPos() - utils::PolyCenter(vertexSetB) };
+			if (d.DotProduct(translationAxis) < 0)
+				translationAxis = -translationAxis;
+		}
+	}
+
+	// The minimum translation vector
+	// can be used to push the polygons appart.
+	if (result.willIntersect)
+		result.minimumTranslationVector = translationAxis * minIntervalDistance;
 
 	return result;
 }
