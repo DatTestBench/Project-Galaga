@@ -13,6 +13,8 @@ public:
 	void ToggleShoot() override;
 	void AddWeapon();
 	void Hit(float damage);
+
+	void HitLevel(const Vector2f& dMove) override;
 private:
 	/// Data Members
 	const float m_Friction;

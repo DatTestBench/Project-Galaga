@@ -15,8 +15,11 @@ Sprite::Sprite(Texture* pTexture, int nrCols, int nrRows, float framesPerSec)
 
 Sprite::~Sprite()
 {
-	delete m_pTexture;
-	m_pTexture = nullptr;
+	if (m_pTexture != nullptr)
+	{
+		delete m_pTexture;
+		m_pTexture = nullptr;
+	}
 }
 
 void Sprite::Update(float elapsedSec)

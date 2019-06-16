@@ -1,6 +1,9 @@
 #pragma once
 #include "Texture.h"
 #include "Sprite.h"
+#include "SoundEffect.h"
+#include "SoundStream.h"
+#include <map>
 class ResourceManager
 {
 public:
@@ -15,14 +18,17 @@ public:
 	void Destroy();
 
 	// Getters
-		// Textures
-	Texture* GetPlayerTextp();
-	Texture* GetEnemyTextp();
-	Texture* GetLevelTextp();
+	// Textures
+	Texture* GetTexturep(const std::string& key);
 
-		// Sprites
-	Sprite* GetPlayerSpritep();
-	Sprite* GetEnemySpritep();
+	// Sprites
+	Sprite* GetSpritep(const std::string& key);
+
+	// SoundEffect
+	SoundEffect* GetSoundEffectp(const std::string& key);
+
+	// SoundStream
+	SoundStream* GetSoundStreamp(const std::string& key);
 
 private:
 	ResourceManager();
@@ -31,14 +37,24 @@ private:
 	static ResourceManager* m_pResourceManager;
 
 	// Textures
-	Texture* m_pPlayerText;
-	Texture* m_pEnemyText;
-	Texture* m_pLevelText;
+	std::map <std::string, Texture*> m_TextureMap;
 
 	// Sprites
-	Sprite* m_pPlayerSprite;
-	Sprite* m_pEnemySprite;
+	std::map<std::string, Sprite*> m_SpriteMap;
 
+	// SoundEffect
+	std::map<std::string, SoundEffect*> m_SoundEffectMap;
+
+	// SoundStream
+	std::map<std::string, SoundStream*> m_SoundStreamMap;
+
+	/// Member Functions
+
+	//Loaders
+	void LoadTextures();
+	void LoadSprites();
+	void LoadSoundEffects();
+	void LoadSoundStream();
 
 };
 

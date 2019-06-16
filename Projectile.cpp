@@ -8,7 +8,7 @@
 #include "ShotgunPellet.h"
 #include "Rocket.h"
 #include "Player.h"
-#include "Steering.h"
+#include "SteeringManager.h"
 Projectile::Projectile(const Vector2f& pos, float width, float height, Sprite* pSprite, float launchAngle, float baseSpeed, GameObject* pSender, int level, float baseDamage)
 	: GameObject{ pos, width, height, pSprite }
 	, m_pSender{ pSender }
@@ -33,6 +33,11 @@ void Projectile::Update(float dT)
 void Projectile::Draw() const
 {
 	utils::DrawPolygon(GetCollider());
+}
+
+void Projectile::HitLevel(const Vector2f& dMove)
+{
+	Delete();
 }
 
 void Projectile::HandleCollision(float dT)
@@ -61,12 +66,4 @@ void Projectile::HandleCollision(float dT)
 			}
 		}
 	}
-
-	if (m_Pos.x > 2000 || m_Pos.x < 0 || m_Pos.y > 2000 || m_Pos.x < 0)
-	{
-		Delete();
-		return;
-	}
-
-
 }

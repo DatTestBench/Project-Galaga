@@ -6,8 +6,8 @@
 #include "SAT.h"
 #include "GameObjectManager.h"
 Level::Level()
-	: m_pBackgroundTexture{ ResourceManager::Get()->GetLevelTextp() }
-	, m_Boundaries{ 0, 0, ResourceManager::Get()->GetLevelTextp()->GetWidth(), ResourceManager::Get()->GetLevelTextp()->GetHeight() }
+	: m_pBackgroundTexture{ ResourceManager::Get()->GetTexturep("TextLevel") }
+	, m_Boundaries{ 0, 0,  ResourceManager::Get()->GetTexturep("TextLevel")->GetWidth(), ResourceManager::Get()->GetTexturep("TextLevel")->GetHeight() }
 	, m_pGameObjectManager{ GameObjectManager::Get() }
 {
 	InitializeVertices();
@@ -33,7 +33,6 @@ Rectf Level::GetBoundaries() const
 
 void Level::HandleCollision() const
 {
-	
 	PolygonCollisionResult result;
 	for (GameObject* pGameObject : *m_pGameObjectManager->GetGameObjects())
 	{
@@ -42,13 +41,14 @@ void Level::HandleCollision() const
 			result = sat::PolygonCollision(pGameObject, subCollider);
 			if (result.intersect)
 			{
-				pGameObject->ChangePos(result.minimumTranslationVector);
-				std::cout << "yeet";
+				pGameObject->HitLevel(result.minimumTranslationVector);
+				//pGameObject->ChangePos(result.minimumTranslationVector);
 			}
 		}
 	}
 }
 
+// Convert Point2f extracted from level SVG to Vector2f for collision detection
 void Level::InitializeVertices()
 {
 	std::vector<std::vector<Point2f>> vertices;

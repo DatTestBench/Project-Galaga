@@ -106,6 +106,11 @@ void Player::Hit(float damage)
 		std::cout << "Dead";
 }
 
+void Player::HitLevel(const Vector2f& dMove)
+{
+	ChangePos(dMove);
+}
+
 void Player::HandleMovement(float dT)
 {
 	const Uint8* state = InputHandling::Get()->KeyState();

@@ -15,6 +15,7 @@ public:
 	bool IsShooting() override;
 	void ToggleShoot() override;
 	void Hit(float damage);
+	void HitLevel(const Vector2f& dMove);
 private:
 	
 	// Data Members

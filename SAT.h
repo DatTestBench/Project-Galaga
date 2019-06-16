@@ -14,6 +14,7 @@ struct PolygonCollisionResult
 	// The translation to apply to the first polygon to push the polygons apart.
 	Vector2f minimumTranslationVector;
 };
+
 namespace sat
 {
 	PolygonCollisionResult PolygonCollision(GameObject* pGameObjectA, GameObject* pGameObjectB);

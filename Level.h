@@ -18,9 +18,9 @@ public:
 private:
 
 	// Data Members
+	Texture* m_pBackgroundTexture;
 	std::vector<std::vector<Vector2f>> m_Vertices;
 	Rectf m_Boundaries;
-	Texture* m_pBackgroundTexture;
 	GameObjectManager* m_pGameObjectManager;
 	// Memeber Functions
 	void InitializeVertices();

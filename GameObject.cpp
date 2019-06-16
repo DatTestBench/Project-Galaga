@@ -5,7 +5,7 @@
 #include "structs.h"
 #include "Game.h"
 #include "utils.h"
-#include "Steering.h"
+#include "SteeringManager.h"
 GameObject::GameObject(const Vector2f& pos, float width, float height, Sprite* pSprite)
 	: m_Pos{ pos }
 	//, m_pTexture{ pTexture }
@@ -14,6 +14,7 @@ GameObject::GameObject(const Vector2f& pos, float width, float height, Sprite* p
 	, m_Height { height }
 	, m_pGameObjectManager { GameObjectManager::Get() }
 	, m_pSteeringManager { new SteeringManager { this } }
+	, m_pResourceManager { ResourceManager::Get() }
 {
 	m_BaseCollider.push_back(Vector2f{ - m_Width / 2.f,  -m_Height / 2.f });
 	m_BaseCollider.push_back(Vector2f{ m_Width / 2.f, -m_Height / 2.f });
@@ -47,6 +48,8 @@ bool GameObject::IsShooting()
 	return false;
 }
 
+void GameObject::HitLevel(const Vector2f& dMove)
+{}
 #pragma endregion Workers
 
 #pragma region Getters

@@ -3,7 +3,7 @@
 #include "utils.h"
 #include "Projectile.h"
 #include "utils.h"
-#include "Steering.h"
+#include "SteeringManager.h"
 Rocket::Rocket(const Vector2f& pos, float width, float height, Sprite* pSprite, float launchAngle, GameObject* pSender, int level)
 	: Projectile{ pos, width, height, pSprite, launchAngle, 0 /*baseSpeed*/, pSender, level, 50.f /*baseDamage*/ }
 	, m_Lifespan{ 50.f }

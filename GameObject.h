@@ -5,10 +5,12 @@
 #include "InputHandling.h"
 #include "GameObjectManager.h"
 #include "Sprite.h"
-#include "Steering.h"
+#include "SteeringManager.h"
+#include "ResourceManager.h"
 
 class GameObjectManager;
 class SteeringManager;
+class ResourceManager;
 class GameObject
 {
 public:
@@ -24,7 +26,13 @@ public:
 	virtual void Draw() const = 0;
 	virtual void Update(float dT) = 0;
 	
-	
+	virtual void DoAction(float dT);
+	virtual void ToggleAction();
+
+	virtual void DoShoot(float dT);
+	virtual void ToggleShoot();
+	virtual bool IsShooting();
+	virtual void HitLevel(const Vector2f& dMove);
 	
 	// Getters
 	Vector2f GetPos() const;
@@ -47,12 +55,7 @@ public:
 	void SetAngle(float angleNew);
 	void SetSpeed(float speedNew);
 	
-	virtual void DoAction(float dT);
-	virtual void ToggleAction();
 
-	virtual void DoShoot(float dT);
-	virtual void ToggleShoot();
-	virtual bool IsShooting();
 protected:
 
 	/// Data Members
@@ -70,9 +73,10 @@ protected:
 	float m_Mass;
 
 	Vector2f m_Velocity;
-	GameObjectManager* m_pGameObjectManager;
 
+	GameObjectManager* m_pGameObjectManager;
 	SteeringManager* m_pSteeringManager;
+	ResourceManager* m_pResourceManager;
 
 
 	/// Member Functions

@@ -8,7 +8,7 @@
 #include "RocketLauncher.h"
 #include "Shotgun.h"
 #include "utils.h"
-#include "Steering.h"
+#include "SteeringManager.h"
 Enemy::Enemy(const Vector2f& pos, float width, float height, Sprite* pSprite, int level, float baseHealth)
 	: GameObject{ pos, width, height, pSprite }
 	, m_pPlayer{ m_pGameObjectManager->GetPlayer() }
@@ -127,6 +127,11 @@ void Enemy::Hit(float damage)
 		std::cout << "Enemy died" << std::endl;
 
 	}
+}
+
+void Enemy::HitLevel(const Vector2f& dMove)
+{
+	ChangePos(dMove);
 }
 
 void Enemy::HandleCollision(float dT)
