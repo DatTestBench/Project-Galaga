@@ -71,12 +71,12 @@ Texture* ResourceManager::GetTexturep(const std::string& key)
 
 	if (cit != m_TextureMap.cend())
 	{
-		std::cout << "Texture: " << key << " loaded" << std::endl;
+		//std::cout << "Texture: " << key << " loaded" << std::endl;
 		return cit->second;
 	}
 	else
 	{
-		std::cout << "Texture: " << key << " was not found" << std::endl;
+		//std::cout << "Texture: " << key << " was not found" << std::endl;
 	}
 	return nullptr;
 }
@@ -88,12 +88,12 @@ Sprite* ResourceManager::GetSpritep(const std::string& key)
 
 	if (cit != m_SpriteMap.cend())
 	{
-		std::cout << "Sprite: " << key << " loaded" << std::endl;
+		//std::cout << "Sprite: " << key << " loaded" << std::endl;
 		return cit->second;
 	}
 	else
 	{
-		std::cout << "Sprite: " << key << " was not found" << std::endl;
+		//std::cout << "Sprite: " << key << " was not found" << std::endl;
 	}
 	return nullptr;
 }
@@ -105,12 +105,12 @@ SoundEffect* ResourceManager::GetSoundEffectp(const std::string& key)
 	std::map<std::string, SoundEffect*>::const_iterator cit = m_SoundEffectMap.find(key);
 	if (cit != m_SoundEffectMap.cend())
 	{
-		std::cout << "SoundEffect: " << key << " loaded" << std::endl;
+		//std::cout << "SoundEffect: " << key << " loaded" << std::endl;
 		return cit->second;
 	}
 	else
 	{
-		std::cout << "SoundEffect: " << key << " was not found" << std::endl;
+		//std::cout << "SoundEffect: " << key << " was not found" << std::endl;
 	}
 	return nullptr;
 }
@@ -120,37 +120,52 @@ SoundEffect* ResourceManager::GetSoundEffectp(const std::string& key)
 
 #pragma endregion Getters
 
+#pragma region Players
+// SoundEffect
+void ResourceManager::PlaySoundEffect(const std::string& key, int loops, int volume)
+{
+	GetSoundEffectp(key)->SetVolume(volume);
+	GetSoundEffectp(key)->Play(loops);
+}
+
+#pragma endregion Players
+
+
+
 #pragma region Loaders
 
 void ResourceManager::LoadTextures()
 {
+	// Syntax: pair<std::string, Texture*>("key", new Texture{ "Path" })
 	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextPlayer", new Texture{ "./Resources/Textures/TexturePlayer.png" }));
 	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextEnemy", new Texture{ "./Resources/Textures/TextureEnemy.png" }));
 	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextLevel", new Texture{ "./Resources/Textures/TextureLevel.png" }));
 
 
-	std::cout << "Loaded Textures" << std::endl;
+	//std::cout << "Loaded Textures" << std::endl;
 
 }
 
 void ResourceManager::LoadSprites()
 {
-	m_SpriteMap.insert(std::make_pair<std::string, Sprite*>("SpritePlayer", new Sprite{ new Texture {"./Resources/Sprites/SpritePlayer.png"}, 4, 4 ,4.f }));
-	m_SpriteMap.insert(std::make_pair<std::string, Sprite*>("SpriteEnemy", new Sprite{ new Texture { "./Resources/Sprites/SpriteEnemy.png"}, 1, 1, 1.f }));
-
+	// Syntax: pair<std::string, Sprite*>("key", new Sprite{ new Texture{ "Path", nrCols, nrRows, nrZones, fps } })
+	m_SpriteMap.insert(std::make_pair<std::string, Sprite*>("SpritePlayer", new Sprite{ new Texture {"./Resources/Sprites/SpritePlayer.png"}, 4, 2, 2, 4.f }));
+	m_SpriteMap.insert(std::make_pair<std::string, Sprite*>("SpriteEnemy", new Sprite{ new Texture { "./Resources/Sprites/SpriteEnemy.png"}, 1, 1, 1, 1.f }));
+	m_SpriteMap.insert(std::make_pair<std::string, Sprite*>("SpriteRusher", new Sprite{ new Texture{ "./Resources/Sprites/SpriteRusher.png" }, 4,3,1,4 }));
 	
-	std::cout << "Loaded Sprites" << std::endl;
+	//std::cout << "Loaded Sprites" << std::endl;
 }
 
 void ResourceManager::LoadSoundEffects()
 {
+	// Syntax: pair<std::string, SoundEffect*>("key", new SoundEffect{ "Path" })
 	m_SoundEffectMap.insert(std::make_pair<std::string, SoundEffect*>("SERocket", new SoundEffect{ "./Resources/Sounds/SoundEffectRocket.mp3" }));
-	m_SoundEffectMap.insert(std::make_pair<std::string, SoundEffect*>("SEGun", new SoundEffect{ "./Resources/Sounds/SoundEffectGun.mp3" }));
+	m_SoundEffectMap.insert(std::make_pair<std::string, SoundEffect*>("SEBullet", new SoundEffect{ "./Resources/Sounds/SoundEffectBullet.mp3" }));
+	m_SoundEffectMap.insert(std::make_pair<std::string, SoundEffect*>("SEPellet", new SoundEffect{ "./Resources/Sounds/SoundEffectPellet.mp3" }));
 }
 
 void ResourceManager::LoadSoundStream()
 {
-
+	// Syntax: pair<std::string, SoundStream*>("key", new SoundStream{ "Path" })
 }
-
 #pragma endregion Loaders

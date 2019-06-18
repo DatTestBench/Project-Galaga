@@ -2,9 +2,10 @@
 #include "Sprite.h"
 #include "Texture.h"
 
-Sprite::Sprite(Texture* pTexture, int nrCols, int nrRows, float framesPerSec)
+Sprite::Sprite(Texture* pTexture, int nrCols, int nrRows, int nrZones, float framesPerSec)
 	: m_Cols{nrCols}
 	, m_Rows{nrRows}
+	, m_Zones{nrZones}
 	, m_FramesPerSec{framesPerSec}
 	, m_AccuSec{ 0.f }	
 	, m_ActFrame{ 0 }
@@ -36,26 +37,26 @@ void Sprite::Draw(const Point2f& pos, float offset, float scale)
 {
 	Rectf destRect{};
 	Rectf srcRect{};
-	srcRect.width = Sprite::GetFrameWidth();
-	srcRect.height = Sprite::GetFrameHeight();
+	srcRect.width = GetFrameWidth();
+	srcRect.height = GetFrameHeight();
 	destRect.left = pos.x;
 	destRect.bottom = pos.y;
 	destRect.width = srcRect.width * scale;
 	destRect.height = srcRect.height * scale;
 	srcRect.left = srcRect.width * (m_ActFrame % m_Cols); // = width * current col
-	srcRect.bottom = srcRect.height * ((m_ActFrame / m_Cols) + offset); // height * current row
+	srcRect.bottom = srcRect.height * ((m_ActFrame / m_Cols) + offset - 1); // height * current row
 	m_pTexture->Draw(destRect, srcRect);
 }
 
 void Sprite::DrawC(const Point2f& pos, float width, float height, float offset, float scale)
 {
 	Rectf srcRect{};
-	srcRect.width = Sprite::GetFrameWidth();
-	srcRect.height = Sprite::GetFrameHeight();
+	srcRect.width = GetFrameWidth();
+	srcRect.height = GetFrameHeight();
 	width *= scale;
 	height *= scale;
 	srcRect.left = srcRect.width * (m_ActFrame % m_Cols); // = width * current col
-	srcRect.bottom = srcRect.height * ((m_ActFrame / m_Cols) + offset); // height * current row
+	srcRect.bottom = srcRect.height * ((m_ActFrame / m_Cols) + offset - 1); // height * current row
 	m_pTexture->DrawC(pos, width, height, srcRect);
 }
 
@@ -66,7 +67,7 @@ float Sprite::GetFrameWidth()
 
 float Sprite::GetFrameHeight()
 {
-	return m_pTexture->GetHeight() / m_Rows;
+	return (m_pTexture->GetHeight() / m_Zones) / m_Rows;
 }
 
 void Sprite::CreateTexture(const std::string& filename)

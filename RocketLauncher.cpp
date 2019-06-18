@@ -3,7 +3,7 @@
 #include "Rocket.h"
 
 RocketLauncher::RocketLauncher(float width, float height, Sprite* pSprite, GameObject* pOwner, int level, const Slot& slot)
-	: Weapon{ width, height, pSprite, pOwner, level, slot, 2 /*baseFireRate*/}
+	: Weapon{ width, height, pSprite, pOwner, level, slot, 0.2f /*baseFireRate*/}
 {
 }
 
@@ -27,8 +27,7 @@ void RocketLauncher::DoShoot(float dT)
 	if (m_TimeSinceLastShot > 1.f / GetFireRate())
 	{
 		m_pGameObjectManager->Add(new Rocket{ GetAbsPos(), 5, 5, nullptr, GetAngle(), m_pOwner, m_Level });
-		m_pResourceManager->GetSoundEffectp("SERocket")->SetVolume(5);
-		m_pResourceManager->GetSoundEffectp("SERocket")->Play(0);
+		m_pResourceManager->PlaySoundEffect("SERocket", 0, 5);
 		m_TimeSinceLastShot = 0;
 	}
 }

@@ -7,10 +7,13 @@
 #include "Sprite.h"
 #include "SteeringManager.h"
 #include "ResourceManager.h"
-
+#include "Level.h"
+#include "Scoreboard.h"
 class GameObjectManager;
 class SteeringManager;
 class ResourceManager;
+class Level;
+class Scoreboard;
 class GameObject
 {
 public:
@@ -47,6 +50,7 @@ public:
 	Vector2f GetVelocity() const;
 	float GetMass() const;
 
+
 	// Changers
 	void ChangePos(const Vector2f& dMove);
 	void Delete();
@@ -71,18 +75,20 @@ protected:
 	float m_Acceleration;
 	float m_MaxSpeed;
 	float m_Mass;
-
+	
 	Vector2f m_Velocity;
 
 	GameObjectManager* m_pGameObjectManager;
 	SteeringManager* m_pSteeringManager;
 	ResourceManager* m_pResourceManager;
+	Level* m_pLevel;
+	Scoreboard* m_pScoreboard;
 
 
 	/// Member Functions
 	// Internal Workers
-	virtual void HandleCollision(float dT); // = 0 when fully implemented ToDo
-	virtual void HandleLogic(float dT);
+	virtual void HandleCollision(float dT); 
+	virtual void HandleLogic(float dT); // Handles enemy movement, steering, ect. All enemy actions
 
 
 

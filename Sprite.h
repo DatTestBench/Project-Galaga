@@ -5,7 +5,7 @@ class Texture;
 class Sprite
 {
 public:
-	Sprite(Texture* pTexture, int nrCols, int nrRows, float frameSec);
+	Sprite(Texture* pTexture, int nrCols, int nrRows, int nrZones, float frameSec);
 	~Sprite();
 	Sprite(const Sprite&) = delete;
 	Sprite& operator= (const Sprite&) = delete;
@@ -22,6 +22,7 @@ private:
 	Texture* m_pTexture;
 	int m_Cols;
 	int m_Rows;
+	int m_Zones; // Ammount of different zones on the spritesheet, what is drawn is defined by the offset
 	float m_FramesPerSec;
 	float m_AccuSec;
 	int m_ActFrame;

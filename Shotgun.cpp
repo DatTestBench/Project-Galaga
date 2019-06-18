@@ -5,7 +5,7 @@
 #include "utils.h"
 
 Shotgun::Shotgun(float width, float height, Sprite* pSprite, GameObject* pOwner, int level, const Slot& slot)
-	: Weapon { width, height, pSprite, pOwner, level, slot, 1.f }
+	: Weapon{ width, height, pSprite, pOwner, level, slot, 1.f }
 {
 }
 
@@ -30,6 +30,10 @@ void Shotgun::DoShoot(float dT)
 		m_pGameObjectManager->Add(new ShotgunPellet{ GetAbsPos(), 3.f, 3.f, nullptr, GetAngle() - utils::g_Pi / 6, m_pOwner, m_Level });
 		m_pGameObjectManager->Add(new ShotgunPellet{ GetAbsPos(), 3.f, 3.f, nullptr, GetAngle(), m_pOwner, m_Level });
 		m_pGameObjectManager->Add(new ShotgunPellet{ GetAbsPos(), 3.f, 3.f, nullptr, GetAngle() + utils::g_Pi / 6, m_pOwner, m_Level });
+		m_TimeSinceLastShot = 0;
+
+
+		m_pResourceManager->PlaySoundEffect("SEPellet", 0, 5);
 		m_TimeSinceLastShot = 0;
 	}
 }

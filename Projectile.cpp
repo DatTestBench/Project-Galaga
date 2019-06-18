@@ -9,6 +9,9 @@
 #include "Rocket.h"
 #include "Player.h"
 #include "SteeringManager.h"
+#include "Rocketeer.h"
+#include "Rusher.h"
+#include "Gunner.h"
 Projectile::Projectile(const Vector2f& pos, float width, float height, Sprite* pSprite, float launchAngle, float baseSpeed, GameObject* pSender, int level, float baseDamage)
 	: GameObject{ pos, width, height, pSprite }
 	, m_pSender{ pSender }
@@ -19,7 +22,7 @@ Projectile::Projectile(const Vector2f& pos, float width, float height, Sprite* p
 {
 	m_Speed = m_BaseSpeed;
 	m_Angle = launchAngle;
-	//m_Velocity = Vector2f{ m_Speed * cos(m_Angle), m_Speed * sin(m_Angle) };
+	m_Velocity = Vector2f{ m_Speed * cos(m_Angle), m_Speed * sin(m_Angle) };
 }
 
 void Projectile::Update(float dT)
@@ -27,12 +30,24 @@ void Projectile::Update(float dT)
 
 	HandleCollision(dT);
 
-	//m_Pos += m_Velocity * dT;
+	m_Pos += m_Velocity * dT;
 }
 
 void Projectile::Draw() const
 {
-	utils::DrawPolygon(GetCollider());
+	if (typeid (*this) == typeid(Rocket))
+	{
+		utils::SetColor(Color4f{ 1,0,0,1 });
+	}
+	if (typeid (*this) == typeid(ShotgunPellet))
+	{
+		utils::SetColor(Color4f{ 255.f,69.f,0,1 });
+	}
+	if (typeid (*this) == typeid(MachinegunBullet))
+	{
+		utils::SetColor(Color4f{ 1,1,0,1 });
+	}
+	utils::FillPolygon(GetCollider());
 }
 
 void Projectile::HitLevel(const Vector2f& dMove)
@@ -45,23 +60,31 @@ void Projectile::HandleCollision(float dT)
 	PolygonCollisionResult result;
 	for (GameObject* pGameObject : *m_pGameObjectManager->GetGameObjects())
 	{
-		//Temporary check, so the enemies can't shoot eachother
-		if (typeid(*pGameObject) != typeid(*m_pSender))
+		if (m_pSender != nullptr && m_pSender->GetFlag() == false && pGameObject != nullptr && pGameObject->GetFlag() == false)
 		{
-			if (pGameObject != m_pSender && pGameObject != this && typeid(*pGameObject) != typeid (MachinegunBullet) && typeid (*pGameObject) != typeid (ShotgunPellet) && typeid(*pGameObject) != typeid (Rocket))
+			if (typeid(*m_pSender) == typeid(Player))
 			{
-				result = sat::PolygonCollision(this, pGameObject);
-
-				if (result.intersect)
+				if (typeid(*pGameObject) == typeid (Rocketeer) || typeid(*pGameObject) == typeid (Rusher) || typeid(*pGameObject) == typeid (Gunner))
 				{
-					if (typeid(*pGameObject) == typeid(Player))
-						static_cast<Player*>(pGameObject)->Hit(m_BaseDamage);
-					else
+					result = sat::PolygonCollision(this, pGameObject);
+					if (result.intersect)
 					{
 						static_cast<Enemy*>(pGameObject)->Hit(m_BaseDamage);
+						Delete();
 					}
-					Delete();
-					return;
+				}
+			}
+			else if (typeid(*m_pSender) == typeid (Rocketeer) || typeid(*m_pSender) == typeid (Rusher) || typeid(*m_pSender) == typeid (Gunner) || typeid(*m_pSender) == typeid (Enemy))
+			{
+				if (typeid(*pGameObject) == typeid(Player))
+				{
+					result = sat::PolygonCollision(this, pGameObject);
+					if (result.intersect)
+					{
+						static_cast<Player*>(pGameObject)->Hit(m_BaseDamage);
+
+						Delete();
+					}
 				}
 			}
 		}

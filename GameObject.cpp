@@ -8,13 +8,14 @@
 #include "SteeringManager.h"
 GameObject::GameObject(const Vector2f& pos, float width, float height, Sprite* pSprite)
 	: m_Pos{ pos }
-	//, m_pTexture{ pTexture }
 	, m_pSprite { pSprite }
 	, m_Width{ width  }
-	, m_Height { height }
+	, m_Height{ height }
 	, m_pGameObjectManager { GameObjectManager::Get() }
 	, m_pSteeringManager { new SteeringManager { this } }
 	, m_pResourceManager { ResourceManager::Get() }
+	, m_pLevel{ GameObjectManager::Get()->GetLevel() }
+	, m_pScoreboard{ Scoreboard::Get() }
 {
 	m_BaseCollider.push_back(Vector2f{ - m_Width / 2.f,  -m_Height / 2.f });
 	m_BaseCollider.push_back(Vector2f{ m_Width / 2.f, -m_Height / 2.f });
@@ -150,7 +151,7 @@ void GameObject::SetSpeed(float speedNew)
 
 #pragma region InternalWorkers
 
-void GameObject::HandleCollision(float dT) // Temporary declaration, remove when fully implemented ToDo
+void GameObject::HandleCollision(float dT)
 {}
 
 void GameObject::HandleLogic(float dT)

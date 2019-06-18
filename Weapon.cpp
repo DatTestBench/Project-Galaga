@@ -5,12 +5,14 @@
 #include "Projectile.h"
 #include "GameObjectManager.h"
 #include "Matrix2x3.h"
-
+#include "Rocketlauncher.h"
+#include "Machinegun.h"
+#include "Shotgun.h"
 Weapon::Weapon(float width, float height, Sprite* pSprite, GameObject* pOwner, int level, /*float baseDamage, */ const Slot& slot, float baseFireRate)
 	: GameObject{ Vector2f{ 0,0 }, width, height, pSprite }
 	, m_Slot{ slot }
 	, m_pOwner{ pOwner }
-	, m_IsShooting{m_pGameObjectManager->GetPlayer()->IsShooting() } // change to a general usecase, for all gameobjects capable of owning a weapon ToDo
+	, m_IsShooting{pOwner->IsShooting() } // change to a general usecase, for all gameobjects capable of owning a weapon 
 	, m_BaseFireRate{ baseFireRate }
 	, m_Level{ 1 }
 {
@@ -37,7 +39,19 @@ Weapon::Weapon(float width, float height, Sprite* pSprite, GameObject* pOwner, i
 void Weapon::Draw() const
 {
 	//m_pTexture->DrawC(Point2f{}, m_Width, m_Height);
-	utils::DrawPolygon(GetCollider());
+	if (typeid (*this) == typeid(RocketLauncher))
+	{
+		utils::SetColor(Color4f{ 1,0,0,1 });
+	}
+	if (typeid (*this) == typeid(Shotgun))
+	{
+		utils::SetColor(Color4f{ 255.f,69.f,0,1 });
+	}
+	if (typeid (*this) == typeid(Machinegun))
+	{
+		utils::SetColor(Color4f{ 1,1,0,1 });
+	}
+	utils::FillPolygon(GetCollider());
 	
 }
 
@@ -129,5 +143,5 @@ void Weapon::DoShoot(float dT)
 
 float Weapon::GetFireRate()
 {
-	return m_BaseFireRate * m_Level; // ToDo: Adding powerup effects into the calculation;
+	return m_BaseFireRate * m_Level;
 }

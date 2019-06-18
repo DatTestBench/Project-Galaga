@@ -31,6 +31,18 @@ Vector2f utils::PolyCenter(const std::vector<Vector2f>& polyVerts)
 		vertexSum += vertex;
 	return Vector2f(vertexSum.x / polyVerts.size(), vertexSum.y / polyVerts.size());
 }
+
+Point2f utils::PolyCenter(const std::vector<Point2f>& polyVerts)
+{
+	Point2f vertexSum;
+
+	for (Point2f vertex : polyVerts)
+	{
+		vertexSum.x += vertex.x;
+		vertexSum.y += vertex.y;
+	}
+	return Point2f(vertexSum.x / polyVerts.size(), vertexSum.y / polyVerts.size());
+}
 #pragma endregion GeneralUseFunctions
 
 
@@ -271,7 +283,23 @@ void utils::FillPolygon(const std::vector<Point2f>& vertices)
 {
 	FillPolygon(vertices.data(), vertices.size());
 }
+
+void utils::FillPolygon(const std::vector<Vector2f>& vertices)
+{
+	FillPolygon(vertices.data(), vertices.size());
+}
 void utils::FillPolygon(const Point2f *pVertices, size_t nrVertices)
+{
+	glBegin(GL_POLYGON);
+	{
+		for (size_t idx{ 0 }; idx < nrVertices; ++idx)
+		{
+			glVertex2f(pVertices[idx].x, pVertices[idx].y);
+		}
+	}
+	glEnd();
+}
+void utils::FillPolygon(const Vector2f *pVertices, size_t nrVertices)
 {
 	glBegin(GL_POLYGON);
 	{

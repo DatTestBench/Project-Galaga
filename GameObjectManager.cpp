@@ -61,6 +61,11 @@ void GameObjectManager::Delete(GameObject* pGameObject)
 
 	//std::cout << "added to deletebuffer ";
 }
+
+void GameObjectManager::SetLevel(Level& level)
+{
+	m_pLevel = &level;
+}
 #pragma endregion ExternalItemManipulation
 
 #pragma region Workers
@@ -96,6 +101,10 @@ GameObject* GameObjectManager::GetPlayer() const
 	return m_pPlayer;
 }
 
+Level* GameObjectManager::GetLevel() const
+{
+	return m_pLevel;
+}
 size_t GameObjectManager::Size() const
 {
 	return size_t(m_GameObjects.size());

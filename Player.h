@@ -15,12 +15,15 @@ public:
 	void Hit(float damage);
 
 	void HitLevel(const Vector2f& dMove) override;
+	float GetBaseHealth() const;
+	float GetHealth() const;
+	float GetLives() const;
 private:
 	/// Data Members
 	const float m_Friction;
 	const float m_BaseHealth;
 	float m_CurrentHealth;
-
+	float m_Lives;
 	std::vector<Weapon*> m_pWeapons;
 	bool m_IsShooting;
 		

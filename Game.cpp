@@ -2,11 +2,17 @@
 #include "Game.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Rusher.h"
+#include "Rocketeer.h"
+#include "Gunner.h"
 #include "utils.h"
 Game::Game(const Window& window)
 	:m_Window{ window }
-	,m_Camera{ window.width, window.height}
-	,m_Level{  }
+	, m_Camera{ window.width, window.height }
+	, m_Level{  }
+	, m_Hud{  }
+	, m_EndTexture{ "YOU DIED ", "./Resources/Fonts/Font.otf", 80, Color4f{ 1,0,0,1 } }
+	, m_GameStart{ false }
 {
 	Initialize();
 }
@@ -22,17 +28,22 @@ void Game::Initialize()
 	GameObjectManager::Get();
 	ResourceManager::Get();
 
+	GameObjectManager::Get()->SetLevel(m_Level);
 
 
 	// adding player
-	//Texture* pPlayerText{ new Texture {"./Resources/Textures/player.png"} };
-	Player* pPlayer{ new Player { Vector2f(m_Window.width / 2.f, m_Window.height / 2.f), 50, 50, ResourceManager::Get()->GetSpritep("SpritePlayer"), 9999999999999999999.f } };
+	Player* pPlayer{ new Player { Vector2f(787.5, 787.5), 50, 50, ResourceManager::Get()->GetSpritep("SpritePlayer"), 200.f } };
 	GameObjectManager::Get()->Add(pPlayer);
 
+
+	m_Hud.SetLock(pPlayer);
+
 	// adding enemy
-	//Texture* pEnemyText{ new Texture{"./Resources/Textures/enemy.png"} };
-	//Enemy* pEnemy{ new Enemy {GameObjectManager::Get()->GetPlayer(), Point2f{rand()% int(m_Window.width) + 1, rand()% int(m_Window.height)}} };
-	//GameObjectManager::Get()->Add(pEnemy);
+
+	m_SpawnLocations.push_back(Vector2f{ m_Window.width / 3.f , m_Window.height / 3.f });
+	m_SpawnLocations.push_back(Vector2f{ 2 * m_Window.width / 3.f , m_Window.height / 3.f });
+	m_SpawnLocations.push_back(Vector2f{ 2 * m_Window.width / 3.f , 2 * m_Window.height / 3.f });
+	m_SpawnLocations.push_back(Vector2f{ m_Window.width / 3.f , 2 * m_Window.height / 3.f });
 }
 
 void Game::Cleanup()
@@ -40,63 +51,50 @@ void Game::Cleanup()
 	ResourceManager::Get()->Destroy();
 	GameObjectManager::Get()->Destroy();
 	InputHandling::Get()->Destroy();
+	Scoreboard::Get()->Destroy();
 }
 
 void Game::Update(float elapsedSec)
 {
-	
-	GameObjectManager::Get()->Update(elapsedSec);
-	InputHandling::Get()->UpdateRelMousePos(m_Camera.GetOffset(GameObjectManager::Get()->GetPlayer()));
-	m_Level.HandleCollision();
+	if (static_cast<Player*>(GameObjectManager::Get()->GetPlayer())->GetLives() > 0)
+	{
+		GameObjectManager::Get()->Update(elapsedSec);
+		InputHandling::Get()->UpdateRelMousePos(m_Camera.GetOffset(GameObjectManager::Get()->GetPlayer()));
+		m_Level.HandleCollision();
+		SpawnEnemies(elapsedSec);
 
-	//std::cout << m_Camera.GetOffset(GameObjectManager::Get()->GetPlayer()) << std::endl;
-	//std::cout << 1 / elapsedSec << std::endl; // Debug FPS counter
 
-	// Check keyboard state
-	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
-	//if ( pStates[SDL_SCANCODE_RIGHT] )
-	//{
-	//	std::cout << "Right arrow key is down\n";
-	//}
-	//if ( pStates[SDL_SCANCODE_LEFT] && pStates[SDL_SCANCODE_UP])
-	//{
-	//	std::cout << "Left and up arrow keys are down\n";
-	//}
-	
-	//std::cout << elapsedSec << std::endl;
+	}
 }
 
 void Game::Draw() const
 {
 	ClearBackground();
-	glPushMatrix();
+
+	if (static_cast<Player*>(GameObjectManager::Get()->GetPlayer())->GetLives() > 0)
+	{
+		glPushMatrix();
+		m_Camera.Transform(GameObjectManager::Get()->GetPlayer());
+		m_Level.Draw();
+		utils::SetColor(Color4f{ 1,0,0,1 });
+		GameObjectManager::Get()->Draw();
+		glPopMatrix();
+
+		m_Hud.Draw();
+	}
+	else
+	{
+		utils::SetColor(Color4f{ 128.f, 128.f, 128, 1 });
+		utils::DrawRect(0, 0, m_Window.width, m_Window.height);
+		m_EndTexture.DrawC(Point2f{ m_Window.width / 2.f, m_Window.height / 2.f });
 
 
-	m_Camera.Transform(GameObjectManager::Get()->GetPlayer());
-	m_Level.Draw();
-	//utils::DrawRect(0, 0, 2000, 2000, 10); // temporary level borders
-	utils::SetColor(Color4f{ 1,0,0,1 });
-	GameObjectManager::Get()->Draw();
-	glPopMatrix();
+	}
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
 {
-	switch ( e.keysym.sym )
-	{
-	case SDLK_q:
-		GameObjectManager::Get()->GetPlayer()->AddWeapon();
-		std::cout << "Weapon added" << std::endl;
-		break;
-	case SDLK_e:
-		// adding enemy
-		//Point2f pos{ float { rand() % int{ m_Window.width + 1 } },  float { rand() % int{m_Window.height + 1} } };
-		Enemy* pEnemy{ new Enemy { Vector2f( float(rand() % int(m_Window.width + 1)), float(rand() % int(m_Window.height + 1))), 50, 50, ResourceManager::Get()->GetSpritep("SpriteEnemy"), 1, 100 } };
 
-		
-		GameObjectManager::Get()->Add(pEnemy);
-	}
-	//std::cout << "KEYDOWN event: " << e.keysym.sym << std::endl;
 }
 
 void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
@@ -124,7 +122,7 @@ void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
 
 void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 {
-	switch(e.button)
+	switch (e.button)
 	{
 	case SDL_BUTTON_LEFT:
 		if (!GameObjectManager::Get()->GetPlayer()->IsShooting())
@@ -178,4 +176,75 @@ void Game::ClearBackground() const
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Game::SpawnEnemies(float dT)
+{
+	m_dT += dT;
+
+	if (!m_GameStart)
+	{
+		m_GameStart = true;
+		Scoreboard::Get()->AddWave();
+		std::cout << "spawn";
+		for (int idx{}; idx < 3; idx++)
+		{
+			int spawnSelector{ rand() % 3 };
+			int type{ rand() % 3 };
+			std::cout << type << ' ' << spawnSelector << std::endl;
+			switch (type)
+			{
+			case 0:
+				GameObjectManager::Get()->Add(new Gunner{ m_SpawnLocations[spawnSelector], 50, 50, ResourceManager::Get()->GetSpritep("SpriteEnemy"), 1, 100 });
+				std::cout << "spawn gunner" << std::endl;
+				break;
+			case 1:
+				GameObjectManager::Get()->Add(new Rusher{ m_SpawnLocations[spawnSelector], 50, 50, ResourceManager::Get()->GetSpritep("SpriteRusher"), 1, 100 });
+				std::cout << "spawn rusher" << std::endl;
+				break;
+			case 2:
+				GameObjectManager::Get()->Add(new Rocketeer{ m_SpawnLocations[spawnSelector], 50, 50, ResourceManager::Get()->GetSpritep("SpriteEnemy"), 1, 100 });
+				std::cout << "spawn rocketeer" << std::endl;
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+
+	if (m_dT > 30.f)
+	{
+		Scoreboard::Get()->AddWave();
+		std::cout << "spawn";
+		for (int idx{}; idx < rand() % Scoreboard::Get()->GetWave() + 2; idx++)
+		{
+			int spawnSelector{ rand() % 3 };
+			int type{ rand() % 3 };
+			std::cout << type << ' ' << spawnSelector << std::endl;
+			switch (type)
+			{
+			case 0:
+				GameObjectManager::Get()->Add(new Gunner{ m_SpawnLocations[spawnSelector], 50, 50, ResourceManager::Get()->GetSpritep("SpriteEnemy"), 1, 100 });
+				std::cout << "spawn gunner" << std::endl;
+				break;
+			case 1:
+				GameObjectManager::Get()->Add(new Rusher{ m_SpawnLocations[spawnSelector], 50, 50, ResourceManager::Get()->GetSpritep("SpriteRusher"), 1, 100 });
+				std::cout << "spawn rusher" << std::endl;
+				break;
+			case 2:
+				GameObjectManager::Get()->Add(new Rocketeer{ m_SpawnLocations[spawnSelector], 50, 50, ResourceManager::Get()->GetSpritep("SpriteEnemy"), 1, 100 });
+				std::cout << "spawn rocketeer" << std::endl;
+				break;
+			default:
+				break;
+			}
+
+		}
+
+
+
+
+		m_dT = 0;
+	}
 }

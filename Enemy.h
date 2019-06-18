@@ -11,13 +11,13 @@ public:
 	Enemy(const Vector2f& pos, float width, float height, Sprite* pSprite, int level, float baseHealth);
 	~Enemy() override;
 	void Draw() const override;
-	void Update(float dT) override;
+	virtual void Update(float dT) override;
 	bool IsShooting() override;
 	void ToggleShoot() override;
 	void Hit(float damage);
 	void HitLevel(const Vector2f& dMove);
-private:
-	
+
+protected:
 	// Data Members
 	GameObject* m_pPlayer;
 	const float m_Friction;
@@ -27,7 +27,11 @@ private:
 	std::vector<Weapon*> m_pWeapons;
 	bool m_IsShooting;
 	//Member Functions 
-	void HandleCollision(float dT) override;
+	virtual void HandleCollision(float dT) override;
+	virtual void HandleLogic(float dT) override;
+private:
+	
+	
 
 
 };

@@ -22,8 +22,8 @@ void Level::Draw() const
 {
 	m_pBackgroundTexture->Draw(Rectf{ 0.f, 0.f, m_pBackgroundTexture->GetWidth(), m_pBackgroundTexture->GetHeight() });
 
-	for (std::vector<Vector2f> subCollider : m_Vertices)
-		utils::DrawPolygon(subCollider);
+	/*for (std::vector<Vector2f> subCollider : m_Vertices)
+		utils::DrawPolygon(subCollider);*/
 }
 
 Rectf Level::GetBoundaries() const
@@ -48,15 +48,23 @@ void Level::HandleCollision() const
 	}
 }
 
+
+const std::vector<std::vector<Point2f>>& Level::GetPoint2fVertices() const
+{
+	return m_Point2fVertices;
+}
+const std::vector<std::vector<Vector2f>>& Level::GetVertices() const
+{
+	return m_Vertices;
+}
+
 // Convert Point2f extracted from level SVG to Vector2f for collision detection
 void Level::InitializeVertices()
 {
-	std::vector<std::vector<Point2f>> vertices;
-
 	std::string filePath{ "./Resources/level.svg" };
-	SVGParser::GetVerticesFromSvgFile(filePath, vertices);
+	SVGParser::GetVerticesFromSvgFile(filePath, m_Point2fVertices);
 
-	for (std::vector<Point2f> subCollider : vertices)
+	for (std::vector<Point2f> subCollider : m_Point2fVertices)
 	{
 		std::vector<Vector2f> tempVector;
 		for (Point2f point : subCollider)

@@ -30,6 +30,10 @@ public:
 	// SoundStream
 	SoundStream* GetSoundStreamp(const std::string& key);
 
+	// Players
+	// SoundEffect
+	void PlaySoundEffect(const std::string& key, int loops, int volume);
+
 private:
 	ResourceManager();
 
@@ -55,6 +59,5 @@ private:
 	void LoadSprites();
 	void LoadSoundEffects();
 	void LoadSoundStream();
-
 };
 
