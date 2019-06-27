@@ -78,13 +78,13 @@ void Enemy::ToggleShoot()
 
 void Enemy::Hit(float damage)
 {
-	std::cout << "Enemy hit" << std::endl;
+	//std::cout << "Enemy hit" << std::endl;
 	m_CurrentHealth -= damage;
 	if (m_CurrentHealth <= 0)
 	{
 		Delete();
 		m_pScoreboard->AddScore(1);
-		std::cout << "Enemy died" << std::endl;
+		//std::cout << "Enemy died" << std::endl;
 
 	}
 }

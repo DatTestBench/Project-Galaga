@@ -217,7 +217,7 @@ void Game::SpawnEnemies(float dT)
 	{
 		Scoreboard::Get()->AddWave();
 		std::cout << "spawn";
-		for (int idx{}; idx < rand() % Scoreboard::Get()->GetWave() + 2; idx++)
+		for (int idx{}; idx < 4; idx++)
 		{
 			int spawnSelector{ rand() % 3 };
 			int type{ rand() % 3 };

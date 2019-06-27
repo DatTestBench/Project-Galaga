@@ -118,10 +118,10 @@ float Weapon::GetAngle() const
 void Weapon::ToggleShoot()
 {
 	m_IsShooting = !m_IsShooting;
-	if (m_IsShooting)
+	/*if (m_IsShooting)
 		std::cout << " Is now shooting " << std::endl;
 	else
-		std::cout << " Is now not shooting " << std::endl;
+		std::cout << " Is now not shooting " << std::endl;*/
 }
 
 Vector2f Weapon::GetAbsPos() const

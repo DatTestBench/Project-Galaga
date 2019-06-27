@@ -26,7 +26,7 @@ void Rusher::HandleLogic(float dT)
 		if (utils::DistPointPoint(m_pPlayer->GetPos(), m_Pos) < 150)
 		{
 			ToggleShoot();
-			std::cout << "Shoot" << std::endl;
+			//std::cout << "Shoot" << std::endl;
 		}
 	}
 	else
@@ -34,7 +34,7 @@ void Rusher::HandleLogic(float dT)
 		if (utils::DistPointPoint(m_pPlayer->GetPos(), m_Pos) > 150)
 		{
 			ToggleShoot();
-			std::cout << "No Shoot" << std::endl;
+			//std::cout << "No Shoot" << std::endl;
 		}
 	}
 

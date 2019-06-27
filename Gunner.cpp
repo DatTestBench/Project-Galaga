@@ -29,7 +29,7 @@ void Gunner::HandleLogic(float dT)
 		{
 			
 				ToggleShoot();
-				std::cout << "Shoot" << std::endl;
+				//std::cout << "Shoot" << std::endl;
 		}
 	}
 	else
@@ -37,7 +37,7 @@ void Gunner::HandleLogic(float dT)
 		if ( utils::DistPointPoint(m_pPlayer->GetPos(), m_Pos) > 500)
 		{
 			ToggleShoot();
-			std::cout << "No Shoot" << std::endl;
+			//std::cout << "No Shoot" << std::endl;
 		}
 	}
 	for (Weapon* pWeapon : m_pWeapons)
