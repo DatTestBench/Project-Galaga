@@ -28,7 +28,20 @@ public:
 	void Draw() const;
 
 	// Getters
+
 	std::vector<GameObject*>* GetGameObjects();
+
+	std::vector<GameObject*> GetEnemies();
+	std::vector<GameObject*> GetRushers();
+	std::vector<GameObject*> GetGunners();
+	std::vector<GameObject*> GetRocketeers();
+
+	std::vector<GameObject*> GetProjectiles();
+	std::vector<GameObject*> GetPlayerProjectiles();
+	std::vector<GameObject*> GetEnemyProjectiles();
+	std::vector<GameObject*> GetRockets();
+	std::vector<GameObject*> GetBullets();
+	std::vector<GameObject*> GetPellets();
 	GameObject* GetPlayer() const;
 	Level* GetLevel() const;
 	size_t Size() const;

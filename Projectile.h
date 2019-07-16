@@ -9,6 +9,7 @@ public:
 	void Draw() const override;
 	void Update(float dT) override;
 	void HitLevel(const Vector2f& dMove) override; 
+	GameObject* GetSender();
 
 	static const float m_Lifespan;
 protected:
@@ -18,6 +19,7 @@ protected:
 	float m_BaseSpeed;
 	int m_Level;
 	float m_BaseDamage;
+
 private:
 	/// Data Members
 

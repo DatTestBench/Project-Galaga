@@ -39,7 +39,9 @@ void Rusher::HandleLogic(float dT)
 	}
 
 	for (Weapon* pWeapon : m_pWeapons)
+	{
 		pWeapon->Update(dT);
+	}
 
 
 	m_pSteeringManager->Pursuit(m_pPlayer);

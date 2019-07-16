@@ -32,7 +32,7 @@ void Game::Initialize()
 
 
 	// adding player
-	Player* pPlayer{ new Player { Vector2f(787.5, 787.5), 50, 50, ResourceManager::Get()->GetSpritep("SpritePlayer"), 200.f } };
+	Player* pPlayer{ new Player { Vector2f(787.5, 787.5), 50, 50, ResourceManager::Get()->GetSpritep("SpritePlayer"), 99999.f } };
 	GameObjectManager::Get()->Add(pPlayer);
 
 
@@ -152,7 +152,9 @@ void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
 	{
 	case SDL_BUTTON_LEFT:
 		if (GameObjectManager::Get()->GetPlayer()->IsShooting())
+		{
 			GameObjectManager::Get()->GetPlayer()->ToggleShoot();
+		}
 		break;
 	default:
 		break;

@@ -11,7 +11,7 @@
 #include "SAT.h"
 #include "Matrix2x3.h"
 #include "Enemy.h"
-#include "MachineGun.h"
+#include "Machinegun.h"
 #include "Shotgun.h"
 #include "RocketLauncher.h"
 
@@ -73,9 +73,13 @@ void Player::Update(float dT)
 	m_pSprite->Update(dT);
 
 	for (Weapon* pWeapon : m_pWeapons)
+	{
 		pWeapon->Update(dT);
+	}
+
 
 	HandleMovement(dT);
+	HandleCollision(dT);
 }
 
 bool Player::IsShooting()
@@ -207,23 +211,21 @@ void Player::HandleMovement(float dT)
 
 
 
-	HandleCollision(dT);
+	
 	m_Pos += (Vector2f(m_Speed * cos(m_Angle), m_Speed * sin(m_Angle)) * dT);
 }
 
 void Player::HandleCollision(float dT)
 {
 	PolygonCollisionResult result;
-	for (GameObject* pGameObject : *m_pGameObjectManager->GetGameObjects())
+	for (GameObject* pGameObject : m_pGameObjectManager->GetEnemies())
 	{
-		if (typeid (*pGameObject) == typeid(Enemy))
-		{
 			result = sat::PolygonCollision(this, pGameObject);
 			if (result.intersect)
 			{
-				m_Pos += result.minimumTranslationVector;
+				//m_Pos += result.minimumTranslationVector;
+				std::cout << "Hit Enemy" << std::endl;
 			}
-		}
 	}
 }
 

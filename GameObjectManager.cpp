@@ -2,6 +2,14 @@
 #include "GameObjectManager.h"
 #include "GameObject.h"
 #include "Player.h"
+#include "Enemy.h"
+#include "Rusher.h"
+#include "Gunner.h"
+#include "Rocketeer.h"
+#include "Projectile.h"
+#include "ShotgunPellet.h"
+#include "MachinegunBullet.h"
+#include "Rocket.h"
 #include <iostream>
 #include <algorithm>
 #include <iterator>
@@ -94,6 +102,134 @@ void GameObjectManager::Draw() const
 std::vector<GameObject*>* GameObjectManager::GetGameObjects()
 {
 	return  &m_GameObjects;
+}
+
+std::vector<GameObject*> GameObjectManager::GetEnemies()
+{
+	std::vector<GameObject*> enemies;
+	std::for_each(m_GameObjects.begin(),m_GameObjects.end(), [&enemies](GameObject* a) mutable
+	{
+		if (typeid (*a) == typeid (Rusher) || typeid (*a) == typeid (Gunner) || typeid (*a) == typeid (Rocketeer))
+		{
+			enemies.push_back(a);
+		}
+	});
+	return enemies;
+}
+std::vector<GameObject*> GameObjectManager::GetRushers()
+{
+	std::vector<GameObject*> rushers;
+	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&rushers](GameObject* a) mutable
+	{
+		if (typeid (*a) == typeid (Rusher))
+		{
+			rushers.push_back(a);
+		}
+	});
+	return rushers;
+}
+std::vector<GameObject*> GameObjectManager::GetGunners()
+{
+	std::vector<GameObject*> gunners;
+	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&gunners](GameObject* a) mutable
+	{
+		if (typeid (*a) == typeid (Gunner))
+		{
+			gunners.push_back(a);
+		}
+	});
+	return gunners;
+}
+std::vector<GameObject*> GameObjectManager::GetRocketeers()
+{
+	std::vector<GameObject*> rocketeers;
+	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&rocketeers](GameObject* a) mutable
+	{
+		if (typeid (*a) == typeid (Rocketeer))
+		{
+			rocketeers.push_back(a);
+		}
+	});
+	return rocketeers;
+}
+
+std::vector<GameObject*> GameObjectManager::GetProjectiles()
+{
+	std::vector<GameObject*> projectiles;
+	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&projectiles](GameObject* a) mutable
+	{
+		if (typeid (*a) == typeid (MachinegunBullet) || typeid (*a) == typeid (ShotgunPellet) || typeid (*a) == typeid (Rocket))
+		{
+				projectiles.push_back(a);
+		}
+	});
+	return projectiles;
+}
+std::vector<GameObject*> GameObjectManager::GetPlayerProjectiles()
+{
+	std::vector<GameObject*> playerProjectiles;
+	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&playerProjectiles](GameObject* a) mutable
+	{
+		if (typeid (*a) == typeid (MachinegunBullet) || typeid (*a) == typeid (ShotgunPellet) || typeid (*a) == typeid (Rocket))
+		{
+			if (typeid(*static_cast<Projectile*>(a)->GetSender()) == typeid(Player))
+			{
+				playerProjectiles.push_back(a);
+			}
+		}
+	});
+	return playerProjectiles;
+}
+std::vector<GameObject*> GameObjectManager::GetEnemyProjectiles()
+{
+	std::vector<GameObject*> enemyProjectiles;
+	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&enemyProjectiles](GameObject* a) mutable
+	{
+		if (typeid (*a) == typeid (MachinegunBullet) || typeid (*a) == typeid (ShotgunPellet) || typeid (*a) == typeid (Rocket))
+		{
+			if (typeid(*static_cast<Projectile*>(a)->GetSender()) != typeid(Player))
+			{
+				enemyProjectiles.push_back(a);
+			}
+		}
+	});
+	return enemyProjectiles;
+}
+std::vector<GameObject*> GameObjectManager::GetRockets()
+{
+	std::vector<GameObject*> rockets;
+	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&rockets](GameObject* a) mutable
+	{
+		if (typeid (*a) == typeid (Rocket))
+		{
+			rockets.push_back(a);
+		}
+	});
+	return rockets;
+}
+std::vector<GameObject*> GameObjectManager::GetBullets()
+{
+	std::vector<GameObject*> bullets;
+	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&bullets](GameObject* a) mutable
+	{
+		if (typeid (*a) == typeid (MachinegunBullet))
+		{
+			bullets.push_back(a);
+		}
+	});
+	return bullets;
+}
+std::vector<GameObject*> GameObjectManager::GetPellets()
+{
+	std::vector<GameObject*> pellets;
+	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&pellets](GameObject* a) mutable
+	{
+		if (typeid (*a) == typeid (ShotgunPellet))
+		{
+			pellets.push_back(a);
+		}
+	});
+	return pellets;
 }
 
 GameObject* GameObjectManager::GetPlayer() const

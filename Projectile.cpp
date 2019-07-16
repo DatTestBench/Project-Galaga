@@ -50,6 +50,11 @@ void Projectile::Draw() const
 	utils::FillPolygon(GetCollider());
 }
 
+GameObject* Projectile::GetSender()
+{
+	return m_pSender;
+}
+
 void Projectile::HitLevel(const Vector2f& dMove)
 {
 	Delete();
@@ -58,35 +63,25 @@ void Projectile::HitLevel(const Vector2f& dMove)
 void Projectile::HandleCollision(float dT)
 {
 	PolygonCollisionResult result;
-	for (GameObject* pGameObject : *m_pGameObjectManager->GetGameObjects())
-	{
-		if (m_pSender != nullptr && m_pSender->GetFlag() == false && pGameObject != nullptr && pGameObject->GetFlag() == false)
-		{
-			if (typeid(*m_pSender) == typeid(Player))
-			{
-				if (typeid(*pGameObject) == typeid (Rocketeer) || typeid(*pGameObject) == typeid (Rusher) || typeid(*pGameObject) == typeid (Gunner))
-				{
-					result = sat::PolygonCollision(this, pGameObject);
-					if (result.intersect)
-					{
-						static_cast<Enemy*>(pGameObject)->Hit(m_BaseDamage);
-						Delete();
-					}
-				}
-			}
-			else if (typeid(*m_pSender) == typeid (Rocketeer) || typeid(*m_pSender) == typeid (Rusher) || typeid(*m_pSender) == typeid (Gunner) || typeid(*m_pSender) == typeid (Enemy))
-			{
-				if (typeid(*pGameObject) == typeid(Player))
-				{
-					result = sat::PolygonCollision(this, pGameObject);
-					if (result.intersect)
-					{
-						static_cast<Player*>(pGameObject)->Hit(m_BaseDamage);
 
-						Delete();
-					}
-				}
+	if (m_pSender == m_pGameObjectManager->GetPlayer())
+	{
+		for (GameObject* pGameObject : m_pGameObjectManager->GetEnemies())
+		{
+			result = sat::PolygonCollision(this, pGameObject);
+			if (result.intersect)
+			{
+				static_cast<Enemy*>(pGameObject)->Hit(m_BaseDamage);
+				Delete();
 			}
+		}
+	}
+	else
+	{
+		result = sat::PolygonCollision(this, m_pGameObjectManager->GetPlayer());
+		if (result.intersect)
+		{
+			static_cast<Player*>(m_pGameObjectManager->GetPlayer())->Hit(m_BaseDamage);
 		}
 	}
 }

@@ -30,6 +30,11 @@ void Rocket::HandleLogic(float dT)
 {
 	GameObject* pClosestObj{ nullptr };
 	float closestDist{ std::numeric_limits<float>::infinity() };
+
+
+
+
+
 	for (GameObject* pGameObject : *m_pGameObjectManager->GetGameObjects())
 	{
 		if (pGameObject != nullptr && pGameObject->GetFlag() == false && m_pSender != nullptr && m_pSender->GetFlag() == false)

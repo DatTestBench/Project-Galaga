@@ -98,18 +98,24 @@ void Enemy::HandleCollision(float dT)
 {
 	PolygonCollisionResult result;
 
-	for (GameObject* pGameObject : *m_pGameObjectManager->GetGameObjects())
+	for (GameObject* pGameObject : m_pGameObjectManager->GetEnemies())
 	{
-		if ((typeid (*pGameObject) == typeid(Enemy) || typeid (*pGameObject) == typeid(Rocketeer) || typeid (*pGameObject) == typeid(Rusher ) || typeid (*pGameObject) == typeid(Gunner) || typeid (*pGameObject) == typeid(Player)) && pGameObject != this)
+		if (pGameObject != this)
 		{
 			result = sat::PolygonCollision(this, pGameObject);
 			if (result.intersect)
 			{
 				// What happens when hit
 				m_Pos += result.minimumTranslationVector;
+				std::cout << "Hit other enemy";
 			}
 		}
+	}
 
+	result = sat::PolygonCollision(this, m_pGameObjectManager->GetPlayer());
+	if (result.intersect)
+	{
+		m_Pos += result.minimumTranslationVector;
 	}
 }
 

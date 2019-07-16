@@ -19,7 +19,6 @@ void Rocketeer::Update(float dT)
 void Rocketeer::HandleLogic(float dT)
 {
 	Vector2f eToPVector(m_Pos, m_pPlayer->GetPos());
-	HandleCollision(dT);
 
 	if (!IsShooting())
 	{
