@@ -24,11 +24,23 @@ public:
 	void ProcessMouseDownEvent(const SDL_MouseButtonEvent& e);
 	void ProcessMouseUpEvent(const SDL_MouseButtonEvent& e);
 
+	// Game State Logic
+	void StartGame();
+	void PauseGame();
+	void ResumeGame();
+
 private:
 	// DATA MEMBERS
 	const Window m_Window;
 	Vector2f m_MousePos;
 	
+	enum class GameState
+	{
+		menu,
+		playing,
+		paused,
+		death,
+	} m_GameState;
 
 	Camera m_Camera;
 	Level m_Level;
@@ -37,7 +49,6 @@ private:
 	float m_DT;
 	std::vector<Vector2f> m_SpawnLocations;
 	Texture m_EndTexture;
-	bool m_GameStart;
 	// FUNCTIONS
 	void Initialize();
 	void Cleanup();

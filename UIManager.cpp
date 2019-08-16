@@ -13,7 +13,7 @@ UIManager::UIManager()
 
 UIManager::~UIManager()
 {
-	for (size_t idx{}; idx < Size(); idx)
+	for (size_t idx{}; idx < Size(); idx++)
 	{
 		delete m_UIElements[idx];
 		m_UIElements[idx] = nullptr;

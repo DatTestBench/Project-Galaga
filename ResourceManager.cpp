@@ -145,6 +145,7 @@ void ResourceManager::LoadTextures()
 	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextLevel", new Texture{ "./Resources/Textures/TextureLevel.png" }));
 	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextHud", new Texture{ "./Resources/Textures/TextureHud.png" }));
 	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextHealthBar", new Texture{ "./Resources/Textures/TextureHealthBar.png" }));
+	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextBTNStart", new Texture{ "./Resources/Textures/TextureButtonStart.png" }));
 
 	std::cout << "Loaded Textures" << std::endl;
 

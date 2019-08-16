@@ -10,7 +10,7 @@ UIElement::UIElement(const std::string& tag, const Vector2f& pos, float width, f
 	, m_Pos{ pos }
 	, m_Width { width }
 	, m_Height { height }
-	, m_pTexture { nullptr }
+	, m_pTexture { ResourceManager::Get()->GetTexturep("Text" + tag) }
 	, m_pUIManager { UIManager::Get()}
 {
 
@@ -28,6 +28,7 @@ void UIElement::Draw() const
 {
 	utils::SetColor(Color4f{ 0, 0, 1, 1 });
 	utils::DrawPolygon(m_Hitbox);
+	m_pTexture->DrawC(m_Pos.ToPoint2f());
 }
 
 void UIElement::Update(float dT)
@@ -87,5 +88,10 @@ void UIElement::LoadFunctionMap()
 	m_FunctionMap["SCRNMenu"] = []()
 	{
 		std::cout << "Screen" << std::endl;
+	};
+
+	m_FunctionMap["BTNStart"] = []()
+	{
+		std::cout << "Game Started" << std::endl;
 	};
 }
