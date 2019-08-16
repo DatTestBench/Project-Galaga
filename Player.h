@@ -28,6 +28,9 @@ private:
 	bool m_IsShooting;
 		
 	/// Member Functions
+	// Player behaviour 
+	void Fire(float dT);
 	void HandleMovement(float dT);
 	void HandleCollision(float dT) override;
+
 };

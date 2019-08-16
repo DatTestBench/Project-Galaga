@@ -7,7 +7,7 @@
 Scoreboard* Scoreboard::m_pScoreboard = nullptr;
 
 Scoreboard::Scoreboard()
-	: m_ScoreTex{ Texture{ std::to_string(0), "./Resources/Fonts/Font.otf", 50, Color4f{ 1,0,0,1 } } }
+	: m_ScoreTex{ Texture{ std::to_string(0), "./Resources/Fonts/Font.ttf", 50, Color4f{ 1, 0, 0, 1 } } }
 	, m_Score{ 0 }
 {
 }
@@ -35,7 +35,7 @@ void Scoreboard::Destroy()
 void Scoreboard::AddScore(int points)
 {
 	m_Score += points;
-	m_ScoreTex = Texture{ "Points" + std::to_string(m_Score), "./Resources/Fonts/Font.otf", 50, Color4f{ 0,0,0,1 } } ;
+	m_ScoreTex = Texture{ "Points" + std::to_string(m_Score), "./Resources/Fonts/Font.ttf", 50, Color4f{ 1, 0, 0, 1 } };
 
 	if (m_Score == 2)
 	{
@@ -60,7 +60,7 @@ void Scoreboard::AddScore(int points)
 	}
 }
 
-void Scoreboard::AddWave() 
+void Scoreboard::AddWave()
 {
 	m_Wave += 1;
 }

@@ -10,6 +10,7 @@ SteeringManager::SteeringManager(GameObject* host)
 	, m_Steering{ Vector2f { 0, 0 } }
 	, m_WanderAngle{ utils::g_Pi / 6.f }
 	, m_CurrentWanderTarget { host->GetPos() + host->GetVelocity()}
+	, m_RotationAngle{ 0 }
 {}
 
 void SteeringManager::Update(float dT)
@@ -43,7 +44,6 @@ void SteeringManager::Seek(GameObject* pTarget, float slowingRadius)
 	if (pTarget != nullptr)
 	{
 		m_Steering += DoSeek(pTarget, slowingRadius);
-
 	}
 }
 void SteeringManager::Pursuit(GameObject* pTarget)
@@ -51,7 +51,6 @@ void SteeringManager::Pursuit(GameObject* pTarget)
 	if (pTarget != nullptr)
 	{
 		m_Steering += DoPursuit(pTarget);
-
 	}
 }
 
@@ -60,7 +59,6 @@ void SteeringManager::Flee(GameObject* pTarget)
 	if (pTarget != nullptr)
 	{
 		m_Steering += DoFlee(pTarget);
-
 	}
 }
 void SteeringManager::Evade(GameObject* pTarget)
@@ -68,7 +66,6 @@ void SteeringManager::Evade(GameObject* pTarget)
 	if (pTarget != nullptr)
 	{
 		m_Steering += DoEvade(pTarget);
-
 	}
 }
 
@@ -85,6 +82,11 @@ void SteeringManager::CollisionEvade(const std::vector<std::vector<Point2f>>& ve
 void SteeringManager::Goto(const Vector2f& destPoint)
 {
 	m_Steering += DoSeek(destPoint);
+}
+
+void SteeringManager::Spin(const Vector2f& rotCenter, float radius)
+{
+	m_Steering += DoSpin(rotCenter, radius);
 }
 #pragma endregion PublicSteeringFunctionality
 
@@ -181,7 +183,7 @@ Vector2f SteeringManager::DoWander(float dT)
 		// Get random target position
 		//float targetAngle{ utils::RandFloat(m_pHost->GetAngle() - utils::g_Pi / 4.f, m_pHost->GetAngle() + utils::g_Pi / 4.f) };
 		float targetAngle{ utils::RandFloat(0, utils::g_Pi * 2) };
-		std::cout << targetAngle << std::endl;
+		//std::cout << targetAngle << std::endl;
 		//float targetDist{ utils::RandFloat(m_pHost->GetVelocity().Length() / 2.f, m_pHost->GetVelocity().Length() * 2) };
 		float targetDist{ 500 };
 		Vector2f dTargetPos{ targetDist * cos(targetAngle), targetDist * sin(targetAngle) };
@@ -242,6 +244,23 @@ Vector2f SteeringManager::DoCollisionEvade(const std::vector<std::vector<Point2f
 		
 	}
 	return vAvoidance;
+}
+
+Vector2f SteeringManager::DoSpin(const Vector2f& rotCenter, float radius)
+{
+
+	Vector2f v{ rotCenter, m_pHost->GetPos() };
+	SetAngle(v, m_RotationAngle);
+
+	m_RotationAngle += utils::g_Pi / 24;
+
+	m_RotationAngle = m_RotationAngle < 0 ? m_RotationAngle + 2 * utils::g_Pi : m_RotationAngle;
+	m_RotationAngle = m_RotationAngle > 2 * utils::g_Pi ? m_RotationAngle - 2 * utils::g_Pi : m_RotationAngle;
+
+	//std::cout << (v.Normalized() * radius).Length() << std::endl;
+	return DoSeek(v.Normalized() * radius + rotCenter);
+	
+	//return DoSeek(v + rotCenter);
 }
 #pragma endregion InternalSteeringFunctionality
 

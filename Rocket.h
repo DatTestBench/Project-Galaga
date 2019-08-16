@@ -1,6 +1,6 @@
 #pragma once
 #include "Projectile.h"
-
+		
 class Rocket : public Projectile
 {
 public:
@@ -10,5 +10,6 @@ public:
 private:
 	void HandleLogic(float dT) override;
 	const float m_Lifespan;
+	float m_ElapsedLife;
 };
 

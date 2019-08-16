@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObjectManager.h"
+#include "UIManager.h"
 #include "Camera.h"
 #include "Level.h"
 #include "HUD.h"
@@ -26,11 +27,14 @@ public:
 private:
 	// DATA MEMBERS
 	const Window m_Window;
+	Vector2f m_MousePos;
+	
+
 	Camera m_Camera;
 	Level m_Level;
 	HUD m_Hud;
 	float m_Frames;
-	float m_dT;
+	float m_DT;
 	std::vector<Vector2f> m_SpawnLocations;
 	Texture m_EndTexture;
 	bool m_GameStart;

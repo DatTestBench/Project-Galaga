@@ -30,6 +30,7 @@ private:
 	int m_Score;
 	Texture m_ScoreTex;
 	int m_Wave;
+	
 
 	// Member Functions
 

@@ -25,7 +25,7 @@ void Rocketeer::HandleLogic(float dT)
 		if (utils::DistPointPoint(m_pPlayer->GetPos(), m_Pos) < 600 && utils::DistPointPoint(m_pPlayer->GetPos(), m_Pos) > 100)
 		{
 			ToggleShoot();
-			std::cout << "Shoot" << std::endl;
+			//std::cout << "Shoot" << std::endl;
 		}
 	}
 	else
@@ -33,7 +33,7 @@ void Rocketeer::HandleLogic(float dT)
 		if (utils::DistPointPoint(m_pPlayer->GetPos(), m_Pos) > 700 || utils::DistPointPoint(m_pPlayer->GetPos(), m_Pos) < 100)
 		{
 			ToggleShoot();
-			std::cout << "No Shoot" << std::endl;
+			//std::cout << "No Shoot" << std::endl;
 		}
 	}
 
@@ -45,12 +45,10 @@ void Rocketeer::HandleLogic(float dT)
 	if (utils::DistPointPoint(m_pPlayer->GetPos(), m_Pos) > 200)
 	{
 		m_pSteeringManager->Seek(m_pPlayer);
-
 	}
 	else
 	{
 		m_pSteeringManager->Goto(Vector2f{ 750, 750 });
-
 	}
 	m_pSteeringManager->Update(dT);
 	m_pSteeringManager->Reset();

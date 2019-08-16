@@ -4,6 +4,7 @@
 #include "SoundEffect.h"
 #include "SoundStream.h"
 #include <map>
+
 class ResourceManager
 {
 public:

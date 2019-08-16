@@ -5,7 +5,7 @@
 #include <cmath>
 
 Camera::Camera(float width, float height)
-	:m_Width{ width }
+	: m_Width{ width }
 	, m_Height{ height }
 	, m_LevelBoundaries{0,0,width,height }
 {

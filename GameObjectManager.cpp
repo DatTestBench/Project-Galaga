@@ -31,7 +31,7 @@ GameObjectManager::~GameObjectManager()
 		delete m_GameObjects[idx];
 		m_GameObjects[idx] = nullptr;
 	}
-	
+
 }
 
 #pragma region SingletonFunctionality
@@ -74,6 +74,12 @@ void GameObjectManager::SetLevel(Level& level)
 {
 	m_pLevel = &level;
 }
+
+void GameObjectManager::SetPlayer(Player* pGameObject)
+{
+	m_pPlayer = pGameObject;
+}
+
 #pragma endregion ExternalItemManipulation
 
 #pragma region Workers
@@ -107,9 +113,9 @@ std::vector<GameObject*>* GameObjectManager::GetGameObjects()
 std::vector<GameObject*> GameObjectManager::GetEnemies()
 {
 	std::vector<GameObject*> enemies;
-	std::for_each(m_GameObjects.begin(),m_GameObjects.end(), [&enemies](GameObject* a) mutable
+	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&enemies](GameObject* a) mutable
 	{
-		if (typeid (*a) == typeid (Rusher) || typeid (*a) == typeid (Gunner) || typeid (*a) == typeid (Rocketeer))
+		if ((typeid (*a) == typeid (Rusher) || typeid (*a) == typeid (Gunner) || typeid (*a) == typeid (Rocketeer)) && (a->GetFlag() == false))
 		{
 			enemies.push_back(a);
 		}
@@ -121,7 +127,7 @@ std::vector<GameObject*> GameObjectManager::GetRushers()
 	std::vector<GameObject*> rushers;
 	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&rushers](GameObject* a) mutable
 	{
-		if (typeid (*a) == typeid (Rusher))
+		if (typeid (*a) == typeid (Rusher) && a->GetFlag() == false)
 		{
 			rushers.push_back(a);
 		}
@@ -133,7 +139,7 @@ std::vector<GameObject*> GameObjectManager::GetGunners()
 	std::vector<GameObject*> gunners;
 	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&gunners](GameObject* a) mutable
 	{
-		if (typeid (*a) == typeid (Gunner))
+		if (typeid (*a) == typeid (Gunner) && a->GetFlag() == false)
 		{
 			gunners.push_back(a);
 		}
@@ -145,7 +151,7 @@ std::vector<GameObject*> GameObjectManager::GetRocketeers()
 	std::vector<GameObject*> rocketeers;
 	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&rocketeers](GameObject* a) mutable
 	{
-		if (typeid (*a) == typeid (Rocketeer))
+		if (typeid (*a) == typeid (Rocketeer) && a->GetFlag() == false)
 		{
 			rocketeers.push_back(a);
 		}
@@ -158,9 +164,9 @@ std::vector<GameObject*> GameObjectManager::GetProjectiles()
 	std::vector<GameObject*> projectiles;
 	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&projectiles](GameObject* a) mutable
 	{
-		if (typeid (*a) == typeid (MachinegunBullet) || typeid (*a) == typeid (ShotgunPellet) || typeid (*a) == typeid (Rocket))
+		if ((typeid (*a) == typeid (MachinegunBullet) || typeid (*a) == typeid (ShotgunPellet) || typeid (*a) == typeid (Rocket)) && (a->GetFlag() == false))
 		{
-				projectiles.push_back(a);
+			projectiles.push_back(a);
 		}
 	});
 	return projectiles;
@@ -170,7 +176,7 @@ std::vector<GameObject*> GameObjectManager::GetPlayerProjectiles()
 	std::vector<GameObject*> playerProjectiles;
 	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&playerProjectiles](GameObject* a) mutable
 	{
-		if (typeid (*a) == typeid (MachinegunBullet) || typeid (*a) == typeid (ShotgunPellet) || typeid (*a) == typeid (Rocket))
+		if ((typeid (*a) == typeid (MachinegunBullet) || typeid (*a) == typeid (ShotgunPellet) || typeid (*a) == typeid (Rocket)) && (a->GetFlag() == false))
 		{
 			if (typeid(*static_cast<Projectile*>(a)->GetSender()) == typeid(Player))
 			{
@@ -185,7 +191,7 @@ std::vector<GameObject*> GameObjectManager::GetEnemyProjectiles()
 	std::vector<GameObject*> enemyProjectiles;
 	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&enemyProjectiles](GameObject* a) mutable
 	{
-		if (typeid (*a) == typeid (MachinegunBullet) || typeid (*a) == typeid (ShotgunPellet) || typeid (*a) == typeid (Rocket))
+		if ((typeid (*a) == typeid (MachinegunBullet) || typeid (*a) == typeid (ShotgunPellet) || typeid (*a) == typeid (Rocket)) && (a->GetFlag() == false))
 		{
 			if (typeid(*static_cast<Projectile*>(a)->GetSender()) != typeid(Player))
 			{
@@ -200,7 +206,7 @@ std::vector<GameObject*> GameObjectManager::GetRockets()
 	std::vector<GameObject*> rockets;
 	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&rockets](GameObject* a) mutable
 	{
-		if (typeid (*a) == typeid (Rocket))
+		if (typeid (*a) == typeid (Rocket) && a->GetFlag() == false)
 		{
 			rockets.push_back(a);
 		}
@@ -212,7 +218,7 @@ std::vector<GameObject*> GameObjectManager::GetBullets()
 	std::vector<GameObject*> bullets;
 	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&bullets](GameObject* a) mutable
 	{
-		if (typeid (*a) == typeid (MachinegunBullet))
+		if (typeid (*a) == typeid (MachinegunBullet) && a->GetFlag() == false)
 		{
 			bullets.push_back(a);
 		}
@@ -224,7 +230,7 @@ std::vector<GameObject*> GameObjectManager::GetPellets()
 	std::vector<GameObject*> pellets;
 	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&pellets](GameObject* a) mutable
 	{
-		if (typeid (*a) == typeid (ShotgunPellet))
+		if (typeid (*a) == typeid (ShotgunPellet) && a->GetFlag() == false)
 		{
 			pellets.push_back(a);
 		}

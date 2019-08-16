@@ -161,6 +161,11 @@ float Player::GetLives() const
 	return m_Lives;
 }
 
+
+#pragma region Behaviour
+
+
+
 void Player::HandleMovement(float dT)
 {
 	const Uint8* state = InputHandling::Get()->KeyState();
@@ -224,10 +229,12 @@ void Player::HandleCollision(float dT)
 			if (result.intersect)
 			{
 				//m_Pos += result.minimumTranslationVector;
-				std::cout << "Hit Enemy" << std::endl;
 			}
 	}
 }
 
+#pragma endregion Behaviour
 
+
+ 
 

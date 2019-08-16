@@ -1,9 +1,12 @@
 #pragma once
+
 #include "GameObject.h"	
 #include <vector>
+
 class GameObject;
 class Player;
 class Level;
+class Camera;
 class GameObjectManager
 {
 public:
@@ -23,12 +26,14 @@ public:
 	void Delete(GameObject* pGameObject);
 
 	void SetLevel(Level& level);
+	void SetPlayer(Player* pGameObject);
+
 	// Workers
 	void Update(float dT);
 	void Draw() const;
 
 	// Getters
-
+	
 	std::vector<GameObject*>* GetGameObjects();
 
 	std::vector<GameObject*> GetEnemies();
@@ -42,6 +47,7 @@ public:
 	std::vector<GameObject*> GetRockets();
 	std::vector<GameObject*> GetBullets();
 	std::vector<GameObject*> GetPellets();
+
 	GameObject* GetPlayer() const;
 	Level* GetLevel() const;
 	size_t Size() const;
@@ -62,6 +68,7 @@ private:
 	// Important objects
 	GameObject* m_pPlayer;
 	Level* m_pLevel;
+	Camera* m_pCamera;
 
 	/// Member Functions
 	// Internal Item Manipulation

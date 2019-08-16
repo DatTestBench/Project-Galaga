@@ -12,7 +12,7 @@ int main( int argc, char *argv[] )
 	{ // Make sure stack objects go out of scope before memory leaks are dumped
 		StartHeapControl();
 
-		Core core{ Window{ "Project Galaga - Limelette, Matthieu - 1DAE10", 1280.0f, 720.0f } };
+		Core core{ Window{ "Project Galaga - Limelette, Matthieu - 1DAE10", 1920.f, 1080.0f } };
 		core.Run();
 	}
 	DumpMemoryLeaks();

@@ -19,6 +19,8 @@ public:
 	void Wander(float dT);
 	void CollisionEvade(const std::vector<std::vector<Point2f>>& vertices);
 	void Goto(const Vector2f& destPoint);
+
+	void Spin(const Vector2f& rotCenter, float radius);
 	// Update, call after all steering has been done
 	void Update(float dT);
 
@@ -34,7 +36,9 @@ private:
 	time_t m_NextWanderDecision;
 	Vector2f m_CurrentWanderTarget;
 	Vector2f m_LerpWanderTarget;
-
+	Vector2f m_RotationCenter;
+	float m_RotationAngle;
+	
 	/// Member functions
 	
 	// Internal steering functionality
@@ -47,7 +51,7 @@ private:
 	Vector2f DoEvade(GameObject* pTarget);
 	Vector2f DoWander(float dT);
 	Vector2f DoCollisionEvade(const std::vector<std::vector<Point2f>>& vertices);
-
+	Vector2f DoSpin(const Vector2f& rotCenter, float radius);
 	// Helper Functions
 	void SetAngle(Vector2f& v, float number);
 	std::pair<std::vector<Point2f>, Point2f> FindMostThreateningObstacle(const std::vector<std::vector<Point2f>>& vertices, const Vector2f& ahead);

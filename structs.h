@@ -41,7 +41,7 @@ struct Buffer
 struct Point2f
 {
 	Point2f( );
-	explicit Point2f( float x, float y );
+	Point2f( float x, float y );
 
 	float x;
 	float y;

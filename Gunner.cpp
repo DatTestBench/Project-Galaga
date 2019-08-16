@@ -14,6 +14,8 @@ void Gunner::Update(float dT)
 {
 	HandleLogic(dT);
 	HandleCollision(dT);
+	m_pSteeringManager->Update(dT);
+	m_pSteeringManager->Reset();
 }
 
 void Gunner::HandleLogic(float dT)
@@ -58,6 +60,5 @@ void Gunner::HandleLogic(float dT)
 	}
 
 	m_pSteeringManager->CollisionEvade(m_pLevel->GetPoint2fVertices());
-	m_pSteeringManager->Update(dT);
-	m_pSteeringManager->Reset();
+	
 }

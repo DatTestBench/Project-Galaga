@@ -22,7 +22,7 @@ Enemy::Enemy(const Vector2f& pos, float width, float height, Sprite* pSprite, in
 	
 	m_Mass = 10;
 	m_CurrentHealth = m_BaseHealth;
-	
+
 }
 
 Enemy::~Enemy()
@@ -107,7 +107,6 @@ void Enemy::HandleCollision(float dT)
 			{
 				// What happens when hit
 				m_Pos += result.minimumTranslationVector;
-				std::cout << "Hit other enemy";
 			}
 		}
 	}

@@ -82,6 +82,7 @@ void Projectile::HandleCollision(float dT)
 		if (result.intersect)
 		{
 			static_cast<Player*>(m_pGameObjectManager->GetPlayer())->Hit(m_BaseDamage);
+			Delete();
 		}
 	}
 }

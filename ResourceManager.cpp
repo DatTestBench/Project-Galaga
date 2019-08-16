@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "Sprite.h"
 #include <iostream>
+
 ResourceManager* ResourceManager::m_pResourceManager = nullptr;
 
 ResourceManager::ResourceManager()
@@ -12,6 +13,7 @@ ResourceManager::ResourceManager()
 	LoadSoundEffects();
 	LoadSoundStream();
 }
+
 
 ResourceManager::~ResourceManager()
 {
@@ -81,6 +83,7 @@ Texture* ResourceManager::GetTexturep(const std::string& key)
 	return nullptr;
 }
 
+
 // Sprites
 Sprite* ResourceManager::GetSpritep(const std::string& key)
 {
@@ -140,9 +143,10 @@ void ResourceManager::LoadTextures()
 	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextPlayer", new Texture{ "./Resources/Textures/TexturePlayer.png" }));
 	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextEnemy", new Texture{ "./Resources/Textures/TextureEnemy.png" }));
 	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextLevel", new Texture{ "./Resources/Textures/TextureLevel.png" }));
+	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextHud", new Texture{ "./Resources/Textures/TextureHud.png" }));
+	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextHealthBar", new Texture{ "./Resources/Textures/TextureHealthBar.png" }));
 
-
-	//std::cout << "Loaded Textures" << std::endl;
+	std::cout << "Loaded Textures" << std::endl;
 
 }
 
@@ -153,7 +157,8 @@ void ResourceManager::LoadSprites()
 	m_SpriteMap.insert(std::make_pair<std::string, Sprite*>("SpriteEnemy", new Sprite{ new Texture { "./Resources/Sprites/SpriteEnemy.png"}, 1, 1, 1, 1.f }));
 	m_SpriteMap.insert(std::make_pair<std::string, Sprite*>("SpriteRusher", new Sprite{ new Texture{ "./Resources/Sprites/SpriteRusher.png" }, 4,3,1,4 }));
 	
-	//std::cout << "Loaded Sprites" << std::endl;
+
+	std::cout << "Loaded Sprites" << std::endl;
 }
 
 void ResourceManager::LoadSoundEffects()
@@ -162,6 +167,8 @@ void ResourceManager::LoadSoundEffects()
 	m_SoundEffectMap.insert(std::make_pair<std::string, SoundEffect*>("SERocket", new SoundEffect{ "./Resources/Sounds/SoundEffectRocket.mp3" }));
 	m_SoundEffectMap.insert(std::make_pair<std::string, SoundEffect*>("SEBullet", new SoundEffect{ "./Resources/Sounds/SoundEffectBullet.mp3" }));
 	m_SoundEffectMap.insert(std::make_pair<std::string, SoundEffect*>("SEPellet", new SoundEffect{ "./Resources/Sounds/SoundEffectPellet.mp3" }));
+
+	std::cout << "Loaded SoundEffects" << std::endl;
 }
 
 void ResourceManager::LoadSoundStream()

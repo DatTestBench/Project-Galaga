@@ -11,7 +11,7 @@ enum class Slot
 		rear = 4,
 		size = 5 // Used to return the max amount of slots
 	};
-
+	
 class Weapon : public GameObject
 {
 public:
