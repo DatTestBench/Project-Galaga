@@ -15,9 +15,9 @@ void HUD::Draw() const
 {
 	DrawBase();
 	DrawLives();
-	DrawHealth();
 	DrawScore();
 	DrawActivePowerups();
+	DrawHealth();
 }
 
 void HUD::SetLock(GameObject* pObjectToFollow)
@@ -59,6 +59,8 @@ void HUD::DrawHealth() const
 				 static_cast<Player*>(m_pObjectToFollow)->GetBaseHealth()), 
 				m_pResourceManager->GetTexturep("TextHealthBar")->GetHeight() });
 	}
+
+
 	/*utils::SetColor(Color4f{ 1, 0, 0, 1 });
 	utils::FillRect(Rectf{ 320, 20, 640, 50 });
 	utils::SetColor(Color4f{ 0, 1, 0 , 1 });

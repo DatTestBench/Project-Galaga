@@ -4,10 +4,12 @@
 #include "Texture.h"
 #include "GameObjectManager.h"
 #include "Player.h"
+#include "UIManager.h"
+#include "Game.h"
 Scoreboard* Scoreboard::m_pScoreboard = nullptr;
 
 Scoreboard::Scoreboard()
-	: m_ScoreTex{ Texture{ std::to_string(0), "./Resources/Fonts/Font.ttf", 50, Color4f{ 1, 0, 0, 1 } } }
+	: m_ScoreTex{ Texture{ std::to_string(0), "./Resources/Fonts/Font.ttf", 50, Color4f{ 1, 1, 1, 1 } } }
 	, m_Score{ 0 }
 {
 }
@@ -35,7 +37,7 @@ void Scoreboard::Destroy()
 void Scoreboard::AddScore(int points)
 {
 	m_Score += points;
-	m_ScoreTex = Texture{ "Points" + std::to_string(m_Score), "./Resources/Fonts/Font.ttf", 50, Color4f{ 1, 0, 0, 1 } };
+	m_ScoreTex = Texture{ std::to_string(m_Score), "./Resources/Fonts/Font.ttf", 50, Color4f{ 1, 1, 1, 1 } };
 
 	if (m_Score == 2)
 	{
@@ -67,7 +69,11 @@ void Scoreboard::AddWave()
 
 void Scoreboard::Draw() const
 {
-	m_ScoreTex.DrawC(Point2f(640, 690));
+	m_ScoreTex.DrawC(Point2f(  UIManager::Get()->GetWindowSize().x / 2, 22 * UIManager::Get()->GetWindowSize().y / 24));
+	if (*UIManager::Get()->GetGameState() == GameState::death)
+	{
+		m_ScoreTex.DrawC(Point2f(UIManager::Get()->GetWindowSize().x / 2, UIManager::Get()->GetWindowSize().y / 2 ));
+	}
 }
 #pragma endregion Workers
 

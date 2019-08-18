@@ -29,7 +29,15 @@ void Machinegun::DoShoot(float dT)
 	if (m_TimeSinceLastShot > 1.f / GetFireRate())
 	{
 		m_pGameObjectManager->Add(new MachinegunBullet{ GetAbsPos(), 3, 3, nullptr, GetAngle(), m_pOwner, m_Level });
-		m_pResourceManager->PlaySoundEffect("SEBullet", 0, 5);
+		if (m_pOwner == m_pGameObjectManager->GetPlayer())
+		{
+			m_pResourceManager->PlaySoundEffect("SEBullet", 0, 5);
+		}
+		else
+		{
+			m_pResourceManager->PlaySoundEffect("SEBullet", 0, 2);
+		}
+
 		m_TimeSinceLastShot = 0;
 	}
 }

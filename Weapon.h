@@ -16,6 +16,7 @@ class Weapon : public GameObject
 {
 public:
 	Weapon(float width, float height, Sprite* pSprite, GameObject* pOwner, int level, /*float baseDamage, */const Slot& slot, float baseFireRate);
+	
 	void Draw() const override;
 	virtual void Update(float dT) override;
 	float GetAngle() const override;

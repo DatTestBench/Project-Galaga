@@ -114,12 +114,26 @@ SoundEffect* ResourceManager::GetSoundEffectp(const std::string& key)
 	else
 	{
 		//std::cout << "SoundEffect: " << key << " was not found" << std::endl;
+		return nullptr;
 	}
-	return nullptr;
 }
 
 // SoundStream
 
+SoundStream* ResourceManager::GetSoundStreamp(const std::string& key)
+{
+	std::map<std::string, SoundStream*>::const_iterator cit = m_SoundStreamMap.find(key);
+	if (cit != m_SoundStreamMap.cend())
+	{
+		//std::cout << "SoundEffect: " << key << " loaded" << std::endl;
+		return cit->second;
+	}
+	else
+	{
+		//std::cout << "SoundEffect: " << key << " was not found" << std::endl;
+		return nullptr;
+	}
+}
 
 #pragma endregion Getters
 
@@ -131,6 +145,11 @@ void ResourceManager::PlaySoundEffect(const std::string& key, int loops, int vol
 	GetSoundEffectp(key)->Play(loops);
 }
 
+void ResourceManager::PlaySoundStream(const std::string& key, bool repeat, int volume)
+{
+	GetSoundStreamp(key)->SetVolume(volume);
+	GetSoundStreamp(key)->Play(repeat);
+}
 #pragma endregion Players
 
 
@@ -146,7 +165,10 @@ void ResourceManager::LoadTextures()
 	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextHud", new Texture{ "./Resources/Textures/TextureHud.png" }));
 	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextHealthBar", new Texture{ "./Resources/Textures/TextureHealthBar.png" }));
 	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextBTNStart", new Texture{ "./Resources/Textures/TextureButtonStart.png" }));
-
+	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextBTNPause", new Texture{ "./Resources/Textures/TextureButtonPause.png" }));
+	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextStartScreen", new Texture{ "./Resources/Textures/TextureStartScreen.png" }));
+	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextEndScreen", new Texture{ "./Resources/Textures/TextureEndScreen.png" }));
+	m_TextureMap.insert(std::make_pair<std::string, Texture*>("TextPauseScreen", new Texture{ "./Resources/Textures/TexturePauseScreen.png "}));
 	std::cout << "Loaded Textures" << std::endl;
 
 }
@@ -156,8 +178,8 @@ void ResourceManager::LoadSprites()
 	// Syntax: pair<std::string, Sprite*>("key", new Sprite{ new Texture{ "Path", nrCols, nrRows, nrZones, fps } })
 	m_SpriteMap.insert(std::make_pair<std::string, Sprite*>("SpritePlayer", new Sprite{ new Texture {"./Resources/Sprites/SpritePlayer.png"}, 4, 2, 2, 4.f }));
 	m_SpriteMap.insert(std::make_pair<std::string, Sprite*>("SpriteEnemy", new Sprite{ new Texture { "./Resources/Sprites/SpriteEnemy.png"}, 1, 1, 1, 1.f }));
-	m_SpriteMap.insert(std::make_pair<std::string, Sprite*>("SpriteRusher", new Sprite{ new Texture{ "./Resources/Sprites/SpriteRusher.png" }, 4,3,1,4 }));
-	
+	m_SpriteMap.insert(std::make_pair<std::string, Sprite*>("SpriteRusher", new Sprite{ new Texture{ "./Resources/Sprites/SpriteRusher.png" }, 4,3,1, 4.f }));
+	m_SpriteMap.insert(std::make_pair<std::string, Sprite*>("SpriteExhaust", new Sprite{ new Texture{ "./Resources/Sprites/SpriteExhaust.png"}, 5, 1, 1, 4.f}));
 
 	std::cout << "Loaded Sprites" << std::endl;
 }
@@ -168,12 +190,13 @@ void ResourceManager::LoadSoundEffects()
 	m_SoundEffectMap.insert(std::make_pair<std::string, SoundEffect*>("SERocket", new SoundEffect{ "./Resources/Sounds/SoundEffectRocket.mp3" }));
 	m_SoundEffectMap.insert(std::make_pair<std::string, SoundEffect*>("SEBullet", new SoundEffect{ "./Resources/Sounds/SoundEffectBullet.mp3" }));
 	m_SoundEffectMap.insert(std::make_pair<std::string, SoundEffect*>("SEPellet", new SoundEffect{ "./Resources/Sounds/SoundEffectPellet.mp3" }));
-
+	m_SoundEffectMap.insert(std::make_pair<std::string, SoundEffect*>("SEButton", new SoundEffect{ "./Resources/Sounds/SoundEffectButton.mp3" }));
 	std::cout << "Loaded SoundEffects" << std::endl;
 }
 
 void ResourceManager::LoadSoundStream()
 {
 	// Syntax: pair<std::string, SoundStream*>("key", new SoundStream{ "Path" })
+	m_SoundStreamMap.insert(std::make_pair<std::string, SoundStream*>("SSBackground", new SoundStream{ "./Resources/Sounds/SoundStreamBackground.wav" }));
 }
 #pragma endregion Loaders

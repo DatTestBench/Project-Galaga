@@ -19,7 +19,7 @@ Enemy::Enemy(const Vector2f& pos, float width, float height, Sprite* pSprite, in
 	, m_BaseHealth{ baseHealth }
 
 {
-	
+	m_pExhaustSprite = ResourceManager::Get()->GetSpritep("SpriteExhaust");
 	m_Mass = 10;
 	m_CurrentHealth = m_BaseHealth;
 
@@ -38,7 +38,8 @@ void Enemy::Draw() const
 
 	// Transforms
 	glTranslatef(m_Pos.x, m_Pos.y, 0.f);
-	glRotatef(utils::ToDeg(GetAngle() + utils::g_Pi / 2.f), 0.f, 0.f, 1.f);
+	glRotatef(utils::ToDeg(GetAngle() - utils::g_Pi / 2.f), 0.f, 0.f, 1.f);
+	m_pExhaustSprite->DrawC(Point2f{ 0, - m_Height / 2.f - 20 }, 20, 40, 1);
 
 	// Drawcode needing transform
 	m_pSprite->DrawC(Point2f{}, m_Width, m_Height, 1); //Enemy Draw

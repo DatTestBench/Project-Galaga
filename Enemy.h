@@ -9,7 +9,12 @@ class Enemy : public GameObject
 {
 public:
 	Enemy(const Vector2f& pos, float width, float height, Sprite* pSprite, int level, float baseHealth);
-	~Enemy() override;
+	~Enemy();
+	Enemy(const Enemy&) = delete;
+	Enemy& operator= (const Enemy&) = delete;
+	Enemy(Enemy&&) = delete;
+	Enemy& operator= (Enemy&&) = delete;
+
 	void Draw() const override;
 	virtual void Update(float dT) override;
 	bool IsShooting() override;
@@ -26,6 +31,7 @@ protected:
 	
 	std::vector<Weapon*> m_pWeapons;
 	bool m_IsShooting;
+	Sprite* m_pExhaustSprite;
 	//Member Functions 
 	virtual void HandleCollision(float dT) override;
 	virtual void HandleLogic(float dT) override;

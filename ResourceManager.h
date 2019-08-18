@@ -34,6 +34,8 @@ public:
 	// Players
 	// SoundEffect
 	void PlaySoundEffect(const std::string& key, int loops, int volume);
+	//SoundStream
+	void PlaySoundStream(const std::string& key, bool repeat, int volume);
 
 private:
 	ResourceManager();

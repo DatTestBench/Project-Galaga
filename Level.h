@@ -10,7 +10,6 @@ class Level
 {
 public:
 	Level();
-	~Level();
 
 	void Draw() const;
 	Rectf GetBoundaries() const;

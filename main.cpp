@@ -12,7 +12,7 @@ int main( int argc, char *argv[] )
 	{ // Make sure stack objects go out of scope before memory leaks are dumped
 		StartHeapControl();
 
-		Core core{ Window{ "Project Galaga - Limelette, Matthieu - 1DAE10", 1200.f, 800.f } };
+		Core core{ Window{ "Project Galaga - Limelette, Matthieu - 1DAE10", 1280.f, 800.f } };
 		core.Run();
 	}
 	DumpMemoryLeaks();
@@ -30,7 +30,7 @@ void StartHeapControl()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	// Set a breakpoint on the specified object allocation order number
-	_CrtSetBreakAlloc(1010);
+	//_CrtSetBreakAlloc(1860615);
 #endif
 }
 

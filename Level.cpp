@@ -13,11 +13,6 @@ Level::Level()
 	InitializeVertices();
 }
 
-
-Level::~Level()
-{
-}
-
 void Level::Draw() const
 {
 	m_pBackgroundTexture->Draw(Rectf{ 0.f, 0.f, m_pBackgroundTexture->GetWidth(), m_pBackgroundTexture->GetHeight() });

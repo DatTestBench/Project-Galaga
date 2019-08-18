@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "UIManager.h"
 #include "utils.h"
-
+#include "Game.h"
 UIManager* UIManager::m_pUIManager = nullptr;
 
 UIManager::UIManager()
-	:m_UIElements{}
+	: m_UIElements{}
 {
 	
 }
@@ -18,6 +18,7 @@ UIManager::~UIManager()
 		delete m_UIElements[idx];
 		m_UIElements[idx] = nullptr;
 	}
+	delete m_pHud;
 }
 
 #pragma region SingletonFunctionality
@@ -48,6 +49,29 @@ void UIManager::Update(float dT)
 
 void UIManager::Draw() const
 {
+
+	if (*m_pGameState == GameState::menu)
+	{
+		m_pStartScreen->DrawC(Point2f{ m_WindowSize.x / 2.f, m_WindowSize.y / 2.f }, m_WindowSize.x, m_WindowSize.y);
+	}
+
+	if (*m_pGameState == GameState::playing)
+	{
+		m_pHud->Draw();
+		Scoreboard::Get()->Draw();
+	}
+
+	if (*m_pGameState == GameState::paused)
+	{
+		m_pPauseScreen->DrawC(Point2f{ m_WindowSize.x / 2.f, m_WindowSize.y / 2.f }, m_WindowSize.x, m_WindowSize.y);
+	}
+
+	if (*m_pGameState == GameState::death)
+	{
+		m_pEndScreen->DrawC(Point2f{ m_WindowSize.x / 2.f, m_WindowSize.y / 2.f }, m_WindowSize.x, m_WindowSize.y);
+		
+	}
+
 	for (UIElement *pUIElement : m_UIElements)
 	{
 		pUIElement->Draw();
@@ -78,14 +102,62 @@ void UIManager::Click(bool state)
 	m_Click = state;
 }
 
-#pragma region Workers
+#pragma region Getters
 
 size_t UIManager::Size() const
 {
 	return size_t(m_UIElements.size());
 }
 
-#pragma endregion Workers
+Vector2f UIManager::GetWindowSize() const
+{
+	return m_WindowSize;
+}
+
+GameState* UIManager::GetGameState() const
+{
+	return m_pGameState;
+}
+
+bool UIManager::GetClick() const
+{
+	return m_Click;
+}
+#pragma endregion Getters
+
+#pragma region Setters
+void UIManager::SetGameState(GameState* pGameState)
+{
+	m_pGameState = pGameState;
+}
+void UIManager::SetWindowSize(const Vector2f& window)
+{
+	m_WindowSize = window;
+}
+
+void UIManager::LoadManager(const Vector2f& window)
+{
+	m_WindowSize = window;
+	m_pHud = new HUD(window.x, window.y);
+	m_pHud->SetLock(GameObjectManager::Get()->GetPlayer());
+	m_pStartScreen = ResourceManager::Get()->GetTexturep("TextStartScreen");
+	m_pEndScreen = ResourceManager::Get()->GetTexturep("TextEndScreen");
+	m_pPauseScreen = ResourceManager::Get()->GetTexturep("TextPauseScreen");
+}
+
+void UIManager::SetClick(bool isClick)
+{
+	m_Click = isClick;
+}
+#pragma endregion Setters
+
+#pragma region Changers
+void UIManager::ChangeGameState(const GameState& GameState)
+{
+	*m_pGameState = GameState;
+}
+#pragma endregion Changers
+
 
 #pragma region InternalItemManipulation
 void UIManager::HandleAdd()

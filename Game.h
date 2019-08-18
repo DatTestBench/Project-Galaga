@@ -4,6 +4,15 @@
 #include "Camera.h"
 #include "Level.h"
 #include "HUD.h"
+
+enum class GameState
+{
+		menu,
+		playing,
+		paused,
+		death,
+};
+
 class Game
 {
 public:
@@ -34,21 +43,13 @@ private:
 	const Window m_Window;
 	Vector2f m_MousePos;
 	
-	enum class GameState
-	{
-		menu,
-		playing,
-		paused,
-		death,
-	} m_GameState;
+	GameState m_GameState;
 
 	Camera m_Camera;
 	Level m_Level;
-	HUD m_Hud;
 	float m_Frames;
 	float m_DT;
 	std::vector<Vector2f> m_SpawnLocations;
-	Texture m_EndTexture;
 	// FUNCTIONS
 	void Initialize();
 	void Cleanup();
