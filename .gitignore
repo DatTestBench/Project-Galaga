@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# Other Files / Folders
+/.vs
+/x64
+*.vcxproj
+*.vcxproj.*
+*.sublime-project
+*.sublime-workspace
