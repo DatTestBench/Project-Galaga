@@ -1,5 +1,5 @@
 #pragma once
-#include "Texture.h"
+#include "Resources/Texture.h"
 class Scoreboard
 {
 public:

@@ -1,4 +1,7 @@
 #pragma once
+#include <string>
+
+#include "Helpers/structs.h"
 
 class Texture;
 

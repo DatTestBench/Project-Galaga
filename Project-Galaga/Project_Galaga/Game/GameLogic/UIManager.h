@@ -1,7 +1,7 @@
 #pragma once
-#include "structs.h"
-#include "UIElement.h"
-#include "HUD.h"
+#include "Helpers/structs.h"
+#include "GameLogic/UIElement.h"
+#include "GameLogic/HUD.h"
 enum class GameState;
 class UIElement;
 class UIManager

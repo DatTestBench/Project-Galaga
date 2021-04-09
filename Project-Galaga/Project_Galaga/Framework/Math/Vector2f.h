@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include "structs.h"
+#include "Helpers/structs.h"
 
 struct Vector2f
 {

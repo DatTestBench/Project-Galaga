@@ -1,13 +1,12 @@
-#include "pch.h"
-#include "Level.h"
-#include "utils.h"
-#include "SVGParser.h"
-#include "ResourceManager.h"
-#include "SAT.h"
-#include "GameObjectManager.h"
+#include "GameLogic/Level.h"
+#include "Core/GameObjectManager.h"
+#include "Helpers/SAT.h"
+#include "Helpers/SVGParser.h"
+#include "Helpers/utils.h"
+#include "Resources/ResourceManager.h"
 Level::Level()
-	: m_pBackgroundTexture{ ResourceManager::Get()->GetTexturep("TextLevel") }
-	, m_Boundaries{ 0, 0,  ResourceManager::Get()->GetTexturep("TextLevel")->GetWidth(), ResourceManager::Get()->GetTexturep("TextLevel")->GetHeight() }
+	: m_pBackgroundTexture{ ResourceManager::Get()->GetTexture("TextLevel") }
+	, m_Boundaries{ 0, 0,  ResourceManager::Get()->GetTexture("TextLevel")->GetWidth(), ResourceManager::Get()->GetTexture("TextLevel")->GetHeight() }
 	, m_pGameObjectManager{ GameObjectManager::Get() }
 {
 	InitializeVertices();
@@ -56,7 +55,7 @@ const std::vector<std::vector<Vector2f>>& Level::GetVertices() const
 // Convert Point2f extracted from level SVG to Vector2f for collision detection
 void Level::InitializeVertices()
 {
-	std::string filePath{ "./Resources/level.svg" };
+	std::string filePath{ "../Resources/level.svg" };
 	SVGParser::GetVerticesFromSvgFile(filePath, m_Point2fVertices);
 
 	for (std::vector<Point2f> subCollider : m_Point2fVertices)

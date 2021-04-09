@@ -1,16 +1,16 @@
-#include "pch.h"
-#include "Scoreboard.h"
-#include "utils.h"
-#include "Texture.h"
-#include "GameObjectManager.h"
-#include "Player.h"
-#include "UIManager.h"
-#include "Game.h"
+#include "GameLogic/Scoreboard.h"
+#include "Helpers/utils.h"
+#include "Resources/Texture.h"
+#include "Core/GameObjectManager.h"
+#include "Entities/Player.h"
+#include "GameLogic/UIManager.h"
+#include "Core/Game.h"
 Scoreboard* Scoreboard::m_pScoreboard = nullptr;
 
 Scoreboard::Scoreboard()
-	: m_ScoreTex{ Texture{ std::to_string(0), "./Resources/Fonts/Font.ttf", 50, Color4f{ 1, 1, 1, 1 } } }
-	, m_Score{ 0 }
+	: m_Score{ 0 }
+	, m_ScoreTex{ Texture{ std::to_string(0), "../Resources/Fonts/Font.ttf", 50, Color4f{ 1, 1, 1, 1 } } }
+	, m_Wave(0)
 {
 }
 
@@ -37,7 +37,7 @@ void Scoreboard::Destroy()
 void Scoreboard::AddScore(int points)
 {
 	m_Score += points;
-	m_ScoreTex = Texture{ std::to_string(m_Score), "./Resources/Fonts/Font.ttf", 50, Color4f{ 1, 1, 1, 1 } };
+	m_ScoreTex = Texture{ std::to_string(m_Score), "../Resources/Fonts/Font.ttf", 50, Color4f{ 1, 1, 1, 1 } };
 
 	if (m_Score == 2)
 	{

@@ -1,20 +1,20 @@
-#include "pch.h"
-#include "UIElement.h"
-#include "utils.h"
+#include "GameLogic/UIElement.h"
 #include <functional>
-#include "InputHandling.h"
-#include "ResourceManager.h"
-#include "UIManager.h"
-#include "Game.h"
+#include "Core/Game.h"
+#include "Core/InputHandling.h"
+#include "GameLogic/UIManager.h"
+#include "Helpers/utils.h"
+#include "Resources/ResourceManager.h"
+
 UIElement::UIElement(const std::string& tag, const Vector2f& pos, float width, float height, bool hasLogic)
 	: m_Tag{ tag }
 	, m_Pos{ pos }
 	, m_Width { width }
 	, m_Height { height }
-	, m_pTexture { ResourceManager::Get()->GetTexturep("Text" + tag) }
+	, m_pTexture { ResourceManager::Get()->GetTexture("Text" + tag) }
+	, m_IsActive{ true }
 	, m_pUIManager { UIManager::Get()}
 	, m_Window{ UIManager::Get()->GetWindowSize() }
-	, m_IsActive{ true }
 	, m_HasLogic{ hasLogic }
 {
 
@@ -39,7 +39,7 @@ void UIElement::Draw() const
 	}
 }
 
-void UIElement::Update(float dT)
+void UIElement::Update(float /*dT*/)
 {
 	if (!m_pUIManager->GetClick())
 	{

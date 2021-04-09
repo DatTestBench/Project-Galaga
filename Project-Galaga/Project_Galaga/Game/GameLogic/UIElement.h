@@ -1,6 +1,6 @@
 #pragma once
-#include "Vector2f.h"
-#include "Sprite.h"
+#include "Math/Vector2f.h"
+#include "Resources/Sprite.h"
 #include <map>
 #include <functional>
 enum class GameState;

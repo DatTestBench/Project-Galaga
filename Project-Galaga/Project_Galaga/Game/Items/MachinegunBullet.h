@@ -1,5 +1,9 @@
 #pragma once
-#include "Projectile.h"
+#include "Items/Projectile.h"
+
+#include "Core/GameObject.h"
+#include "Math/Vector2f.h"
+#include "Resources/Sprite.h"
 
 class MachinegunBullet : public Projectile
 {

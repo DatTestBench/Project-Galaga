@@ -1,8 +1,8 @@
 #pragma once
-#include "Texture.h"
-#include "Sprite.h"
-#include "SoundEffect.h"
-#include "SoundStream.h"
+#include "Resources/Texture.h"
+#include "Resources/Sprite.h"
+#include "Resources/SoundEffect.h"
+#include "Resources/SoundStream.h"
 #include <map>
 
 class ResourceManager
@@ -20,16 +20,16 @@ public:
 
 	// Getters
 	// Textures
-	Texture* GetTexturep(const std::string& key);
+	Texture* GetTexture(const std::string& key);
 
 	// Sprites
-	Sprite* GetSpritep(const std::string& key);
+	Sprite* GetSprite(const std::string& key);
 
 	// SoundEffect
-	SoundEffect* GetSoundEffectp(const std::string& key);
+	SoundEffect* GetSoundEffect(const std::string& key);
 
 	// SoundStream
-	SoundStream* GetSoundStreamp(const std::string& key);
+	SoundStream* GetSoundStream(const std::string& key);
 
 	// Players
 	// SoundEffect

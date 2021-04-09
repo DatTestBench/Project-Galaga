@@ -1,7 +1,6 @@
-#include "pch.h"
-#include "Rocketeer.h"
-#include "utils.h"
-#include "RocketLauncher.h"
+#include "Entities/Rocketeer.h"
+#include "Helpers/utils.h"
+#include "Items/RocketLauncher.h"
 Rocketeer::Rocketeer(const Vector2f& pos, float width, float height, Sprite* pSprite, int level, float baseHealth)
 	: Enemy{ pos, width, height, pSprite, level, baseHealth }
 {

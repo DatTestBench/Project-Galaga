@@ -48,7 +48,7 @@ public:
 	std::vector<GameObject*> GetBullets();
 	std::vector<GameObject*> GetPellets();
 
-	GameObject* GetPlayer() const;
+	Player* GetPlayer() const;
 	Level* GetLevel() const;
 	size_t Size() const;
 
@@ -66,7 +66,7 @@ private:
 	Buffer<GameObject*> m_DeleteBuffer;
 
 	// Important objects
-	GameObject* m_pPlayer;
+	Player* m_pPlayer;
 	Level* m_pLevel;
 	Camera* m_pCamera;
 

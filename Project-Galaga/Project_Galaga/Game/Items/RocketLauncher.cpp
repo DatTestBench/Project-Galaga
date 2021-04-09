@@ -1,6 +1,5 @@
-#include "pch.h"
-#include "RocketLauncher.h"
-#include "Rocket.h"
+#include "Items/RocketLauncher.h"
+#include "Items/Rocket.h"
 
 RocketLauncher::RocketLauncher(float width, float height, Sprite* pSprite, GameObject* pOwner, int level, const Slot& slot)
 	: Weapon{ width, height, pSprite, pOwner, level, slot, 2.f /*baseFireRate*/ }
@@ -27,8 +26,8 @@ void RocketLauncher::DoShoot(float dT)
 	if (m_TimeSinceLastShot > 1.f / GetFireRate())
 	{
 		m_pGameObjectManager->Add(new Rocket{ GetAbsPos(), 5, 5, nullptr, GetAngle(), m_pOwner, m_Level });
-
-		if (m_pOwner == m_pGameObjectManager->GetPlayer())
+		// Todo: fix the casting fuckery
+		if (m_pOwner == reinterpret_cast<GameObject*>(m_pGameObjectManager->GetPlayer()))
 		{
 			m_pResourceManager->PlaySoundEffect("SERocket", 0, 5);
 		}

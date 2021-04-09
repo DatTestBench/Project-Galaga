@@ -1,6 +1,6 @@
 #pragma once
-#include "Vector2f.h"
-#include "GameObject.h"
+#include "Math/Vector2f.h"
+#include "Core/GameObject.h"
 
 //Adapted from : https://www.codeproject.com/Articles/15573/2D-Polygon-Collision-Detection
 //				 http://www.dyn4j.org/2010/01/sat/

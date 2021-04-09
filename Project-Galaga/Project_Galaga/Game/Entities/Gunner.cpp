@@ -1,7 +1,8 @@
-#include "pch.h"
-#include "Gunner.h"
-#include "utils.h"
-#include "Machinegun.h"
+#include "Entities/Gunner.h"
+#include "Helpers/utils.h"
+#include "Items/Machinegun.h"
+#include "GameLogic/Level.h"
+
 Gunner::Gunner(const Vector2f& pos, float width, float height, Sprite* pSprite, int level, float baseHealth)
 	: Enemy{ pos, width, height, pSprite, level, baseHealth }
 {

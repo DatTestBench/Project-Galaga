@@ -1,16 +1,16 @@
 #pragma once
 #include "GameObjectManager.h"
-#include "UIManager.h"
-#include "Camera.h"
-#include "Level.h"
-#include "HUD.h"
+#include "GameLogic/UIManager.h"
+#include "Core/Camera.h"
+#include "GameLogic/Level.h"
+#include "GameLogic/HUD.h"
 
 enum class GameState
 {
-		menu,
-		playing,
-		paused,
-		death,
+	menu,
+	playing,
+	paused,
+	death,
 };
 
 class Game

@@ -1,13 +1,20 @@
-#include "pch.h"
-#include "UIManager.h"
-#include "utils.h"
-#include "Game.h"
+#include "GameLogic/UIManager.h"
+
+#include <algorithm>
+
+#include "Helpers/utils.h"
+#include "Core/Game.h"
+
 UIManager* UIManager::m_pUIManager = nullptr;
 
 UIManager::UIManager()
-	: m_UIElements{}
+	: m_Click(false)
+	, m_pGameState(nullptr)
+	, m_pEndScreen(nullptr)
+	, m_pHud(nullptr)
+	, m_pStartScreen(nullptr)
+	, m_pPauseScreen(nullptr)
 {
-	
 }
 
 
@@ -140,9 +147,9 @@ void UIManager::LoadManager(const Vector2f& window)
 	m_WindowSize = window;
 	m_pHud = new HUD(window.x, window.y);
 	m_pHud->SetLock(GameObjectManager::Get()->GetPlayer());
-	m_pStartScreen = ResourceManager::Get()->GetTexturep("TextStartScreen");
-	m_pEndScreen = ResourceManager::Get()->GetTexturep("TextEndScreen");
-	m_pPauseScreen = ResourceManager::Get()->GetTexturep("TextPauseScreen");
+	m_pStartScreen = ResourceManager::Get()->GetTexture("TextStartScreen");
+	m_pEndScreen = ResourceManager::Get()->GetTexture("TextEndScreen");
+	m_pPauseScreen = ResourceManager::Get()->GetTexture("TextPauseScreen");
 }
 
 void UIManager::SetClick(bool isClick)

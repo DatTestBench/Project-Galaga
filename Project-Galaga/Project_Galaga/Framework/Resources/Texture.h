@@ -1,5 +1,8 @@
 #pragma once
 #include <string>
+#include "SDL_ttf.h"
+#include "Helpers/structs.h"
+#include <SDL_opengl.h>
 
 class Texture
 {

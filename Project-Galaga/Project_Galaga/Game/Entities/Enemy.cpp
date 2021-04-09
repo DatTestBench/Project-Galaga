@@ -1,28 +1,20 @@
-#include "pch.h"
-#include "Enemy.h"
-#include "Vector2f.h"
-#include "utils.h" 
-#include "Player.h"
-#include "SAT.h"
-#include "Matrix2x3.h"
-#include "RocketLauncher.h"
-#include "Shotgun.h"
-#include "utils.h"
-#include "SteeringManager.h"
-#include "Rocketeer.h"
-#include "Gunner.h"
-#include "Rusher.h"
-Enemy::Enemy(const Vector2f& pos, float width, float height, Sprite* pSprite, int level, float baseHealth)
+#include "Entities/Enemy.h"
+#include "Entities/Player.h"
+#include "Helpers/SAT.h"
+#include "Helpers/utils.h" 
+#include "Math/Vector2f.h"
+
+Enemy::Enemy(const Vector2f& pos, float width, float height, Sprite* pSprite, int /*level*/, float baseHealth)
 	: GameObject{ pos, width, height, pSprite }
 	, m_pPlayer{ m_pGameObjectManager->GetPlayer() }
-	, m_Friction{  }
+	, m_Friction{}
 	, m_BaseHealth{ baseHealth }
+	, m_IsShooting(false)
 
 {
-	m_pExhaustSprite = ResourceManager::Get()->GetSpritep("SpriteExhaust");
+	m_pExhaustSprite = ResourceManager::Get()->GetSprite("SpriteExhaust");
 	m_Mass = 10;
 	m_CurrentHealth = m_BaseHealth;
-
 }
 
 Enemy::~Enemy()
@@ -58,7 +50,7 @@ void Enemy::Draw() const
 }
 
 
-void Enemy::Update(float dT)
+void Enemy::Update(float /*dT*/)
 {
 	
 
@@ -95,7 +87,7 @@ void Enemy::HitLevel(const Vector2f& dMove)
 	ChangePos(dMove);
 }
 
-void Enemy::HandleCollision(float dT)
+void Enemy::HandleCollision(float /*dT*/)
 {
 	PolygonCollisionResult result;
 
@@ -119,5 +111,5 @@ void Enemy::HandleCollision(float dT)
 	}
 }
 
-void Enemy::HandleLogic(float dT)
+void Enemy::HandleLogic(float /*dT*/)
 {}

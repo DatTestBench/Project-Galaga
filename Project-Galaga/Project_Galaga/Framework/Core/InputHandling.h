@@ -1,7 +1,7 @@
 #pragma once
 #include <SDL.h>
-#include "structs.h"
-#include "Vector2f.h"
+#include "Helpers/structs.h"
+#include "Math/Vector2f.h"
  
 
 class InputHandling

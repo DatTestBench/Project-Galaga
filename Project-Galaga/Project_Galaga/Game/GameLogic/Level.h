@@ -1,8 +1,7 @@
 #pragma once
 #include <vector>
-#include "Texture.h"
-#include "Vector2f.h"
-#include "utils.h"
+#include "Math/Vector2f.h"
+#include "Resources/Texture.h"
 class Texture;
 class GameObject;
 class GameObjectManager;

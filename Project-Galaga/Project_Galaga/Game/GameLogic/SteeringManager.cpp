@@ -1,17 +1,18 @@
-#include "pch.h"
-#include "SteeringManager.h"
-#include "GameObject.h"
-#include "Vector2f.h"
-#include "utils.h"
+#include "GameLogic/SteeringManager.h"
+#include "Core/GameObject.h"
+#include "Math/Vector2f.h"
+#include "Helpers/utils.h"
 #include <chrono>
 #include <map>
 SteeringManager::SteeringManager(GameObject* host)
 	: m_pHost{ host }
-	, m_Steering{ Vector2f { 0, 0 } }
+	, m_Steering{ Vector2f{ 0, 0 } }
 	, m_WanderAngle{ utils::g_Pi / 6.f }
-	, m_CurrentWanderTarget { host->GetPos() + host->GetVelocity()}
+	, m_NextWanderDecision(0)
+	, m_CurrentWanderTarget{ host->GetPos() + host->GetVelocity() }
 	, m_RotationAngle{ 0 }
-{}
+{
+}
 
 void SteeringManager::Update(float dT)
 {

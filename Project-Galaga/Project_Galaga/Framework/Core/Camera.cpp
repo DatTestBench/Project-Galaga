@@ -1,8 +1,4 @@
-#include "pch.h"
-#include "Camera.h"
-#include "utils.h"
-#include <vector>
-#include <cmath>
+#include "Core/Camera.h"
 
 Camera::Camera(float width, float height)
 	: m_Width{ width }

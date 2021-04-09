@@ -1,9 +1,10 @@
-#include "pch.h"
 #include "Core.h"
 #include <iostream>
 #include <algorithm>
 #include "Game.h"
 #include "InputHandling.h"
+#include <Gl/GLU.h>
+#include <SDL_image.h>
 
 Core::Core( const Window& window )
 	: m_Window{window}

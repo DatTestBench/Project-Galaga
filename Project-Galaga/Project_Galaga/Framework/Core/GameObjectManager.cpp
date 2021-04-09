@@ -1,26 +1,25 @@
-#include "pch.h"
-#include "GameObjectManager.h"
-#include "GameObject.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "Rusher.h"
-#include "Gunner.h"
-#include "Rocketeer.h"
-#include "Projectile.h"
-#include "ShotgunPellet.h"
-#include "MachinegunBullet.h"
-#include "Rocket.h"
-#include <iostream>
+#include "Core/GameObjectManager.h"
 #include <algorithm>
+#include <iostream>
 #include <iterator>
-#include <vector>
-#include "utils.h"
 #include <typeinfo>
+#include <vector>
+#include "Core/GameObject.h"
+#include "Entities/Gunner.h"
+#include "Entities/Player.h"
+#include "Entities/Rocketeer.h"
+#include "Entities/Rusher.h"
+#include "Items/MachinegunBullet.h"
+#include "Items/Projectile.h"
+#include "Items/Rocket.h"
+#include "Items/ShotgunPellet.h"
 
 GameObjectManager* GameObjectManager::m_pGameObjectManager = nullptr;
 
 GameObjectManager::GameObjectManager()
-	:m_GameObjects{}
+	: m_pPlayer(nullptr)
+	, m_pLevel(nullptr)
+	, m_pCamera(nullptr)
 {
 }
 
@@ -238,7 +237,7 @@ std::vector<GameObject*> GameObjectManager::GetPellets()
 	return pellets;
 }
 
-GameObject* GameObjectManager::GetPlayer() const
+Player* GameObjectManager::GetPlayer() const
 {
 	return m_pPlayer;
 }

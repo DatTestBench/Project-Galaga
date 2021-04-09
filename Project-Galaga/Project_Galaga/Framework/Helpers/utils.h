@@ -1,8 +1,7 @@
 #pragma once
 
-#include "vector2f.h"
 #include <vector>
-#include <algorithm>
+#include "Math/Vector2f.h"
 
 namespace utils
 {

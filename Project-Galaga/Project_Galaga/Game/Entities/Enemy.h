@@ -1,8 +1,8 @@
 #pragma once
-#include "GameObject.h"
-#include "Vector2f.h"
-#include "ResourceManager.h"
-#include "Weapon.h"
+#include "Core/GameObject.h"
+#include "Math/Vector2f.h"
+#include "Resources/ResourceManager.h"
+#include "Items/Weapon.h"
 
 class Player;
 class Enemy : public GameObject

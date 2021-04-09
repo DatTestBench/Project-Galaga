@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "Vector2f.h"
 #include <sstream>
 #include <iomanip>

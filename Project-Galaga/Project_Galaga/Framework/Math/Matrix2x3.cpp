@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "Matrix2x3.h"
 
 

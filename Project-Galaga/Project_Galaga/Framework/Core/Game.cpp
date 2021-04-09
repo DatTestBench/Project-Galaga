@@ -1,15 +1,15 @@
-#include "pch.h"
 #include "Game.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "Rusher.h"
-#include "Rocketeer.h"
-#include "Gunner.h"
-#include "utils.h"
+
+#include "InputHandling.h"
+#include "Entities/Player.h"
+#include "Entities/Enemy.h"
+#include "Entities/Rusher.h"
+#include "Entities/Rocketeer.h"
+#include "Entities/Gunner.h"
+#include "Helpers/utils.h"
 Game::Game(const Window& window)
-	:m_Window{ window }
+	: m_Window{ window }
 	, m_Camera{ window.width, window.height }
-	, m_Level{  }
 {
 	Initialize();
 }
@@ -32,7 +32,7 @@ void Game::Initialize()
 	Scoreboard::Get();
 
 	// adding player
-	Player* pPlayer{ new Player { Vector2f(787.5, 787.5), 50, 50, ResourceManager::Get()->GetSpritep("SpritePlayer"), 2000.f } };
+	Player* pPlayer{ new Player { Vector2f(787.5, 787.5), 50, 50, ResourceManager::Get()->GetSprite("SpritePlayer"), 2000.f } };
 	GameObjectManager::Get()->Add(pPlayer);
 
 	// create UI
@@ -132,7 +132,7 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
 	
 }
 
-void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
+void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& )
 {
 
 }
@@ -270,15 +270,15 @@ void Game::SpawnEnemies(float dT)
 			switch (type)
 			{
 			case 0:
-				GameObjectManager::Get()->Add(new Gunner{ m_SpawnLocations[spawnSelector], 50, 50, ResourceManager::Get()->GetSpritep("SpriteEnemy"), 1, 100 });
+				GameObjectManager::Get()->Add(new Gunner{ m_SpawnLocations[spawnSelector], 50, 50, ResourceManager::Get()->GetSprite("SpriteEnemy"), 1, 100 });
 				//std::cout << "spawn gunner" << std::endl;
 				break;
 			case 1:
-				GameObjectManager::Get()->Add(new Rusher{ m_SpawnLocations[spawnSelector], 50, 50, ResourceManager::Get()->GetSpritep("SpriteRusher"), 1, 100 });
+				GameObjectManager::Get()->Add(new Rusher{ m_SpawnLocations[spawnSelector], 50, 50, ResourceManager::Get()->GetSprite("SpriteRusher"), 1, 100 });
 				//std::cout << "spawn rusher" << std::endl;
 				break;
 			case 2:
-				GameObjectManager::Get()->Add(new Rocketeer{ m_SpawnLocations[spawnSelector], 50, 50, ResourceManager::Get()->GetSpritep("SpriteEnemy"), 1, 100 });
+				GameObjectManager::Get()->Add(new Rocketeer{ m_SpawnLocations[spawnSelector], 50, 50, ResourceManager::Get()->GetSprite("SpriteEnemy"), 1, 100 });
 				//std::cout << "spawn rocketeer" << std::endl;
 				break;
 			default:

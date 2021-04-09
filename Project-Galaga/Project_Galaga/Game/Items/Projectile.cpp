@@ -1,17 +1,12 @@
-#include "pch.h"
-#include "Projectile.h"
-#include "utils.h"
-#include "GameObjectManager.h"
-#include "Enemy.h"
-#include "SAT.h"
-#include "MachineGunBullet.h"
-#include "ShotgunPellet.h"
-#include "Rocket.h"
-#include "Player.h"
-#include "SteeringManager.h"
-#include "Rocketeer.h"
-#include "Rusher.h"
-#include "Gunner.h"
+#include "Items/Projectile.h"
+#include "Entities/Enemy.h"
+#include "Entities/Player.h"
+#include "Helpers/SAT.h"
+#include "Helpers/utils.h"
+#include "Items/MachineGunBullet.h"
+#include "Items/Rocket.h"
+#include "Items/ShotgunPellet.h"
+
 Projectile::Projectile(const Vector2f& pos, float width, float height, Sprite* pSprite, float launchAngle, float baseSpeed, GameObject* pSender, int level, float baseDamage)
 	: GameObject{ pos, width, height, pSprite }
 	, m_pSender{ pSender }
@@ -55,12 +50,12 @@ GameObject* Projectile::GetSender()
 	return m_pSender;
 }
 
-void Projectile::HitLevel(const Vector2f& dMove)
+void Projectile::HitLevel(const Vector2f& /*dMove*/)
 {
 	Delete();
 }
 
-void Projectile::HandleCollision(float dT)
+void Projectile::HandleCollision(float /*dT*/)
 {
 	PolygonCollisionResult result;
 

@@ -1,9 +1,8 @@
-#include "pch.h"
 #include <algorithm>
 #include <iostream>
 #include <cmath>
-#include "utils.h"
-
+#include "Helpers/utils.h"
+#include "SDL_opengl.h"
 #pragma region GeneralUseFunctions
 float utils::ToDeg(float rad)
 {
@@ -569,7 +568,7 @@ bool utils::IntersectLineSegments(const Point2f& p1, const Point2f& p2, const Po
 		// cross product to determine if segments and the line connecting their start points are parallel, 
 		// if so, than they are on a line
 		// if not, then there is no intersection
-		float denom = p1q1.CrossProduct(q1q2);
+		denom = p1q1.CrossProduct(q1q2);
 		if (std::abs(denom) > epsilon) return false;
 
 		// check the 4 conditions
@@ -625,11 +624,11 @@ bool utils::Raycast(const Point2f* vertices, const size_t nrVertices, const Poin
 			{
 				if (lambda1 > 0 && lambda1 <= 1 && lambda2 > 0 && lambda2 <= 1)
 				{
-					HitInfo hitInfo;
-					hitInfo.lambda = lambda1;
-					hitInfo.intersectPoint = { rayP1.x + ((rayP2.x - rayP1.x) * lambda1), rayP1.y + ((rayP2.y - rayP1.y) * lambda1) };
-					hitInfo.normal = Vector2f{ q2 - q1 }.Orthogonal().Normalized();
-					hits.push_back(hitInfo);
+					HitInfo localHit;
+					localHit.lambda = lambda1;
+					localHit.intersectPoint = { rayP1.x + ((rayP2.x - rayP1.x) * lambda1), rayP1.y + ((rayP2.y - rayP1.y) * lambda1) };
+					localHit.normal = Vector2f{ q2 - q1 }.Orthogonal().Normalized();
+					hits.push_back(localHit);
 				}
 			}
 		}

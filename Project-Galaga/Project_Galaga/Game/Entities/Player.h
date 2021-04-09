@@ -1,9 +1,10 @@
 #pragma once
-#include "GameObject.h"
-#include "Weapon.h"
-#include "ResourceManager.h"
-#include "LinkedList.h"
-class Player : public GameObject
+#include "Core/GameObject.h"
+#include "Items/Weapon.h"
+#include "Resources/ResourceManager.h"
+#include "Helpers/LinkedList.h"
+
+class Player final : public GameObject
 {
 public:
 	Player(const Vector2f& pos, float width, float height, Sprite* pSprite, float baseHealth);
@@ -18,7 +19,7 @@ public:
 	void Update(float dT) override;
 	bool IsShooting() override;
 	void ToggleShoot() override;
-	void AddWeapon();
+	void AddWeapon() override;
 	void Hit(float damage);
 
 	void HitLevel(const Vector2f& dMove) override;

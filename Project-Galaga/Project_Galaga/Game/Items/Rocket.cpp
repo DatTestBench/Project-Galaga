@@ -1,18 +1,15 @@
-#include "pch.h"
-#include "Rocket.h"
-#include "ShotgunPellet.h"
-#include "MachinegunBullet.h"
-#include "utils.h"
-#include "Projectile.h"
-#include "utils.h"
-#include "SteeringManager.h"
-#include "Player.h"
-#include "Rocketeer.h"
-#include "Rusher.h"
-#include "Gunner.h"
+#include "Items/Rocket.h"
+#include "Entities/Player.h"
+#include "Entities/Rusher.h"
+#include "GameLogic/SteeringManager.h"
+#include "Helpers/utils.h"
+#include "Items/MachinegunBullet.h"
+#include "Items/Projectile.h"
+
 Rocket::Rocket(const Vector2f& pos, float width, float height, Sprite* pSprite, float launchAngle, GameObject* pSender, int level)
 	: Projectile{ pos, width, height, pSprite, launchAngle, 10 /*baseSpeed*/, pSender, level, 100 /*baseDamage*/ }
 	, m_Lifespan{ 10.f }
+	, m_ElapsedLife(0)
 {
 	m_MaxSpeed = 500;
 	m_Mass = 50;

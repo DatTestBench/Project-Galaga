@@ -1,7 +1,6 @@
-#include "pch.h"
-#include "Rusher.h"
-#include "utils.h"
-#include "Shotgun.h"
+#include "Entities/Rusher.h"
+#include "Helpers/utils.h"
+#include "Items/Shotgun.h"
 Rusher::Rusher(const Vector2f& pos, float width, float height, Sprite* pSprite, int level, float baseHealth)
 	: Enemy{ pos, width, height, pSprite, level, baseHealth }
 {

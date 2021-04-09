@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "SVGParser.h"
 #include <algorithm>
 #include <iostream>
@@ -324,7 +323,7 @@ void SVGParser::SkipSvgComma( std::stringstream& svgStream, bool isRequired )
 {
 	while ( true )
 	{
-		char c = svgStream.get( );
+		char c = static_cast<char>(svgStream.get());
 
 		if ( svgStream.eof( ) )
 		{

@@ -1,23 +1,29 @@
-#include "pch.h"
-#include "GameObject.h"
-#include "Texture.h"
-#include "Matrix2x3.h"
-#include "structs.h"
-#include "Game.h"
-#include "utils.h"
-#include "SteeringManager.h"
+#include "Core/GameObject.h"
+#include "Resources/Texture.h"
+#include "Math/Matrix2x3.h"
+#include "Helpers/structs.h"
+#include "Core/Game.h"
+#include "Helpers/utils.h"
+#include "GameLogic/SteeringManager.h"
 GameObject::GameObject(const Vector2f& pos, float width, float height, Sprite* pSprite)
 	: m_Pos{ pos }
-	, m_pSprite { pSprite }
-	, m_Width{ width  }
+	, m_pTexture(nullptr)
+	, m_pSprite{ pSprite }
+	, m_Width{ width }
 	, m_Height{ height }
-	, m_pGameObjectManager { GameObjectManager::Get() }
-	, m_pSteeringManager { new SteeringManager { this } }
-	, m_pResourceManager { ResourceManager::Get() }
+	, m_DelFlag(false)
+	, m_Angle(0)
+	, m_Speed(0)
+	, m_Acceleration(0)
+	, m_MaxSpeed(0)
+	, m_Mass(0)
+	, m_pGameObjectManager{ GameObjectManager::Get() }
+	, m_pSteeringManager{ new SteeringManager{ this } }
+	, m_pResourceManager{ ResourceManager::Get() }
 	, m_pLevel{ GameObjectManager::Get()->GetLevel() }
 	, m_pScoreboard{ Scoreboard::Get() }
 {
-	m_BaseCollider.push_back(Vector2f{ - m_Width / 2.f,  -m_Height / 2.f });
+	m_BaseCollider.push_back(Vector2f{ - m_Width / 2.f, -m_Height / 2.f });
 	m_BaseCollider.push_back(Vector2f{ m_Width / 2.f, -m_Height / 2.f });
 	m_BaseCollider.push_back(Vector2f{ m_Width / 2.f, m_Height / 2.f });
 	m_BaseCollider.push_back(Vector2f{ - m_Width / 2.f, m_Height / 2.f });
@@ -32,13 +38,13 @@ GameObject::~GameObject()
 // Deleted Draw
 // Deleted Update
 
-void GameObject::DoAction(float dT)
+void GameObject::DoAction(float /*dT*/)
 {}
 
 void GameObject::ToggleAction()
 {}
 
-void GameObject::DoShoot(float dT)
+void GameObject::DoShoot(float /*dT*/)
 {}
 
 void GameObject::ToggleShoot()
@@ -49,7 +55,7 @@ bool GameObject::IsShooting()
 	return false;
 }
 
-void GameObject::HitLevel(const Vector2f& dMove)
+void GameObject::HitLevel(const Vector2f& /*dMove*/)
 {}
 #pragma endregion Workers
 
@@ -59,7 +65,7 @@ Vector2f GameObject::GetPos() const
 	return m_Pos;
 }
 
-Texture* GameObject::GetpTexture() const
+Texture* GameObject::GetTexture() const
 {
 	return m_pTexture;
 }
@@ -151,10 +157,10 @@ void GameObject::SetSpeed(float speedNew)
 
 #pragma region InternalWorkers
 
-void GameObject::HandleCollision(float dT)
+void GameObject::HandleCollision(float /*dT*/)
 {}
 
-void GameObject::HandleLogic(float dT)
+void GameObject::HandleLogic(float /*dT*/)
 {}
 
 #pragma endregion InternalWorkers

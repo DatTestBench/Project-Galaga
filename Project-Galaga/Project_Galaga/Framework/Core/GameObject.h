@@ -1,14 +1,13 @@
 #pragma once
-#include "Texture.h"
 #include <vector>
-#include "Vector2f.h"
-#include "InputHandling.h"
-#include "GameObjectManager.h"
-#include "Sprite.h"
-#include "SteeringManager.h"
-#include "ResourceManager.h"
-#include "Level.h"
-#include "Scoreboard.h"
+#include "Math/Vector2f.h"
+#include "Core/GameObjectManager.h"
+#include "Framework/Resources/Sprite.h"
+#include "Game/GameLogic/SteeringManager.h"
+#include "Resources/ResourceManager.h"
+#include "Game/GameLogic/Scoreboard.h"
+
+class Texture;
 class GameObjectManager;
 class SteeringManager;
 class ResourceManager;
@@ -39,7 +38,7 @@ public:
 	
 	// Getters
 	Vector2f GetPos() const;
-	Texture* GetpTexture() const;
+	Texture* GetTexture() const;
 	virtual std::vector<Vector2f> GetCollider() const;
 	float GetWidth() const;
 	float GetHeight() const;
@@ -84,14 +83,10 @@ protected:
 	Level* m_pLevel;
 	Scoreboard* m_pScoreboard;
 
-
 	/// Member Functions
 	// Internal Workers
 	virtual void HandleCollision(float dT); 
 	virtual void HandleLogic(float dT); // Handles enemy movement, steering, ect. All enemy actions
-
-
-
 
 };
 

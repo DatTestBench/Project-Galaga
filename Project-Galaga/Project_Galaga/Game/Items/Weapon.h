@@ -1,6 +1,6 @@
 #pragma once
-#include "GameObject.h"
-#include "GameObjectManager.h"
+#include "Core/GameObject.h"
+#include "Core/GameObjectManager.h"
 
 enum class Slot
 {

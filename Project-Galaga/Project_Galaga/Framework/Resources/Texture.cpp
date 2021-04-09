@@ -1,7 +1,7 @@
-#include "pch.h"
 #include "Texture.h"
-
+#include <gl/GLU.h>
 #include <iostream>
+#include <SDL_image.h>
 
 Texture::Texture(const std::string& imagePath)
 	:m_Id{ }
@@ -13,7 +13,7 @@ Texture::Texture(const std::string& imagePath)
 }
 
 Texture::Texture(const std::string& text, TTF_Font *pFont, const Color4f& textColor)
-	:m_Id{}
+	: m_Id{}
 	, m_Width{ 10.0f }
 	, m_Height{ 10.0f }
 	, m_CreationOk{ false }
@@ -22,7 +22,7 @@ Texture::Texture(const std::string& text, TTF_Font *pFont, const Color4f& textCo
 }
 
 Texture::Texture(const std::string& text, const std::string& fontPath, int ptSize, const Color4f& textColor)
-	:m_Id{}
+	: m_Id{}
 	, m_Width{ 10.0f }
 	, m_Height{ 10.0f }
 	, m_CreationOk{ false }

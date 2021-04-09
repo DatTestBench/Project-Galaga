@@ -1,7 +1,6 @@
-#include "pch.h"
 #include "SAT.h"
 #include <vector>
-#include "GameObject.h"
+#include "Core/GameObject.h"
 #include "utils.h"
 
 // Collision for GameObjects

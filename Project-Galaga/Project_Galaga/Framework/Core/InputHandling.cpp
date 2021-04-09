@@ -1,12 +1,17 @@
-#include "pch.h"
 #include "InputHandling.h"
-#include "structs.h"
-#include "Vector2f.h"
+#include "Helpers/structs.h"
+#include "Math/Vector2f.h"
 #include <iostream>
 
 InputHandling* InputHandling::m_pInputHandling = nullptr;
 
 InputHandling::InputHandling()
+	: m_KeyDown(0)
+	, m_KeyUp(0)
+	, m_MouseDown(0)
+	, m_MouseUp(0)
+	, m_Event()
+	, m_Type()
 {
 }
 
@@ -57,6 +62,8 @@ void InputHandling::ProcessInput(const SDL_Event& e)
 	case SDL_MOUSEBUTTONUP:
 		ProcessMouseUpEvent(e.button);
 		m_Type = SDL_EventType(e.type);
+		break;
+	default:
 		break;
 	}
 }

@@ -2,6 +2,20 @@
 #include <ctime>
 #include <ratio>
 #include <chrono>
+#include <SDL_video.h>
+
+
+#include "Helpers/structs.h"
+
+/*// SDL and OpenGL Includes
+#include <SDL.h>
+#include <SDL_opengl.h>
+#include <GL\GLU.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h> 
+#include <SDL_mixer.h>*/ 
+
+
 class Core
 {
 public:

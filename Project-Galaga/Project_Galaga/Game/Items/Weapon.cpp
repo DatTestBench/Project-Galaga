@@ -1,20 +1,19 @@
-#include "pch.h"
-#include "Weapon.h"
-#include "utils.h"
-#include "Player.h"
-#include "Projectile.h"
-#include "GameObjectManager.h"
-#include "Matrix2x3.h"
-#include "Rocketlauncher.h"
+#include "Items/Weapon.h"
 #include "Machinegun.h"
+#include "Rocketlauncher.h"
 #include "Shotgun.h"
-Weapon::Weapon(float width, float height, Sprite* pSprite, GameObject* pOwner, int level, /*float baseDamage, */ const Slot& slot, float baseFireRate)
+#include "Core/InputHandling.h"
+#include "Entities/Player.h"
+#include "Helpers/utils.h"
+#include "Math/Matrix2x3.h"
+
+Weapon::Weapon(float width, float height, Sprite* pSprite, GameObject* pOwner, int /*level*/, /*float baseDamage, */ const Slot& slot, float baseFireRate)
 	: GameObject{ Vector2f{ 0,0 }, width, height, pSprite }
+	, m_IsShooting{pOwner->IsShooting() }
 	, m_Slot{ slot }
+	, m_Level{ 1 } // change to a general usecase, for all gameobjects capable of owning a weapon 
 	, m_pOwner{ pOwner }
-	, m_IsShooting{pOwner->IsShooting() } // change to a general usecase, for all gameobjects capable of owning a weapon 
 	, m_BaseFireRate{ baseFireRate }
-	, m_Level{ 1 }
 {
 	switch (m_Slot)
 	{
@@ -31,6 +30,8 @@ Weapon::Weapon(float width, float height, Sprite* pSprite, GameObject* pOwner, i
 		break;
 	case Slot::rear:
 		m_BaseOffset.y -= m_pOwner->GetHeight() / 2.f;
+		break;
+	default:
 		break;
 	}
 	m_Pos = GetAbsPos();
@@ -55,7 +56,7 @@ void Weapon::Draw() const
 	
 }
 
-void Weapon::Update(float dT)
+void Weapon::Update(float /*dT*/)
 {
 
 
@@ -138,7 +139,7 @@ std::vector<Vector2f> Weapon::GetCollider() const
 	return (tMat*rMat).Transform(m_BaseCollider);
 }
 
-void Weapon::DoShoot(float dT)
+void Weapon::DoShoot(float /*dT*/)
 {}
 
 float Weapon::GetFireRate()

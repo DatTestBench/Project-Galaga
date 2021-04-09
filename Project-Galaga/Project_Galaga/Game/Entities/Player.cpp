@@ -1,28 +1,22 @@
-#include "pch.h"
-#include "Player.h"
-#include "Texture.h"
-#include <iostream>
-#include "utils.h"
-#include "Projectile.h"
-#include <string>
-#include "Game.h"
-#include "InputHandling.h"
-#include "Weapon.h"
-#include "SAT.h"
-#include "Matrix2x3.h"
-#include "Enemy.h"
-#include "Machinegun.h"
-#include "Shotgun.h"
-#include "RocketLauncher.h"
-#include "LinkedList.h"
+#include "Entities/Player.h"
+#include "Core/Game.h"
+#include "Core/InputHandling.h"
+#include "Helpers/LinkedList.h"
+#include "Helpers/SAT.h"
+#include "Helpers/utils.h"
+#include "Items/Machinegun.h"
+#include "Items/RocketLauncher.h"
+#include "Items/Shotgun.h"
+#include "Items/Weapon.h"
+#include "Resources/Texture.h"
 
 Player::Player(const Vector2f& pos, float width, float height, Sprite* pSprite, float baseHealth)
 	: GameObject{ pos, width, height, pSprite }
-	, m_BaseHealth{ baseHealth }
 	, m_Friction{ 10 }
+	, m_BaseHealth{ baseHealth }
 	, m_Lives{ 1 }
 {
-	m_pExhaustSprite = ResourceManager::Get()->GetSpritep("SpriteExhaust");
+	m_pExhaustSprite = ResourceManager::Get()->GetSprite("SpriteExhaust");
 	m_MaxSpeed = 600;
 	m_Acceleration = 10000;
 	m_CurrentHealth = m_BaseHealth;
@@ -229,7 +223,7 @@ void Player::HandleMovement(float dT)
 	m_Pos += (Vector2f(m_Speed * cos(m_Angle), m_Speed * sin(m_Angle)) * dT);
 }
 
-void Player::HandleCollision(float dT)
+void Player::HandleCollision(float /*dT*/)
 {
 	PolygonCollisionResult result;
 	for (GameObject* pGameObject : m_pGameObjectManager->GetEnemies())

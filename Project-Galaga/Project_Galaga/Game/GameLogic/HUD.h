@@ -1,16 +1,13 @@
 #pragma once
-#include "Player.h"
-#include "Texture.h"
-#include "GameObject.h"
-#include "ResourceManager.h"
+#include "Core/GameObject.h"
+#include "Resources/ResourceManager.h"
 #include "Scoreboard.h"
-#include "Player.h"
 class HUD
 {
 public:
 	HUD(float width, float height);
 	void Draw() const;
-	void SetLock(GameObject* pObjectToFollow);
+	void SetLock(Player* pObjectToFollow);
 private:
 
 	/// Data Members
@@ -21,7 +18,7 @@ private:
 
 	// Pointers
 	ResourceManager* m_pResourceManager;
-	GameObject* m_pObjectToFollow;
+	Player* m_pObjectToFollow;
 	Scoreboard* m_pScoreboard;
 	GameObjectManager* m_pGameObjectManager;
 	/// Member Functions
