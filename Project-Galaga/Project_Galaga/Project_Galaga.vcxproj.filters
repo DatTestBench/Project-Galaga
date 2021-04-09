@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Framework Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Game Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Game Files\Entities">
+      <UniqueIdentifier>{8901897f-0d49-4136-9777-e16c822cee13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Managers">
+      <UniqueIdentifier>{ad787d75-ce04-4ca2-80ef-bcb861b6c61c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Entities\Projectiles">
+      <UniqueIdentifier>{935a89a8-4952-448e-a468-2f084c38fba5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Entities\Weapons">
+      <UniqueIdentifier>{7f098a27-26d9-4bed-afdd-149839da68ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Entities\Enemies">
+      <UniqueIdentifier>{fbee641f-87a7-4cd5-8d75-9dc21cf36694}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\UI">
+      <UniqueIdentifier>{f7069c04-5909-49aa-837a-9e7e0dcc5c88}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Core\Camera.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Core\Core.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Core\Game.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Weapon.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Machinegun.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\MachinegunBullet.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Player.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Projectile.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Rocket.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Rocketeer.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\RocketLauncher.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Rusher.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Shotgun.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ShotgunPellet.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Entities\Enemy.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Entities\Gunner.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Core\GameObject.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Core\GameObjectManager.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Core\InputHandling.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Helpers\LinkedList.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Helpers\Matrix2x3.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Helpers\SAT.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Resources\SoundEffect.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Resources\SoundStream.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Resources\Sprite.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Helpers\structs.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Helpers\SVGParser.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Resources\Texture.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Helpers\utils.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Helpers\Vector2f.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameLogic\HUD.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameLogic\Level.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameLogic\Scoreboard.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameLogic\SteeringManager.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ResourceManager.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameLogic\UIElement.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameLogic\UIManager.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Framework Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Core\Camera.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Core\Core.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Core\Game.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Machinegun.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\MachinegunBullet.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Projectile.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Rocket.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Rocketeer.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\RocketLauncher.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Rusher.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Shotgun.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ShotgunPellet.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Weapon.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Entities\Player.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Entities\Enemy.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Entities\Gunner.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Core\GameObject.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Core\GameObjectManager.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Core\InputHandling.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Helpers\Matrix2x3.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Helpers\SAT.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Resources\SoundEffect.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Resources\SoundStream.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Resources\Sprite.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Helpers\structs.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Helpers\SVGParser.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Resources\Texture.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Helpers\utils.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Helpers\Vector2f.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameLogic\HUD.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameLogic\Level.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameLogic\Scoreboard.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameLogic\SteeringManager.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ResourceManager.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameLogic\UIElement.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameLogic\UIManager.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

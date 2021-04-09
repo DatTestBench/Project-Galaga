@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{C65DC988-9A69-42ED-8389-06087FEB7D0F}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>LimeletteMatthieuProjectGalaga</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Project_Galaga</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)bin\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)bin\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Framework\Core\Camera.h" />
+    <ClInclude Include="Framework\Core\Core.h" />
+    <ClInclude Include="Framework\Core\Game.h" />
+    <ClInclude Include="Framework\Core\GameObject.h" />
+    <ClInclude Include="Framework\Core\GameObjectManager.h" />
+    <ClInclude Include="Framework\Core\InputHandling.h" />
+    <ClInclude Include="Framework\Helpers\LinkedList.h" />
+    <ClInclude Include="Framework\Helpers\Matrix2x3.h" />
+    <ClInclude Include="Framework\Helpers\SAT.h" />
+    <ClInclude Include="Framework\Resources\SoundEffect.h" />
+    <ClInclude Include="Framework\Resources\SoundStream.h" />
+    <ClInclude Include="Framework\Resources\Sprite.h" />
+    <ClInclude Include="Framework\Helpers\structs.h" />
+    <ClInclude Include="Framework\Helpers\SVGParser.h" />
+    <ClInclude Include="Framework\Resources\Texture.h" />
+    <ClInclude Include="Framework\Helpers\utils.h" />
+    <ClInclude Include="Framework\Helpers\Vector2f.h" />
+    <ClInclude Include="Game\Entities\Enemy.h" />
+    <ClInclude Include="Game\Entities\Gunner.h" />
+    <ClInclude Include="Game\Machinegun.h" />
+    <ClInclude Include="Game\MachinegunBullet.h" />
+    <ClInclude Include="Game\Player.h" />
+    <ClInclude Include="Game\Projectile.h" />
+    <ClInclude Include="Game\Rocket.h" />
+    <ClInclude Include="Game\Rocketeer.h" />
+    <ClInclude Include="Game\RocketLauncher.h" />
+    <ClInclude Include="Game\Rusher.h" />
+    <ClInclude Include="Game\Shotgun.h" />
+    <ClInclude Include="Game\ShotgunPellet.h" />
+    <ClInclude Include="Game\Weapon.h" />
+    <ClInclude Include="Game\GameLogic\HUD.h" />
+    <ClInclude Include="Game\GameLogic\Level.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="Game\GameLogic\Scoreboard.h" />
+    <ClInclude Include="Game\GameLogic\SteeringManager.h" />
+    <ClInclude Include="Game\ResourceManager.h" />
+    <ClInclude Include="Game\GameLogic\UIElement.h" />
+    <ClInclude Include="Game\GameLogic\UIManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Framework\Core\Camera.cpp" />
+    <ClCompile Include="Framework\Core\Core.cpp" />
+    <ClCompile Include="Framework\Core\Game.cpp" />
+    <ClCompile Include="Framework\Core\GameObject.cpp" />
+    <ClCompile Include="Framework\Core\GameObjectManager.cpp" />
+    <ClCompile Include="Framework\Core\InputHandling.cpp" />
+    <ClCompile Include="Framework\Helpers\Matrix2x3.cpp" />
+    <ClCompile Include="Framework\Helpers\SAT.cpp" />
+    <ClCompile Include="Framework\Resources\SoundEffect.cpp" />
+    <ClCompile Include="Framework\Resources\SoundStream.cpp" />
+    <ClCompile Include="Framework\Resources\Sprite.cpp" />
+    <ClCompile Include="Framework\Helpers\structs.cpp" />
+    <ClCompile Include="Framework\Helpers\SVGParser.cpp" />
+    <ClCompile Include="Framework\Resources\Texture.cpp" />
+    <ClCompile Include="Framework\Helpers\utils.cpp" />
+    <ClCompile Include="Framework\Helpers\Vector2f.cpp" />
+    <ClCompile Include="Game\Entities\Enemy.cpp" />
+    <ClCompile Include="Game\Entities\Gunner.cpp" />
+    <ClCompile Include="Game\Entities\Player.cpp" />
+    <ClCompile Include="Game\Machinegun.cpp" />
+    <ClCompile Include="Game\MachinegunBullet.cpp" />
+    <ClCompile Include="Game\Projectile.cpp" />
+    <ClCompile Include="Game\Rocket.cpp" />
+    <ClCompile Include="Game\Rocketeer.cpp" />
+    <ClCompile Include="Game\RocketLauncher.cpp" />
+    <ClCompile Include="Game\Rusher.cpp" />
+    <ClCompile Include="Game\Shotgun.cpp" />
+    <ClCompile Include="Game\ShotgunPellet.cpp" />
+    <ClCompile Include="Game\Weapon.cpp" />
+    <ClCompile Include="Game\GameLogic\HUD.cpp" />
+    <ClCompile Include="Game\GameLogic\Level.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Game\GameLogic\Scoreboard.cpp" />
+    <ClCompile Include="Game\GameLogic\SteeringManager.cpp" />
+    <ClCompile Include="Game\ResourceManager.cpp" />
+    <ClCompile Include="Game\GameLogic\UIElement.cpp" />
+    <ClCompile Include="Game\GameLogic\UIManager.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
