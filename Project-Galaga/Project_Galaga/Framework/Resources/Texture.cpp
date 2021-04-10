@@ -4,7 +4,7 @@
 #include <SDL_image.h>
 
 Texture::Texture(const std::string& imagePath)
-	:m_Id{ }
+	: m_Id{ }
 	, m_Width{ 10.0f }
 	, m_Height{ 10.0f }
 	, m_CreationOk{ false }
@@ -21,7 +21,7 @@ Texture::Texture(const std::string& text, TTF_Font *pFont, const Color4f& textCo
 	CreateFromString(text, pFont, textColor);
 }
 
-Texture::Texture(const std::string& text, const std::string& fontPath, int ptSize, const Color4f& textColor)
+Texture::Texture(const std::string& text, const std::string& fontPath, const int ptSize, const Color4f& textColor)
 	: m_Id{}
 	, m_Width{ 10.0f }
 	, m_Height{ 10.0f }
@@ -30,7 +30,7 @@ Texture::Texture(const std::string& text, const std::string& fontPath, int ptSiz
 	CreateFromString(text, fontPath, ptSize, textColor);
 }
 Texture::Texture(Texture&& other) noexcept
-	:m_Id{ other.m_Id }
+	: m_Id{ other.m_Id }
 	, m_Width{ other.m_Width }
 	, m_Height{ other.m_Height }
 	, m_CreationOk{ other.m_CreationOk }
@@ -41,7 +41,7 @@ Texture::Texture(Texture&& other) noexcept
 
 Texture& Texture::operator=(Texture&& other) noexcept
 {
-	if (this != &other)// no self assignment
+	if (this != &other) // no self assignment
 	{
 
 		m_Id = other.m_Id;
@@ -76,13 +76,12 @@ void Texture::CreateFromImage(const std::string& path)
 	SDL_FreeSurface(pLoadedSurface);
 }
 
-void Texture::CreateFromString(const std::string& text, const std::string& fontPath, int ptSize, const Color4f& textColor)
+void Texture::CreateFromString(const std::string& text, const std::string& fontPath, const int ptSize, const Color4f& textColor)
 {
 	m_CreationOk = true;
 
 	// Create font
-	TTF_Font *pFont{};
-	pFont = TTF_OpenFont(fontPath.c_str(), ptSize);
+	TTF_Font* pFont = TTF_OpenFont(fontPath.c_str(), ptSize);
 	if (pFont == nullptr)
 	{
 		std::cerr << "Texture::CreateFromString, error when calling TTF_OpenFont: " << TTF_GetError() << std::endl;
@@ -106,11 +105,11 @@ void Texture::CreateFromString(const std::string& text, TTF_Font *pFont, const C
 	}
 
 	// Render text surface
-	SDL_Color textColor{};
-	textColor.r = Uint8(color.r * 255);
-	textColor.g = Uint8(color.g * 255);
-	textColor.b = Uint8(color.b * 255);
-	textColor.a = Uint8(color.a * 255);
+	SDL_Color textColor;
+	textColor.r = static_cast<Uint8>(color.r * 255);
+	textColor.g = static_cast<Uint8>(color.g * 255);
+	textColor.b = static_cast<Uint8>(color.b * 255);
+	textColor.a = static_cast<Uint8>(color.a * 255);
 
 	SDL_Surface* pLoadedSurface = TTF_RenderText_Blended(pFont, text.c_str(), textColor);
 	if (pLoadedSurface == nullptr)
@@ -132,8 +131,8 @@ void Texture::CreateFromSurface(SDL_Surface *pSurface)
 	m_CreationOk = true;
 
 	//Get image dimensions
-	m_Width = float(pSurface->w);
-	m_Height = float(pSurface->h);
+	m_Width = static_cast<float>(pSurface->w);
+	m_Height = static_cast<float>(pSurface->h);
 
 	// Get pixel format information and translate to OpenGl format
 	GLenum pixelFormat{ GL_RGB };
@@ -160,7 +159,7 @@ void Texture::CreateFromSurface(SDL_Surface *pSurface)
 		}
 		break;
 	default:
-		std::cerr << "Texture::CreateFromSurface, unknow pixel format, BytesPerPixel: " << pSurface->format->BytesPerPixel << "\nUse 32 bit or 24 bit images.\n";
+		std::cerr << "Texture::CreateFromSurface, unknown pixel format, BytesPerPixel: " << pSurface->format->BytesPerPixel << "\nUse 32 bit or 24 bit images.\n";
 		m_CreationOk = false;
 		return;
 	}
@@ -173,7 +172,7 @@ void Texture::CreateFromSurface(SDL_Surface *pSurface)
 	//All subsequent changes to OpenGL's texturing state for 2D textures will affect this texture.
 	glBindTexture(GL_TEXTURE_2D, m_Id);
 	// check for errors. Can happen if a texture is created while a static pointer is being initialized, even before the call to the main function.
-	GLenum e = glGetError();
+	const GLenum e = glGetError();
 	if (e != GL_NO_ERROR)
 	{
 		std::cerr << "Texture::CreateFromSurface, error binding textures, Error id = " << e << '\n';
@@ -210,15 +209,15 @@ void Texture::CreateFromSurface(SDL_Surface *pSurface)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 }
 
-void Texture::Draw(const Point2f& dstBottomLeft, const Rectf& srcRect) const
+void Texture::Draw(const Point2f& destBottomLeft, const Rectf& srcRect) const
 {
 	if (!m_CreationOk)
 	{
-		DrawFilledRect(Rectf{ dstBottomLeft.x, dstBottomLeft.y,srcRect.width, srcRect.height });
+		DrawFilledRect(Rectf{ destBottomLeft.x, destBottomLeft.y,srcRect.width, srcRect.height });
 	}
 	else
 	{
-		Rectf destRect{ dstBottomLeft.x, dstBottomLeft.y, srcRect.width, srcRect.height };
+		const Rectf destRect{ destBottomLeft.x, destBottomLeft.y, srcRect.width, srcRect.height };
 		Draw(destRect, srcRect);
 	}
 }
@@ -234,13 +233,9 @@ void Texture::Draw(const Rectf& destRect, const Rectf& srcRect) const
 	}
 
 	// Determine texture coordinates using srcRect and default destination width and height
-	float textLeft{};
-	float textRight{};
-	float textTop{};
-	float textBottom{};
+	float textLeft, textRight, textTop, textBottom;
 
-	float defaultDestWidth{};
-	float defaultDestHeight{};
+	float defaultDestWidth, defaultDestHeight;
 	if (!(srcRect.width > 0.0f && srcRect.height > 0.0f)) // No srcRect specified
 	{
 		// Use complete texture
@@ -265,10 +260,10 @@ void Texture::Draw(const Rectf& destRect, const Rectf& srcRect) const
 	}
 
 	// Determine vertex coordinates
-	float vertexLeft{ destRect.left };
-	float vertexBottom{ destRect.bottom };
-	float vertexRight{};
-	float vertexTop{};
+	const float vertexLeft{ destRect.left };
+	const float vertexBottom{ destRect.bottom };
+	float vertexRight, vertexTop;
+	
 	if (!(destRect.width > 0.0f && destRect.height > 0.0f)) // If no size specified use default size
 	{
 		vertexRight = vertexLeft + defaultDestWidth;
@@ -278,7 +273,6 @@ void Texture::Draw(const Rectf& destRect, const Rectf& srcRect) const
 	{
 		vertexRight = vertexLeft + destRect.width;
 		vertexTop = vertexBottom + destRect.height;
-
 	}
 
 	// Tell opengl which texture we will use
@@ -312,36 +306,21 @@ void Texture::DrawC(const Point2f& center, const Rectf& srcRect) const
 	Draw(Point2f{ center.x - m_Width / 2.f, center.y - m_Height / 2 }, srcRect);
 }
 
-void Texture::DrawC(const Point2f& center, float width, float height, const Rectf& srcRect) const
+void Texture::DrawC(const Point2f& center, const float width, const float height, const Rectf& srcRect) const
 {
 	Draw(Rectf{ center.x - width / 2.f, center.y - height / 2.f, width, height }, srcRect);
 }
 
-float Texture::GetWidth() const
-{
-	return m_Width;
-}
 
-float Texture::GetHeight() const
-{
-	return m_Height;
-}
-
-bool Texture::IsCreationOk() const
-{
-	return m_CreationOk;
-}
-
-void Texture::DrawFilledRect(const Rectf& rect) const
+void Texture::DrawFilledRect(const Rectf& destRect)
 {
 	glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
 	glBegin(GL_POLYGON);
 	{
-		glVertex2f(rect.left, rect.bottom);
-		glVertex2f(rect.left + rect.width, rect.bottom);
-		glVertex2f(rect.left + rect.width, rect.bottom + rect.height);
-		glVertex2f(rect.left, rect.bottom + rect.height);
+		glVertex2f(destRect.left, destRect.bottom);
+		glVertex2f(destRect.left + destRect.width, destRect.bottom);
+		glVertex2f(destRect.left + destRect.width, destRect.bottom + destRect.height);
+		glVertex2f(destRect.left, destRect.bottom + destRect.height);
 	}
 	glEnd();
-
 }

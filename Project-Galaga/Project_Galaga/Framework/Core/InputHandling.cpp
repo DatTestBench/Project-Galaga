@@ -45,23 +45,23 @@ void InputHandling::ProcessInput(const SDL_Event& e)
 		break;
 	case SDL_KEYDOWN:
 		ProcessKeyDownEvent(e.key);
-		m_Type = SDL_EventType(e.type);
+		m_Type = static_cast<SDL_EventType>(e.type);
 		break;
 	case SDL_KEYUP:
 		ProcessKeyUpEvent(e.key);
-		m_Type = SDL_EventType(e.type);
+		m_Type = static_cast<SDL_EventType>(e.type);
 		break;
 	case SDL_MOUSEMOTION:
 		ProcessMouseMotionEvent(e.motion);
-		m_Type = SDL_EventType(e.type);
+		m_Type = static_cast<SDL_EventType>(e.type);
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 		ProcessMouseDownEvent(e.button);
-		m_Type = SDL_EventType(e.type);
+		m_Type = static_cast<SDL_EventType>(e.type);
 		break;
 	case SDL_MOUSEBUTTONUP:
 		ProcessMouseUpEvent(e.button);
-		m_Type = SDL_EventType(e.type);
+		m_Type = static_cast<SDL_EventType>(e.type);
 		break;
 	default:
 		break;
@@ -86,62 +86,11 @@ void InputHandling::UpdateRelMousePos(const Vector2f& offset)
 #pragma region Getters
 
 
-SDL_Keycode InputHandling::KeyDown()
+Uint32 InputHandling::MouseState(int &x, int &y) const
 {
-	return m_KeyDown;
-}
-
-SDL_Keycode InputHandling::KeyUp()
-{
-
-	return m_KeyUp;
-}
-
-Vector2f InputHandling::MousePos()
-{
-	return m_MousePos;
-}
-
-Vector2f InputHandling::RelMousePos()
-{
-	return m_RelMousePos;
-}
-
-Uint8 InputHandling::MouseDown()
-{
-	return m_MouseDown;
-}
-
-Uint8 InputHandling::MouseUp()
-{
-	return m_MouseUp;
-}
-
-const Uint8* InputHandling::KeyState()
-{
-	return SDL_GetKeyboardState(nullptr);
-}
-
-Uint32 InputHandling::MouseState(int &x, int &y)
-{
-	Uint32 state{ SDL_GetMouseState(&x, &y) };
-	y = int(m_Window.height) - y;
+	const Uint32 state{ SDL_GetMouseState(&x, &y) };
+	y = static_cast<int>(m_Window.height) - y;
 	return state;
-}
-
-Uint32 InputHandling::MouseState()
-{
-	return SDL_GetMouseState(nullptr, nullptr);
-}
-
-SDL_Event InputHandling::Event()
-{
-	return m_Event;
-}
-
-SDL_EventType InputHandling::Type()
-{
-	return m_Type;
 }
 
 #pragma endregion Getters
@@ -160,7 +109,7 @@ void InputHandling::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 
 void InputHandling::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
 {
-	m_MousePos.x = float(e.x);
+	m_MousePos.x = static_cast<float>(e.x);
 	m_MousePos.y = m_Window.height - e.y;
 }
 

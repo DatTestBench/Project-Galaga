@@ -7,11 +7,11 @@
 #include "Helpers/utils.h"
 #include "Math/Matrix2x3.h"
 
-Weapon::Weapon(float width, float height, Sprite* pSprite, GameObject* pOwner, int /*level*/, /*float baseDamage, */ const Slot& slot, float baseFireRate)
-	: GameObject{ Vector2f{ 0,0 }, width, height, pSprite }
-	, m_IsShooting{pOwner->IsShooting() }
+Weapon::Weapon(const float width, const float height, Sprite* pSprite, GameObject* pOwner, int /*level*/, /*float baseDamage, */ const Slot& slot, const float baseFireRate)
+	: GameObject{ Vector2f{ 0, 0 }, width, height, pSprite }
+	, m_IsShooting{ pOwner->IsShooting() }
 	, m_Slot{ slot }
-	, m_Level{ 1 } // change to a general usecase, for all gameobjects capable of owning a weapon 
+	, m_Level{ 1 } // todo: change to a general usecase, for all gameobjects capable of owning a weapon 
 	, m_pOwner{ pOwner }
 	, m_BaseFireRate{ baseFireRate }
 {
@@ -40,27 +40,17 @@ Weapon::Weapon(float width, float height, Sprite* pSprite, GameObject* pOwner, i
 void Weapon::Draw() const
 {
 	//m_pTexture->DrawC(Point2f{}, m_Width, m_Height);
-	if (typeid (*this) == typeid(RocketLauncher))
-	{
-		utils::SetColor(Color4f{ 1,0,0,1 });
-	}
-	if (typeid (*this) == typeid(Shotgun))
-	{
-		utils::SetColor(Color4f{ 255.f,69.f,0,1 });
-	}
-	if (typeid (*this) == typeid(Machinegun))
-	{
-		utils::SetColor(Color4f{ 1,1,0,1 });
-	}
+	if (typeid(*this) == typeid(RocketLauncher))
+		utils::SetColor(Color4f{ 1, 0, 0, 1 });
+	if (typeid(*this) == typeid(Shotgun))
+		utils::SetColor(Color4f{ 255.f, 69.f, 0, 1 });
+	if (typeid(*this) == typeid(Machinegun))
+		utils::SetColor(Color4f{ 1, 1, 0, 1 });
 	utils::FillPolygon(GetCollider());
-	
 }
 
 void Weapon::Update(float /*dT*/)
 {
-
-
-
 	//switch (InputHandling::Get()->MouseState())
 	//{
 	//case SDL_BUTTON_MIDDLE:
@@ -68,30 +58,25 @@ void Weapon::Update(float /*dT*/)
 	//	GameObjectManager::Get()->Add(new Projectile{ this, GameObjectManager::Get()->GetPlayer()->GetPos(), GetAngle() });
 	//	break;
 	//}
-
 }
 
 float Weapon::GetAngle() const
 {
-	Vector2f v{};
+	Vector2f v;
 	switch (m_Slot)
 	{
 	case Slot::front:
 		return m_pOwner->GetAngle();
 
-		break;
-
 	case Slot::middle:
 		v = Vector2f(GetAbsPos(), InputHandling::Get()->RelMousePos());
 		return atan2(v.y, v.x);
-		break;
 
 	case Slot::left:
 		return m_pOwner->GetAngle() + utils::g_Pi / 6;
-		break;
 
 	case Slot::right:
-		v = Vector2f(GetAbsPos(), InputHandling::Get()->RelMousePos());
+		//v = Vector2f(GetAbsPos(), InputHandling::Get()->RelMousePos());
 		/*if ( ( atan2(v.y, v.x) - m_pOwner->GetAngle() < utils::g_Pi / 3.f && atan2(v.y,v.x) - m_pOwner->GetAngle() > 0 ) ||
 			atan2(v.y, v.x) + m_pOwner->GetAngle() > 5 * utils::g_Pi && atan2(v.y, v.x) < 2 * utils::g_Pi)
 		{
@@ -105,10 +90,10 @@ float Weapon::GetAngle() const
 			return m_pOwner->GetAngle() + utils::g_Pi / 2.f;*/
 
 		return m_pOwner->GetAngle() + 11 * utils::g_Pi / 6;
-		break;
 
 	case Slot::rear:
 		return m_pOwner->GetAngle() - utils::g_Pi;
+	default:
 		break;
 	}
 
@@ -127,22 +112,23 @@ void Weapon::ToggleShoot()
 
 Vector2f Weapon::GetAbsPos() const
 {
-	Matrix2x3 tMat{ Matrix2x3::CreateTranslationMatrix(m_pOwner->GetPos()) };
-	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(m_pOwner->GetAngle() - utils::g_Pi / 2.f)) };
-	return Vector2f((tMat*rMat).Transform(m_BaseOffset.ToPoint2f()));
+	const Matrix2x3 tMat{ Matrix2x3::CreateTranslationMatrix(m_pOwner->GetPos()) };
+	const Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(m_pOwner->GetAngle() - utils::g_Pi / 2.f)) };
+	return Vector2f((tMat * rMat).Transform(m_BaseOffset.ToPoint2f()));
 }
 
 std::vector<Vector2f> Weapon::GetCollider() const
 {
-	Matrix2x3 tMat{ Matrix2x3::CreateTranslationMatrix(GetAbsPos()) };
-	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(GetAngle())) };
-	return (tMat*rMat).Transform(m_BaseCollider);
+	const Matrix2x3 tMat{ Matrix2x3::CreateTranslationMatrix(GetAbsPos()) };
+	const Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(GetAngle())) };
+	return (tMat * rMat).Transform(m_BaseCollider);
 }
 
 void Weapon::DoShoot(float /*dT*/)
-{}
+{
+}
 
-float Weapon::GetFireRate()
+float Weapon::GetFireRate() const
 {
 	return m_BaseFireRate * m_Level;
 }

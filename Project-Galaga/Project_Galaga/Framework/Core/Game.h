@@ -27,11 +27,11 @@ public:
 	void Draw() const;
 
 	// Event handling
-	void ProcessKeyDownEvent(const SDL_KeyboardEvent& e);
-	void ProcessKeyUpEvent(const SDL_KeyboardEvent& e);
+	static void ProcessKeyDownEvent(const SDL_KeyboardEvent& e);
+	static void ProcessKeyUpEvent(const SDL_KeyboardEvent& e);
 	void ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e);
-	void ProcessMouseDownEvent(const SDL_MouseButtonEvent& e);
-	void ProcessMouseUpEvent(const SDL_MouseButtonEvent& e);
+	void ProcessMouseDownEvent(const SDL_MouseButtonEvent& e) const;
+	void ProcessMouseUpEvent(const SDL_MouseButtonEvent& e) const;
 
 	// Game State Logic
 	void StartGame();
@@ -52,7 +52,7 @@ private:
 	std::vector<Vector2f> m_SpawnLocations;
 	// FUNCTIONS
 	void Initialize();
-	void Cleanup();
-	void ClearBackground() const;
+	static void Cleanup();
+	static void ClearBackground();
 	void SpawnEnemies(float dT);
 };

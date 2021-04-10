@@ -1,9 +1,9 @@
 #include "GameLogic/HUD.h"
 
 #include "Entities/Player.h"
-#include "Helpers/utils.h"
 #include "Resources/Texture.h"
-HUD::HUD(float width, float height)
+
+HUD::HUD(const float width, const float height)
 	: m_Width{ width }
 	, m_Height{ height }
 	, m_pResourceManager{ ResourceManager::Get() }

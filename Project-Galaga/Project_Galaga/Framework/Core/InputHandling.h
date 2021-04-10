@@ -15,7 +15,7 @@ public:
 
 	//Singleton Functionality
 	static InputHandling* Get();
-	void Destroy();
+	static void Destroy();
 
 	//Input
 	void ProcessInput(const SDL_Event& e);
@@ -23,17 +23,17 @@ public:
 	void UpdateRelMousePos(const Vector2f& offset);
 
 	//Getters
-	SDL_Keycode KeyDown();
-	SDL_Keycode KeyUp();
-	Vector2f MousePos();
-	Vector2f RelMousePos();
-	Uint8 MouseDown();
-	Uint8 MouseUp();
-	const Uint8* KeyState();
-	Uint32 MouseState(int &x, int &y);
-	Uint32 MouseState();
-	SDL_Event Event();
-	SDL_EventType Type();
+	SDL_Keycode KeyDown() const { return m_KeyDown; }
+	SDL_Keycode KeyUp() const { return m_KeyUp; }
+	Vector2f MousePos() const { return m_MousePos; }
+	Vector2f RelMousePos() const { return m_RelMousePos; }
+	Uint8 MouseDown() const { return m_MouseDown; }
+	Uint8 MouseUp() const { return m_MouseUp; }
+	static const Uint8* KeyState() { return SDL_GetKeyboardState(nullptr); } 
+	Uint32 MouseState(int &x, int &y) const;
+	static Uint32 MouseState() { return SDL_GetMouseState(nullptr, nullptr); }
+	SDL_Event Event() const { return m_Event; }
+	SDL_EventType Type() const { return m_Type; }
 private:
 	InputHandling();
 	static InputHandling* m_pInputHandling;

@@ -1,16 +1,16 @@
 #pragma once
 #include <iostream>
+
 template <typename T>
 struct Node
 {
-	Node(T element, Node *pNext = nullptr)
+	explicit Node(T element, Node* pNext = nullptr)
 		: element{ element }
 		, pNext{ pNext }
 	{
-
 	}
-	Node* pNext;
 	T element;
+	Node* pNext;
 };
 
 template <typename T>
@@ -18,6 +18,8 @@ class LinkedList
 {
 public:
 	LinkedList()
+		: m_pFirstNode(nullptr)
+		, m_Size(0)
 	{
 	}
 	~LinkedList()
@@ -30,13 +32,11 @@ public:
 		}
 	}
 	LinkedList(const LinkedList& other)
-		: m_Size{ 0 }
-		, m_pFirstNode{ nullptr }
+		: m_pFirstNode{ nullptr }
+		, m_Size{ 0 }
 	{
 		for (Node<T>* pNode = other.m_pFirstNode; pNode != nullptr; pNode = pNode->pNext)
-		{
 			PushBack(pNode->value);
-		}
 	}
 	LinkedList& operator=(const LinkedList& other)
 	{
@@ -46,22 +46,20 @@ public:
 			m_Size = 0;
 			m_pFirstNode = nullptr;
 			for (Node<T>* pNode = other.m_pFirstNode; pNode != nullptr; pNode = pNode->pNext)
-			{
 				PushBack(pNode->element);
-			}
 
 			//*this = LinkedList(other);
 		}
 		return *this;
 	}
-	LinkedList(LinkedList&& other)noexcept
-		: m_Size{ other.m_Size }
-		, m_pFirstNode{ other.m_pFirstNode }
+	LinkedList(LinkedList&& other) noexcept
+		: m_pFirstNode{ other.m_pFirstNode }
+		, m_Size{ other.m_Size }
 	{
 		other.m_pFirstNode = nullptr;
 		other.m_Size = 0;
 	}
-	LinkedList& operator=(LinkedList&& other)noexcept
+	LinkedList& operator=(LinkedList&& other) noexcept
 	{
 		if (&other != this)
 		{
@@ -70,7 +68,6 @@ public:
 			m_Size = other.m_Size;
 			other.m_pFirstNode = nullptr;
 			other.m_Size = 0;
-
 		}
 		return *this;
 	}
@@ -86,9 +83,7 @@ public:
 	void PopFront()
 	{
 		if (m_Size == 0)
-		{
 			return;
-		}
 
 		Node<T>* pTempNode{ m_pFirstNode };
 		m_pFirstNode = m_pFirstNode->pNext;
@@ -101,19 +96,13 @@ public:
 	void Remove(T element)
 	{
 		if (m_pFirstNode == nullptr)
-		{
 			return;
-		}
 
 		while (m_pFirstNode->element == element)
-		{
 			PopFront();
-		}
 
 		if (m_pFirstNode->pNext == nullptr)
-		{
 			return;
-		}
 
 		Node<T>* pCurrentNode{ m_pFirstNode->pNext };
 		Node<T>* pPreviousNode{ m_pFirstNode };
@@ -129,9 +118,7 @@ public:
 
 
 			if (pCurrentNode == nullptr)
-			{
 				return;
-			}
 
 			pCurrentNode = pCurrentNode->pNext;
 			pPreviousNode = pPreviousNode->pNext;
@@ -149,15 +136,12 @@ public:
 	void PushBack(T element)
 	{
 		if (m_Size == 0)
-		{
 			PushFront(element);
-		}
 		else
 		{
 			Node<T>* pNode = m_pFirstNode;
 			for (; pNode->pNext != nullptr; pNode = pNode->pNext)
 			{
-
 			}
 
 			pNode->pNext = new Node<T>(element);
@@ -168,20 +152,15 @@ public:
 	void PopBack()
 	{
 		if (m_Size == 0)
-		{
 			return;
-		}
-		else
-		{
-			Node<T>* pNode = m_pFirstNode;
-			for (; pNode->pNext->pNext != nullptr; pNode = pNode->pNext)
-			{
 
-			}
-			delete pNode->pNext;
-			pNode->pNext = nullptr;
-			m_Size--;
+		Node<T>* pNode = m_pFirstNode;
+		for (; pNode->pNext->pNext != nullptr; pNode = pNode->pNext)
+		{
 		}
+		delete pNode->pNext;
+		pNode->pNext = nullptr;
+		m_Size--;
 	}
 
 	// Return number of Node objects in the list
@@ -205,17 +184,13 @@ private:
 	void Wipe()
 	{
 		if (m_Size == 0)
-		{
 			return;
-		}
 
 		Node<T>* pNode = m_pFirstNode;
 		while (pNode->pNext != nullptr)
 		{
 			if (m_Size == 0)
-			{
 				return;
-			}
 
 			Node<T>* pTempNode{ pNode };
 			pNode = pNode->pNext;
@@ -225,7 +200,6 @@ private:
 		}
 		delete pNode;
 	}
-
 };
 
 template <typename T>

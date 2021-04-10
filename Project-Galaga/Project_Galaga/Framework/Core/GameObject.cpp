@@ -1,11 +1,11 @@
 #include "Core/GameObject.h"
 #include "Resources/Texture.h"
 #include "Math/Matrix2x3.h"
-#include "Helpers/structs.h"
 #include "Core/Game.h"
 #include "Helpers/utils.h"
 #include "GameLogic/SteeringManager.h"
-GameObject::GameObject(const Vector2f& pos, float width, float height, Sprite* pSprite)
+
+GameObject::GameObject(const Vector2f& pos, const float width, const float height, Sprite* pSprite)
 	: m_Pos{ pos }
 	, m_pTexture(nullptr)
 	, m_pSprite{ pSprite }
@@ -31,7 +31,7 @@ GameObject::GameObject(const Vector2f& pos, float width, float height, Sprite* p
 
 GameObject::~GameObject()
 {
-	delete m_pSteeringManager;	
+	delete m_pSteeringManager;
 }
 
 #pragma region Workers
@@ -39,16 +39,20 @@ GameObject::~GameObject()
 // Deleted Update
 
 void GameObject::DoAction(float /*dT*/)
-{}
+{
+}
 
 void GameObject::ToggleAction()
-{}
+{
+}
 
 void GameObject::DoShoot(float /*dT*/)
-{}
+{
+}
 
 void GameObject::ToggleShoot()
-{}
+{
+}
 
 bool GameObject::IsShooting()
 {
@@ -56,7 +60,8 @@ bool GameObject::IsShooting()
 }
 
 void GameObject::HitLevel(const Vector2f& /*dMove*/)
-{}
+{
+}
 #pragma endregion Workers
 
 #pragma region Getters
@@ -72,9 +77,9 @@ Texture* GameObject::GetTexture() const
 
 std::vector<Vector2f> GameObject::GetCollider() const
 {
-	Matrix2x3 tMat { Matrix2x3::CreateTranslationMatrix(m_Pos) };
-	Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(GetAngle())) };
-	return (tMat*rMat).Transform(m_BaseCollider);
+	const Matrix2x3 tMat{ Matrix2x3::CreateTranslationMatrix(m_Pos) };
+	const Matrix2x3 rMat{ Matrix2x3::CreateRotationMatrix(utils::ToDeg(GetAngle())) };
+	return (tMat * rMat).Transform(m_BaseCollider);
 }
 
 float GameObject::GetWidth() const
@@ -128,26 +133,27 @@ void GameObject::ChangePos(const Vector2f& dMove)
 	m_Pos += dMove;
 }
 
-void GameObject::Delete() 
+void GameObject::Delete()
 {
 	GameObjectManager::Get()->Delete(this);
 	m_DelFlag = true;
 }
 
 void GameObject::AddWeapon()
-{}
+{
+}
 
 void GameObject::SetVelocity(const Vector2f& vNew)
 {
 	m_Velocity = vNew;
 }
 
-void GameObject::SetAngle(float angleNew)
+void GameObject::SetAngle(const float angleNew)
 {
 	m_Angle = angleNew;
 }
 
-void GameObject::SetSpeed(float speedNew)
+void GameObject::SetSpeed(const float speedNew)
 {
 	m_Speed = speedNew;
 }
@@ -158,11 +164,11 @@ void GameObject::SetSpeed(float speedNew)
 #pragma region InternalWorkers
 
 void GameObject::HandleCollision(float /*dT*/)
-{}
+{
+}
 
 void GameObject::HandleLogic(float /*dT*/)
-{}
+{
+}
 
 #pragma endregion InternalWorkers
-
-

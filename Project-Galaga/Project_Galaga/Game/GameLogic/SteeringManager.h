@@ -9,7 +9,7 @@ class GameObject;
 class SteeringManager
 {
 public:
-	SteeringManager(GameObject* host);
+	explicit SteeringManager(GameObject* host);
 
 	// Public steering functionality
 	void Seek(GameObject* pTarget, float slowingRadius = 0);
@@ -29,7 +29,7 @@ public:
 
 private:
 	/// Member variables
-	
+
 	GameObject* m_pHost;
 	Vector2f m_Steering;
 	float m_WanderAngle;
@@ -38,11 +38,11 @@ private:
 	Vector2f m_LerpWanderTarget;
 	Vector2f m_RotationCenter;
 	float m_RotationAngle;
-	
+
 	/// Member functions
-	
+
 	// Internal steering functionality
-	
+
 	Vector2f DoSeek(GameObject* pTarget, float slowingRadius = 0);
 	Vector2f DoSeek(const Vector2f& targetPos, float slowingRadius = 0);
 	Vector2f DoPursuit(GameObject* pTarget);
@@ -53,7 +53,6 @@ private:
 	Vector2f DoCollisionEvade(const std::vector<std::vector<Point2f>>& vertices);
 	Vector2f DoSpin(const Vector2f& rotCenter, float radius);
 	// Helper Functions
-	void SetAngle(Vector2f& v, float number);
-	std::pair<std::vector<Point2f>, Point2f> FindMostThreateningObstacle(const std::vector<std::vector<Point2f>>& vertices, const Vector2f& ahead);
-
+	void SetAngle(Vector2f& v, float number) const;
+	std::pair<std::vector<Point2f>, Point2f> FindMostThreateningObstacle(const std::vector<std::vector<Point2f>>& vertices, const Vector2f& ahead) const;
 };

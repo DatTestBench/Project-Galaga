@@ -10,7 +10,7 @@
 #include "Items/Weapon.h"
 #include "Resources/Texture.h"
 
-Player::Player(const Vector2f& pos, float width, float height, Sprite* pSprite, float baseHealth)
+Player::Player(const Vector2f& pos, const float width, const float height, Sprite* pSprite, const float baseHealth)
 	: GameObject{ pos, width, height, pSprite }
 	, m_Friction{ 10 }
 	, m_BaseHealth{ baseHealth }
@@ -20,7 +20,7 @@ Player::Player(const Vector2f& pos, float width, float height, Sprite* pSprite, 
 	m_MaxSpeed = 600;
 	m_Acceleration = 10000;
 	m_CurrentHealth = m_BaseHealth;
-	RocketLauncher* pWeapon = new RocketLauncher{ 10, 10, nullptr, this, 1, Slot(m_pWeapons.size()) };
+	RocketLauncher* pWeapon = new RocketLauncher{ 10, 10, nullptr, this, 1, static_cast<Slot>(m_pWeapons.size()) };
 	m_pWeapons.push_back(pWeapon);
 }
 
@@ -42,9 +42,9 @@ void Player::Draw() const
 	glRotatef(utils::ToDeg(GetAngle() - utils::g_Pi / 2.f), 0.f, 0.f, 1.f);
 	m_pExhaustSprite->DrawC(Point2f{ 0, - m_Height / 2.f - 20 }, 20, 40, 1);
 
-	// Drawcode needing transform
+	// Draw-code needing transform
 	m_pSprite->DrawC(Point2f{}, m_Width, m_Height, 10); //Player Draw
-	
+
 	/*for (Weapon* pWeapon : m_pWeapons)
 		pWeapon->Draw();*/
 
@@ -57,7 +57,7 @@ void Player::Draw() const
 		pWeapon->Draw();
 }
 
-void Player::Update(float dT)
+void Player::Update(const float dT)
 {
 	//m_Pos = InputHandling::Get()->MousePos();
 
@@ -73,12 +73,8 @@ void Player::Update(float dT)
 	m_pExhaustSprite->Update(dT);
 
 	if (*UIManager::Get()->GetGameState() == GameState::playing)
-	{
 		for (Weapon* pWeapon : m_pWeapons)
-		{
 			pWeapon->Update(dT);
-		}
-	}
 
 	DoTrail(dT);
 	HandleMovement(dT);
@@ -100,32 +96,31 @@ void Player::ToggleShoot()
 
 void Player::AddWeapon()
 {
-	if (m_pWeapons.size() < int(Slot::size))
+	if (m_pWeapons.size() < static_cast<int>(Slot::size))
 	{
-		if (m_pWeapons.size() == int(Slot::middle))
+		if (m_pWeapons.size() == static_cast<int>(Slot::middle))
 		{
-			m_pWeapons.push_back(new Machinegun{ 10, 10, nullptr, this, 1, Slot(m_pWeapons.size()) });
+			m_pWeapons.push_back(new Machinegun{ 10, 10, nullptr, this, 1, static_cast<Slot>(m_pWeapons.size()) });
 			return;
 		}
-		if (m_pWeapons.size() == int(Slot::left))
+		if (m_pWeapons.size() == static_cast<int>(Slot::left))
 		{
-			m_pWeapons.push_back(new Shotgun{ 10, 10, nullptr, this, 1, Slot(m_pWeapons.size()) });
+			m_pWeapons.push_back(new Shotgun{ 10, 10, nullptr, this, 1, static_cast<Slot>(m_pWeapons.size()) });
 			return;
 		}
-		if (m_pWeapons.size() == int(Slot::right))
+		if (m_pWeapons.size() == static_cast<int>(Slot::right))
 		{
-			m_pWeapons.push_back(new Shotgun{ 10, 10, nullptr, this, 1, Slot(m_pWeapons.size()) });
+			m_pWeapons.push_back(new Shotgun{ 10, 10, nullptr, this, 1, static_cast<Slot>(m_pWeapons.size()) });
 			return;
 		}
-		if (m_pWeapons.size() == int(Slot::rear))
+		if (m_pWeapons.size() == static_cast<int>(Slot::rear))
 		{
-			m_pWeapons.push_back(new RocketLauncher{ 10, 10, nullptr, this, 1, Slot(m_pWeapons.size()) });
-			return;
+			m_pWeapons.push_back(new RocketLauncher{ 10, 10, nullptr, this, 1, static_cast<Slot>(m_pWeapons.size()) });
 		}
 	}
 }
 
-void Player::Hit(float damage)
+void Player::Hit(const float damage)
 {
 	m_CurrentHealth -= damage;
 	if (m_CurrentHealth <= 0)
@@ -137,9 +132,7 @@ void Player::Hit(float damage)
 			m_Lives -= 1;
 		}
 		else
-		{
 			UIManager::Get()->ChangeGameState(GameState::death);
-		}
 		//std::cout << "Dead";
 	}
 }
@@ -149,27 +142,11 @@ void Player::HitLevel(const Vector2f& dMove)
 	ChangePos(dMove);
 }
 
-float Player::GetBaseHealth() const
-{
-	return m_BaseHealth;
-}
-
-float Player::GetHealth() const
-{
-	return m_CurrentHealth;
-}
-
-float Player::GetLives() const
-{
-	return m_Lives;
-}
-
-
 #pragma region Behaviour
 
 
 
-void Player::HandleMovement(float dT)
+void Player::HandleMovement(const float dT)
 {
 	const Uint8* state = InputHandling::Get()->KeyState();
 
@@ -210,45 +187,38 @@ void Player::HandleMovement(float dT)
 	m_Angle = m_Angle > 2 * utils::g_Pi ? m_Angle - 2 * utils::g_Pi : m_Angle;
 
 	if (!(m_Speed < DBL_EPSILON))
-	{
 		m_Speed = utils::lerp(m_Speed, 0.f, dT, m_Friction);
-	}
 
 	if (m_Speed > m_MaxSpeed)
 		m_Speed = m_MaxSpeed;
 
 
-
-	
 	m_Pos += (Vector2f(m_Speed * cos(m_Angle), m_Speed * sin(m_Angle)) * dT);
 }
 
 void Player::HandleCollision(float /*dT*/)
 {
-	PolygonCollisionResult result;
 	for (GameObject* pGameObject : m_pGameObjectManager->GetEnemies())
 	{
-			result = sat::PolygonCollision(this, pGameObject);
-			if (result.intersect)
-			{
-				//m_Pos += result.minimumTranslationVector;
-			}
+		const PolygonCollisionResult result = sat::PolygonCollision(this, pGameObject);
+		if (result.intersect)
+		{
+			//m_Pos += result.minimumTranslationVector;
+		}
 	}
 }
 
-void Player::DoTrail(float dT)
+void Player::DoTrail(const float dT)
 {
 	m_TrailTimer += dT;
 
 	if (m_TrailTimer > 0.1f)
 	{
-		m_TrailList.PushFront(Circlef{ m_Pos.ToPoint2f(), 5});
+		m_TrailList.PushFront(Circlef{ m_Pos.ToPoint2f(), 5 });
 		m_TrailTimer = 0;
 	}
-	if(m_TrailList.Size() > 5)
-	{
+	if (m_TrailList.Size() > 5)
 		m_TrailList.PopBack();
-	}
 }
 
 void Player::DrawTrail() const
@@ -258,13 +228,9 @@ void Player::DrawTrail() const
 	{
 		utils::SetColor(Color4f{ 133.f, 133.f, 133.f, 1.f });
 		Node<Circlef>* pNextNode{ m_TrailList.Begin()->pNext };
-		utils::FillEllipse(currentNode->element.center, currentNode->element.radius / (i+1) , currentNode->element.radius / (i+1));
+		utils::FillEllipse(currentNode->element.center, currentNode->element.radius / (i + 1), currentNode->element.radius / (i + 1));
 		currentNode = pNextNode;
 	}
 }
 
 #pragma endregion Behaviour
-
-
- 
-

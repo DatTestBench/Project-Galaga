@@ -14,8 +14,8 @@ public:
 	Rectf GetBoundaries() const;
 	void HandleCollision() const;
 
-	const std::vector<std::vector<Point2f>>& GetPoint2fVertices() const;
-	const std::vector<std::vector<Vector2f>>& GetVertices() const;
+	const std::vector<std::vector<Point2f>>& GetPoint2fVertices() const { return m_Point2fVertices; }
+	const std::vector<std::vector<Vector2f>>& GetVertices() const { return m_Vertices; }
 private:
 
 	// Data Members
@@ -24,7 +24,6 @@ private:
 	std::vector<std::vector<Point2f>> m_Point2fVertices;
 	Rectf m_Boundaries;
 	GameObjectManager* m_pGameObjectManager;
-	// Memeber Functions
+	// Member Functions
 	void InitializeVertices();
 };
-

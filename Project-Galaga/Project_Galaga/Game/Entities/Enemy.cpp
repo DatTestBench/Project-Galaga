@@ -1,10 +1,10 @@
 #include "Entities/Enemy.h"
 #include "Entities/Player.h"
 #include "Helpers/SAT.h"
-#include "Helpers/utils.h" 
+#include "Helpers/utils.h"
 #include "Math/Vector2f.h"
 
-Enemy::Enemy(const Vector2f& pos, float width, float height, Sprite* pSprite, int /*level*/, float baseHealth)
+Enemy::Enemy(const Vector2f& pos, const float width, const float height, Sprite* pSprite, const int /*level*/, const float baseHealth)
 	: GameObject{ pos, width, height, pSprite }
 	, m_pPlayer{ m_pGameObjectManager->GetPlayer() }
 	, m_Friction{}
@@ -33,27 +33,24 @@ void Enemy::Draw() const
 	glRotatef(utils::ToDeg(GetAngle() - utils::g_Pi / 2.f), 0.f, 0.f, 1.f);
 	m_pExhaustSprite->DrawC(Point2f{ 0, - m_Height / 2.f - 20 }, 20, 40, 1);
 
-	// Drawcode needing transform
+	// Draw-code needing transform
 	m_pSprite->DrawC(Point2f{}, m_Width, m_Height, 1); //Enemy Draw
 
 	/*for (Weapon* pWeapon : m_pWeapons)
 		pWeapon->Draw();*/
 
-		// Close Transform
+	// Close Transform
 	glPopMatrix();
 
 	//Debug Draws
 	//utils::DrawPolygon(GetCollider());
 	for (Weapon* pWeapon : m_pWeapons)
 		pWeapon->Draw();
-
 }
 
 
 void Enemy::Update(float /*dT*/)
 {
-	
-
 }
 
 bool Enemy::IsShooting()
@@ -69,7 +66,7 @@ void Enemy::ToggleShoot()
 		pWeapon->ToggleShoot();
 }
 
-void Enemy::Hit(float damage)
+void Enemy::Hit(const float damage)
 {
 	//std::cout << "Enemy hit" << std::endl;
 	m_CurrentHealth -= damage;
@@ -78,7 +75,6 @@ void Enemy::Hit(float damage)
 		Delete();
 		m_pScoreboard->AddScore(1);
 		//std::cout << "Enemy died" << std::endl;
-
 	}
 }
 
@@ -92,24 +88,19 @@ void Enemy::HandleCollision(float /*dT*/)
 	PolygonCollisionResult result;
 
 	for (GameObject* pGameObject : m_pGameObjectManager->GetEnemies())
-	{
 		if (pGameObject != this)
 		{
 			result = sat::PolygonCollision(this, pGameObject);
 			if (result.intersect)
-			{
 				// What happens when hit
 				m_Pos += result.minimumTranslationVector;
-			}
 		}
-	}
 
 	result = sat::PolygonCollision(this, m_pGameObjectManager->GetPlayer());
 	if (result.intersect)
-	{
 		m_Pos += result.minimumTranslationVector;
-	}
 }
 
 void Enemy::HandleLogic(float /*dT*/)
-{}
+{
+}

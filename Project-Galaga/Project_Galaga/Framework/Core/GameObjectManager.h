@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameObject.h"	
+#include "GameObject.h"
 #include <vector>
 
 class GameObject;
@@ -12,13 +12,13 @@ class GameObjectManager
 public:
 	~GameObjectManager();
 	GameObjectManager(const GameObjectManager&) = delete;
-	GameObjectManager& operator= (const GameObjectManager&) = delete;
+	GameObjectManager& operator=(const GameObjectManager&) = delete;
 	GameObjectManager(GameObjectManager&&) = delete;
-	GameObjectManager& operator= (GameObjectManager&&) = delete;
+	GameObjectManager& operator=(GameObjectManager&&) = delete;
 
 	//Singleton Functionality
-	static GameObjectManager* Get(); 
-	void Destroy();
+	static GameObjectManager* Get();
+	static void Destroy();
 
 	// External Item Manipulation
 	void Add(GameObject* pGameObject);
@@ -30,10 +30,10 @@ public:
 
 	// Workers
 	void Update(float dT);
-	void Draw() const;
+	static void Draw();
 
 	// Getters
-	
+
 	std::vector<GameObject*>* GetGameObjects();
 
 	std::vector<GameObject*> GetEnemies();
@@ -55,7 +55,7 @@ public:
 private:
 
 	GameObjectManager();
-	
+
 	/// Data Members
 	static GameObjectManager* m_pGameObjectManager;
 	std::vector<GameObject*> m_GameObjects;
@@ -74,6 +74,5 @@ private:
 	// Internal Item Manipulation
 	void HandleAdd();
 	void HandleRemoval();
-	void HandleDeletion();	
+	void HandleDeletion();
 };
-

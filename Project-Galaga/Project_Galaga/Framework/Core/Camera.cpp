@@ -1,13 +1,13 @@
 #include "Core/Camera.h"
 
-Camera::Camera(float width, float height)
+Camera::Camera(const float width, const float height)
 	: m_Width{ width }
 	, m_Height{ height }
 	, m_LevelBoundaries{0,0,width,height }
 {
 }
 
-void Camera::SetLevelBoundaries(const Rectf & levelBoundaries)
+void Camera::SetLevelBoundaries(const Rectf& levelBoundaries)
 {
 	m_LevelBoundaries = levelBoundaries;
 }

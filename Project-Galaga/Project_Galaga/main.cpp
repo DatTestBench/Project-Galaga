@@ -6,13 +6,13 @@
 void StartHeapControl();
 void DumpMemoryLeaks();
 
-int main( int /*argc*/, char */*argv*/[] )
+int main(int /*argc*/, char*/*argv*/[])
 {
-	srand(int(time(nullptr)));
+	srand(static_cast<int>(time(nullptr)));
 	{ // Make sure stack objects go out of scope before memory leaks are dumped
 		StartHeapControl();
 
-		Core core{ Window{ "Project Galaga", 1280.f, 800.f } };
+		const Core core{ Window{ "Project Galaga", 1280.f, 800.f } };
 		core.Run();
 	}
 	DumpMemoryLeaks();
@@ -40,5 +40,3 @@ void DumpMemoryLeaks()
 	_CrtDumpMemoryLeaks();
 #endif
 }
-
-

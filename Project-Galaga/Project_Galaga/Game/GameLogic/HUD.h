@@ -2,6 +2,7 @@
 #include "Core/GameObject.h"
 #include "Resources/ResourceManager.h"
 #include "Scoreboard.h"
+
 class HUD
 {
 public:
@@ -28,8 +29,4 @@ private:
 	void DrawHealth() const;
 	void DrawScore() const;
 	void DrawActivePowerups() const;
-
-
-	
 };
-

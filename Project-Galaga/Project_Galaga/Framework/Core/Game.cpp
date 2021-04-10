@@ -32,23 +32,22 @@ void Game::Initialize()
 	Scoreboard::Get();
 
 	// adding player
-	Player* pPlayer{ new Player { Vector2f(787.5, 787.5), 50, 50, ResourceManager::Get()->GetSprite("SpritePlayer"), 2000.f } };
+	Player* pPlayer{ new Player{ Vector2f(787.5, 787.5), 50, 50, ResourceManager::Get()->GetSprite("SpritePlayer"), 2000.f } };
 	GameObjectManager::Get()->Add(pPlayer);
 
 	// create UI
 	UIManager::Get()->LoadManager(Vector2f{ m_Window.width, m_Window.height });
-	UIManager::Get()->Add(new UIElement{ "BTNStart", Vector2f{ m_Window.width / 2.f, m_Window.height / 2.f}, 256, 64 });
-
+	UIManager::Get()->Add(new UIElement{ "BTNStart", Vector2f{ m_Window.width / 2.f, m_Window.height / 2.f }, 256, 64 });
 
 
 	ResourceManager::Get()->PlaySoundStream("SSBackground", true, 5);
 
 	// adding enemy
 
-	m_SpawnLocations.push_back(Vector2f{ m_Window.width / 3.f , m_Window.height / 3.f });
-	m_SpawnLocations.push_back(Vector2f{ 2 * m_Window.width / 3.f , m_Window.height / 3.f });
-	m_SpawnLocations.push_back(Vector2f{ 2 * m_Window.width / 3.f , 2 * m_Window.height / 3.f });
-	m_SpawnLocations.push_back(Vector2f{ m_Window.width / 3.f , 2 * m_Window.height / 3.f });
+	m_SpawnLocations.push_back(Vector2f{ m_Window.width / 3.f, m_Window.height / 3.f });
+	m_SpawnLocations.push_back(Vector2f{ 2 * m_Window.width / 3.f, m_Window.height / 3.f });
+	m_SpawnLocations.push_back(Vector2f{ 2 * m_Window.width / 3.f, 2 * m_Window.height / 3.f });
+	m_SpawnLocations.push_back(Vector2f{ m_Window.width / 3.f, 2 * m_Window.height / 3.f });
 
 
 	//GameObjectManager::Get()->Update(0);
@@ -63,18 +62,13 @@ void Game::Cleanup()
 	UIManager::Get()->Destroy();
 }
 
-void Game::Update(float elapsedSec)
+void Game::Update(const float elapsedSec)
 {
-
-	
-	
 	UIManager::Get()->Update(elapsedSec);
 
 	if (m_GameState != GameState::paused && m_GameState != GameState::menu && m_GameState != GameState::death)
 	{
-
-
-		if (static_cast<Player*>(GameObjectManager::Get()->GetPlayer())->GetLives() >= 0)
+		if (GameObjectManager::Get()->GetPlayer()->GetLives() >= 0)
 		{
 			GameObjectManager::Get()->Update(elapsedSec);
 			InputHandling::Get()->UpdateRelMousePos(m_Camera.GetOffset(GameObjectManager::Get()->GetPlayer()));
@@ -83,10 +77,8 @@ void Game::Update(float elapsedSec)
 		}
 	}
 	else
-	{
 		// To prevent memory leaks
 		GameObjectManager::Get()->Update(0);
-	}
 }
 
 void Game::Draw() const
@@ -94,20 +86,19 @@ void Game::Draw() const
 	ClearBackground();
 
 
-
 	//if (m_GameState != GameState::paused && m_GameState != GameState::menu)
 
 	glPushMatrix();
 	m_Camera.Transform(GameObjectManager::Get()->GetPlayer());
 	m_Level.Draw();
-	utils::SetColor(Color4f{ 1,0,0,1 });
+	utils::SetColor(Color4f{ 1, 0, 0, 1 });
 	GameObjectManager::Get()->Draw();
 	glPopMatrix();
 
 	UIManager::Get()->Draw();
 
 
-	if (static_cast<Player*>(GameObjectManager::Get()->GetPlayer())->GetLives() <= 0)
+	if (GameObjectManager::Get()->GetPlayer()->GetLives() <= 0)
 	{
 		utils::SetColor(Color4f{ 128.f, 128.f, 128, 1 });
 		utils::DrawRect(0, 0, m_Window.width, m_Window.height);
@@ -115,10 +106,9 @@ void Game::Draw() const
 }
 
 #pragma region EventHandling
-void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
+void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 {
-
-	switch ( e.keysym.sym )
+	switch (e.keysym.sym)
 	{
 	case SDLK_i:
 		std::cout << std::endl;
@@ -129,28 +119,24 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
 	default:
 		break;
 	}
-	
 }
 
-void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& )
+void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent&)
 {
-
 }
 
 void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
 {
-	m_MousePos = Vector2f{ float(e.x), float(m_Window.height - e.y) };
+	m_MousePos = Vector2f{ static_cast<float>(e.x), static_cast<float>(m_Window.height - e.y) };
 }
 
-void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
+void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e) const
 {
 	switch (e.button)
 	{
 	case SDL_BUTTON_LEFT:
 		if (!GameObjectManager::Get()->GetPlayer()->IsShooting() && m_GameState == GameState::playing)
-		{
 			GameObjectManager::Get()->GetPlayer()->ToggleShoot();
-		}
 		UIManager::Get()->SetClick(true);
 		break;
 	default:
@@ -158,15 +144,13 @@ void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 	}
 }
 
-void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
+void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e) const
 {
 	switch (e.button)
 	{
 	case SDL_BUTTON_LEFT:
 		if (GameObjectManager::Get()->GetPlayer()->IsShooting() && m_GameState == GameState::playing)
-		{
 			GameObjectManager::Get()->GetPlayer()->ToggleShoot();
-		}
 		UIManager::Get()->SetClick(false);
 		break;
 	default:
@@ -207,25 +191,19 @@ void Game::ResumeGame()
 #pragma endregion GameStateLogic
 
 
-void Game::ClearBackground() const
+void Game::ClearBackground()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
 
-void Game::SpawnEnemies(float dT)
+void Game::SpawnEnemies(const float dT)
 {
 	// Spawn locations
 
 
-
-
 	// Enemy selector
-
-
-
-
 
 
 	// Old code
@@ -257,15 +235,14 @@ void Game::SpawnEnemies(float dT)
 	//}
 
 
-
 	if (m_DT > 5)
 	{
 		Scoreboard::Get()->AddWave();
 		//std::cout << "spawn";
 		for (int idx{}; idx < 2; idx++)
 		{
-			int spawnSelector{ rand() % 3 };
-			int type{ rand() % 3 };
+			const int spawnSelector{ rand() % 3 };
+			const int type{ rand() % 3 };
 			//std::cout << type << ' ' << spawnSelector << std::endl;
 			switch (type)
 			{
@@ -288,4 +265,3 @@ void Game::SpawnEnemies(float dT)
 		m_DT = 0;
 	}
 }
-

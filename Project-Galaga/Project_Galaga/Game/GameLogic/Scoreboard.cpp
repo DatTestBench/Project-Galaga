@@ -1,10 +1,10 @@
 #include "GameLogic/Scoreboard.h"
-#include "Helpers/utils.h"
-#include "Resources/Texture.h"
+#include "Core/Game.h"
 #include "Core/GameObjectManager.h"
 #include "Entities/Player.h"
 #include "GameLogic/UIManager.h"
-#include "Core/Game.h"
+#include "Resources/Texture.h"
+
 Scoreboard* Scoreboard::m_pScoreboard = nullptr;
 
 Scoreboard::Scoreboard()
@@ -28,38 +28,29 @@ Scoreboard* Scoreboard::Get()
 
 void Scoreboard::Destroy()
 {
-	delete Scoreboard::Get();
+	delete Get();
 }
 #pragma endregion SingletonFunctionality
 
-
 #pragma region Workers
-void Scoreboard::AddScore(int points)
+void Scoreboard::AddScore(const int points)
 {
 	m_Score += points;
 	m_ScoreTex = Texture{ std::to_string(m_Score), "../Resources/Fonts/Font.ttf", 50, Color4f{ 1, 1, 1, 1 } };
 
 	if (m_Score == 2)
-	{
-		static_cast<Player*>(GameObjectManager::Get()->GetPlayer())->AddWeapon();
-	}
+		GameObjectManager::Get()->GetPlayer()->AddWeapon();
 
 	if (m_Score == 5)
-	{
-		static_cast<Player*>(GameObjectManager::Get()->GetPlayer())->AddWeapon();
-	}
+		GameObjectManager::Get()->GetPlayer()->AddWeapon();
 
 
 	if (m_Score == 7)
-	{
-		static_cast<Player*>(GameObjectManager::Get()->GetPlayer())->AddWeapon();
-	}
+		GameObjectManager::Get()->GetPlayer()->AddWeapon();
 
 
 	if (m_Score == 11)
-	{
-		static_cast<Player*>(GameObjectManager::Get()->GetPlayer())->AddWeapon();
-	}
+		GameObjectManager::Get()->GetPlayer()->AddWeapon();
 }
 
 void Scoreboard::AddWave()
@@ -69,22 +60,8 @@ void Scoreboard::AddWave()
 
 void Scoreboard::Draw() const
 {
-	m_ScoreTex.DrawC(Point2f(  UIManager::Get()->GetWindowSize().x / 2, 22 * UIManager::Get()->GetWindowSize().y / 24));
+	m_ScoreTex.DrawC(Point2f(UIManager::Get()->GetWindowSize().x / 2, 22 * UIManager::Get()->GetWindowSize().y / 24));
 	if (*UIManager::Get()->GetGameState() == GameState::death)
-	{
-		m_ScoreTex.DrawC(Point2f(UIManager::Get()->GetWindowSize().x / 2, UIManager::Get()->GetWindowSize().y / 2 ));
-	}
+		m_ScoreTex.DrawC(Point2f(UIManager::Get()->GetWindowSize().x / 2, UIManager::Get()->GetWindowSize().y / 2));
 }
 #pragma endregion Workers
-
-#pragma region Getters
-int Scoreboard::GetScore() const
-{
-	return m_Score;
-}
-
-int Scoreboard::GetWave() const
-{
-	return m_Wave;
-}
-#pragma endregion Getters

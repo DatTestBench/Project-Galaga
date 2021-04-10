@@ -10,13 +10,13 @@ class ResourceManager
 public:
 	~ResourceManager();
 	ResourceManager(const ResourceManager&) = delete;
-	ResourceManager& operator= (const ResourceManager&) = delete;
+	ResourceManager& operator=(const ResourceManager&) = delete;
 	ResourceManager(ResourceManager&&) = delete;
 	ResourceManager& operator=(ResourceManager&&) = delete;
 
 	// Singleton Functionality
 	static ResourceManager* Get();
-	void Destroy();
+	static void Destroy();
 
 	// Getters
 	// Textures
@@ -44,7 +44,7 @@ private:
 	static ResourceManager* m_pResourceManager;
 
 	// Textures
-	std::map <std::string, Texture*> m_TextureMap;
+	std::map<std::string, Texture*> m_TextureMap;
 
 	// Sprites
 	std::map<std::string, Sprite*> m_SpriteMap;
@@ -63,4 +63,3 @@ private:
 	void LoadSoundEffects();
 	void LoadSoundStream();
 };
-

@@ -8,7 +8,7 @@ struct Matrix2x3
 	// Constructors 
 	// -------------------------
 	// Default constructor results in a unity matrix
-	explicit Matrix2x3( Vector2f dirX = Vector2f{ 1, 0 }, Vector2f dirY = Vector2f{ 0, 1 }, Vector2f origTrans = Vector2f{ 0, 0 } );
+	explicit Matrix2x3( Vector2f dirX = Vector2f{ 1, 0 }, Vector2f dirY = Vector2f{ 0, 1 }, Vector2f orig = Vector2f{ 0, 0 } );
 	// Constructor, using floats, all required
 	explicit Matrix2x3( float e1X, float e1Y, float e2X, float e2Y, float oX, float oY );
 

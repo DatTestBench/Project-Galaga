@@ -12,7 +12,7 @@ public:
 private:
 	//static bool LoadGeometryFromSvgStream(unsigned char* pBlob, int blobSize, std::vector<Point2f> &vertices);
 	static void RemoveSpaces( std::string& svgString );
-	static bool GetVerticesFromSvgString(std::string& svgText, std::vector<std::vector<Point2f>> &vertices);
+	static bool GetVerticesFromSvgString(std::string& svgString, std::vector<std::vector<Point2f>> &vertices);
 	static bool GetVerticesFromPathData( const std::string& pathData, std::vector<Point2f> &vertices );
 	static bool GetElementContent( const std::string& svgText, const std::string& elementName, std::string& elementValue, size_t& startContentPos, size_t& endContentPos);
 	static bool GetAttributeValue( const std::string& svgText, const std::string& attributeName, std::string& attributeValue );
@@ -42,8 +42,8 @@ private:
 	static Point2f NextSvgPoint(std::stringstream& stream, Point2f& cursor, char cmd, bool isOpen, bool advance);
 
 	// Reads next point, given only the new x coordinate
-	static Point2f NextSvgCoordX(std::stringstream& stream, Point2f& cursor, char cmd, bool isOpen);	
+	static Point2f NextSvgCoordX(std::stringstream& svgStream, Point2f& cursor, char cmd, bool isOpen);	
 
 	// Reads next point, given only the new y coordinate 
-	static Point2f NextSvgCoordY(std::stringstream& ssRef, Point2f& cursor, char cmd, bool isOpen);	
+	static Point2f NextSvgCoordY(std::stringstream& svgStream, Point2f& cursor, char cmd, bool isOpen);	
 };

@@ -1,6 +1,6 @@
 #pragma once
 #include "Enemy.h"
-class Rocketeer : public Enemy
+class Rocketeer final : public Enemy
 {
 public:
 	Rocketeer(const Vector2f& pos, float width, float height, Sprite* pSprite, int level, float baseHealth);
@@ -13,4 +13,3 @@ private:
 	// Member Functions
 	void HandleLogic(float dT) override;
 };
-

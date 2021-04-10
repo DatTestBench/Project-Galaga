@@ -1,6 +1,6 @@
 #pragma once
 #include "Enemy.h"
-class Rusher : public Enemy
+class Rusher final : public Enemy
 {
 public:
 	Rusher(const Vector2f& pos, float width, float height, Sprite* pSprite, int level, float baseHealth);
@@ -9,8 +9,7 @@ public:
 private:
 	// Data Members
 
-	
+
 	// Member Functions
 	void HandleLogic(float dT) override;
 };
-

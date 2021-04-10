@@ -64,9 +64,6 @@ void GameObjectManager::Remove(GameObject* pGameObject)
 void GameObjectManager::Delete(GameObject* pGameObject)
 {
 	m_DeleteBuffer.Add(pGameObject);
-
-
-	//std::cout << "added to deletebuffer ";
 }
 
 void GameObjectManager::SetLevel(Level& level)
@@ -94,7 +91,7 @@ void GameObjectManager::Update(float dT)
 	}
 }
 
-void GameObjectManager::Draw() const
+void GameObjectManager::Draw()
 {
 	for (GameObject *pGameObject : *GameObjectManager::Get()->GetGameObjects())
 	{
@@ -112,7 +109,7 @@ std::vector<GameObject*>* GameObjectManager::GetGameObjects()
 std::vector<GameObject*> GameObjectManager::GetEnemies()
 {
 	std::vector<GameObject*> enemies;
-	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&enemies](GameObject* a) mutable
+	std::ranges::for_each(m_GameObjects, [&enemies](GameObject* a) mutable
 	{
 		if ((typeid (*a) == typeid (Rusher) || typeid (*a) == typeid (Gunner) || typeid (*a) == typeid (Rocketeer)) && (a->GetFlag() == false))
 		{
@@ -124,7 +121,7 @@ std::vector<GameObject*> GameObjectManager::GetEnemies()
 std::vector<GameObject*> GameObjectManager::GetRushers()
 {
 	std::vector<GameObject*> rushers;
-	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&rushers](GameObject* a) mutable
+	std::ranges::for_each(m_GameObjects, [&rushers](GameObject* a) mutable
 	{
 		if (typeid (*a) == typeid (Rusher) && a->GetFlag() == false)
 		{
@@ -136,7 +133,7 @@ std::vector<GameObject*> GameObjectManager::GetRushers()
 std::vector<GameObject*> GameObjectManager::GetGunners()
 {
 	std::vector<GameObject*> gunners;
-	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&gunners](GameObject* a) mutable
+	std::ranges::for_each(m_GameObjects, [&gunners](GameObject* a) mutable
 	{
 		if (typeid (*a) == typeid (Gunner) && a->GetFlag() == false)
 		{
@@ -148,7 +145,7 @@ std::vector<GameObject*> GameObjectManager::GetGunners()
 std::vector<GameObject*> GameObjectManager::GetRocketeers()
 {
 	std::vector<GameObject*> rocketeers;
-	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&rocketeers](GameObject* a) mutable
+	std::ranges::for_each(m_GameObjects, [&rocketeers](GameObject* a) mutable
 	{
 		if (typeid (*a) == typeid (Rocketeer) && a->GetFlag() == false)
 		{
@@ -161,7 +158,7 @@ std::vector<GameObject*> GameObjectManager::GetRocketeers()
 std::vector<GameObject*> GameObjectManager::GetProjectiles()
 {
 	std::vector<GameObject*> projectiles;
-	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&projectiles](GameObject* a) mutable
+	std::ranges::for_each(m_GameObjects, [&projectiles](GameObject* a) mutable
 	{
 		if ((typeid (*a) == typeid (MachinegunBullet) || typeid (*a) == typeid (ShotgunPellet) || typeid (*a) == typeid (Rocket)) && (a->GetFlag() == false))
 		{
@@ -173,7 +170,7 @@ std::vector<GameObject*> GameObjectManager::GetProjectiles()
 std::vector<GameObject*> GameObjectManager::GetPlayerProjectiles()
 {
 	std::vector<GameObject*> playerProjectiles;
-	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&playerProjectiles](GameObject* a) mutable
+	std::ranges::for_each(m_GameObjects, [&playerProjectiles](GameObject* a) mutable
 	{
 		if ((typeid (*a) == typeid (MachinegunBullet) || typeid (*a) == typeid (ShotgunPellet) || typeid (*a) == typeid (Rocket)) && (a->GetFlag() == false))
 		{
@@ -188,7 +185,7 @@ std::vector<GameObject*> GameObjectManager::GetPlayerProjectiles()
 std::vector<GameObject*> GameObjectManager::GetEnemyProjectiles()
 {
 	std::vector<GameObject*> enemyProjectiles;
-	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&enemyProjectiles](GameObject* a) mutable
+	std::ranges::for_each(m_GameObjects, [&enemyProjectiles](GameObject* a) mutable
 	{
 		if ((typeid (*a) == typeid (MachinegunBullet) || typeid (*a) == typeid (ShotgunPellet) || typeid (*a) == typeid (Rocket)) && (a->GetFlag() == false))
 		{
@@ -203,7 +200,7 @@ std::vector<GameObject*> GameObjectManager::GetEnemyProjectiles()
 std::vector<GameObject*> GameObjectManager::GetRockets()
 {
 	std::vector<GameObject*> rockets;
-	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&rockets](GameObject* a) mutable
+	std::ranges::for_each(m_GameObjects, [&rockets](GameObject* a) mutable
 	{
 		if (typeid (*a) == typeid (Rocket) && a->GetFlag() == false)
 		{
@@ -215,7 +212,7 @@ std::vector<GameObject*> GameObjectManager::GetRockets()
 std::vector<GameObject*> GameObjectManager::GetBullets()
 {
 	std::vector<GameObject*> bullets;
-	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&bullets](GameObject* a) mutable
+	std::ranges::for_each(m_GameObjects, [&bullets](GameObject* a) mutable
 	{
 		if (typeid (*a) == typeid (MachinegunBullet) && a->GetFlag() == false)
 		{
@@ -227,7 +224,7 @@ std::vector<GameObject*> GameObjectManager::GetBullets()
 std::vector<GameObject*> GameObjectManager::GetPellets()
 {
 	std::vector<GameObject*> pellets;
-	std::for_each(m_GameObjects.begin(), m_GameObjects.end(), [&pellets](GameObject* a) mutable
+	std::ranges::for_each(m_GameObjects, [&pellets](GameObject* a) mutable
 	{
 		if (typeid (*a) == typeid (ShotgunPellet) && a->GetFlag() == false)
 		{
@@ -248,7 +245,7 @@ Level* GameObjectManager::GetLevel() const
 }
 size_t GameObjectManager::Size() const
 {
-	return size_t(m_GameObjects.size());
+	return m_GameObjects.size();
 }
 #pragma endregion Getters
 
@@ -267,7 +264,7 @@ void GameObjectManager::HandleRemoval()
 
 void GameObjectManager::HandleDeletion()
 {
-	std::sort(m_GameObjects.begin(), m_GameObjects.end(), [](GameObject* a, GameObject* b)
+	std::ranges::sort(m_GameObjects, [](GameObject* a, GameObject* b)
 	{
 		return a->GetFlag() < b->GetFlag();
 	});

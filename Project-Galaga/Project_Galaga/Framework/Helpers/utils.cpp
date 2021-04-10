@@ -3,30 +3,30 @@
 #include <cmath>
 #include "Helpers/utils.h"
 #include "SDL_opengl.h"
+
 #pragma region GeneralUseFunctions
-float utils::ToDeg(float rad)
+float utils::ToDeg(const float rad)
 {
-	return rad * (180 / utils::g_Pi);
+	return rad * (180 / g_Pi);
 }
 
-Vector2f utils::Truncate(const Vector2f& v, float max)
+Vector2f utils::Truncate(const Vector2f& v, const float max)
 {
-	float scale{};
-	scale = max / v.Length();
+	float scale = max / v.Length();
 	scale = scale < 1.f ? scale : 1.f;
 	return Vector2f{ v * scale };
 }
 
-float utils::RandFloat(float min, float max)
+float utils::RandFloat(const float min, const float max)
 {
-	return ((max - min) * ((float)rand() / RAND_MAX)) + min;
+	return ((max - min) * (static_cast<float>(rand()) / RAND_MAX)) + min;
 }
 
 Vector2f utils::PolyCenter(const std::vector<Vector2f>& polyVerts)
 {
 	Vector2f vertexSum;
 
-	for (Vector2f vertex : polyVerts)
+	for (const Vector2f& vertex : polyVerts)
 		vertexSum += vertex;
 	return Vector2f(vertexSum.x / polyVerts.size(), vertexSum.y / polyVerts.size());
 }
@@ -35,7 +35,7 @@ Point2f utils::PolyCenter(const std::vector<Point2f>& polyVerts)
 {
 	Point2f vertexSum;
 
-	for (Point2f vertex : polyVerts)
+	for (const Point2f& vertex : polyVerts)
 	{
 		vertexSum.x += vertex.x;
 		vertexSum.y += vertex.y;
@@ -51,7 +51,7 @@ void utils::SetColor(const Color4f& color)
 	glColor4f(color.r, color.g, color.b, color.a);
 }
 
-void utils::DrawPoint(float x, float y, float pointSize)
+void utils::DrawPoint(const float x, const float y, const float pointSize)
 {
 	glPointSize(pointSize);
 	glBegin(GL_POINTS);
@@ -61,25 +61,23 @@ void utils::DrawPoint(float x, float y, float pointSize)
 	glEnd();
 }
 
-void utils::DrawPoint(const Point2f& p, float pointSize)
+void utils::DrawPoint(const Point2f& p, const float pointSize)
 {
 	DrawPoint(p.x, p.y, pointSize);
 }
 
-void utils::DrawPoints(Point2f *pVertices, int nrVertices, float pointSize)
+void utils::DrawPoints(Point2f* pVertices, const int nrVertices, const float pointSize)
 {
 	glPointSize(pointSize);
 	glBegin(GL_POINTS);
 	{
 		for (int idx{ 0 }; idx < nrVertices; ++idx)
-		{
 			glVertex2f(pVertices[idx].x, pVertices[idx].y);
-		}
 	}
 	glEnd();
 }
 
-void utils::DrawLine(float x1, float y1, float x2, float y2, float lineWidth)
+void utils::DrawLine(const float x1, const float y1, const float x2, const float y2, const float lineWidth)
 {
 	glLineWidth(lineWidth);
 	glBegin(GL_LINES);
@@ -90,12 +88,12 @@ void utils::DrawLine(float x1, float y1, float x2, float y2, float lineWidth)
 	glEnd();
 }
 
-void utils::DrawLine(const Point2f& p1, const Point2f& p2, float lineWidth)
+void utils::DrawLine(const Point2f& p1, const Point2f& p2, const float lineWidth)
 {
 	DrawLine(p1.x, p1.y, p2.x, p2.y, lineWidth);
 }
 
-void utils::DrawRect(float left, float bottom, float width, float height, float lineWidth)
+void utils::DrawRect(const float left, const float bottom, const float width, const float height, const float lineWidth)
 {
 	glLineWidth(lineWidth);
 	glBegin(GL_LINE_LOOP);
@@ -108,17 +106,17 @@ void utils::DrawRect(float left, float bottom, float width, float height, float 
 	glEnd();
 }
 
-void utils::DrawRect(const Point2f& bottomLeft, float width, float height, float lineWidth)
+void utils::DrawRect(const Point2f& bottomLeft, const float width, const float height, const float lineWidth)
 {
 	DrawRect(bottomLeft.x, bottomLeft.y, width, height, lineWidth);
 }
 
-void utils::DrawRect(const Rectf& rect, float lineWidth)
+void utils::DrawRect(const Rectf& rect, const float lineWidth)
 {
 	DrawRect(rect.left, rect.bottom, rect.width, rect.height, lineWidth);
 }
 
-void utils::FillRect(float left, float bottom, float width, float height)
+void utils::FillRect(float left, const float bottom, const float width, const float height)
 {
 	glBegin(GL_POLYGON);
 	{
@@ -130,7 +128,7 @@ void utils::FillRect(float left, float bottom, float width, float height)
 	glEnd();
 }
 
-void utils::FillRect(const Point2f& bottomLeft, float width, float height)
+void utils::FillRect(const Point2f& bottomLeft, const float width, const float height)
 {
 	FillRect(bottomLeft.x, bottomLeft.y, width, height);
 }
@@ -140,46 +138,42 @@ void utils::FillRect(const Rectf& rect)
 	FillRect(rect.left, rect.bottom, rect.width, rect.height);
 }
 
-void utils::DrawEllipse(float centerX, float centerY, float radX, float radY, float lineWidth)
+void utils::DrawEllipse(const float centerX, const float centerY, const float radX, const float radY, const float lineWidth)
 {
-	float dAngle{ radX > radY ? float(g_Pi / radX) : float(g_Pi / radY) };
+	const float dAngle{ radX > radY ? g_Pi / radX : g_Pi / radY };
 
 	glLineWidth(lineWidth);
 	glBegin(GL_LINE_LOOP);
 	{
-		for (float angle = 0.0; angle < float(2 * g_Pi); angle += dAngle)
-		{
-			glVertex2f(centerX + radX * float(cos(angle)), centerY + radY * float(sin(angle)));
-		}
+		for (float angle = 0.0; angle < 2 * g_Pi; angle += dAngle)
+			glVertex2f(centerX + radX * cos(angle), centerY + radY * sin(angle));
 	}
 	glEnd();
 }
 
-void utils::DrawEllipse(const Point2f& center, float radX, float radY, float lineWidth)
+void utils::DrawEllipse(const Point2f& center, const float radX, const float radY, const float lineWidth)
 {
 	DrawEllipse(center.x, center.y, radX, radY, lineWidth);
 }
 
-void utils::DrawEllipse(const Vector2f& center, float radX, float radY, float lineWidth)
+void utils::DrawEllipse(const Vector2f& center, const float radX, const float radY, const float lineWidth)
 {
 	DrawEllipse(center.x, center.y, radX, radY, lineWidth);
 }
 
-void utils::DrawEllipse(const Ellipsef& ellipse, float lineWidth)
+void utils::DrawEllipse(const Ellipsef& ellipse, const float lineWidth)
 {
 	DrawEllipse(ellipse.center.x, ellipse.center.y, ellipse.radiusX, ellipse.radiusY, lineWidth);
 }
 
-void utils::FillEllipse(float centerX, float centerY, float radX, float radY)
+void utils::FillEllipse(const float centerX, const float centerY, const float radX, const float radY)
 {
-	float dAngle{ radX > radY ? float(g_Pi / radX) : float(g_Pi / radY) };
+	const float dAngle{ radX > radY ? g_Pi / radX : g_Pi / radY };
 
 	glBegin(GL_POLYGON);
 	{
-		for (float angle = 0.0; angle < float(2 * g_Pi); angle += dAngle)
-		{
-			glVertex2f(centerX + radX * float(cos(angle)), centerY + radY * float(sin(angle)));
-		}
+		for (float angle = 0.0; angle < 2 * g_Pi; angle += dAngle)
+			glVertex2f(centerX + radX * cos(angle), centerY + radY * sin(angle));
 	}
 	glEnd();
 }
@@ -189,92 +183,80 @@ void utils::FillEllipse(const Ellipsef& ellipse)
 	FillEllipse(ellipse.center.x, ellipse.center.y, ellipse.radiusX, ellipse.radiusY);
 }
 
-void utils::FillEllipse(const Point2f& center, float radX, float radY)
+void utils::FillEllipse(const Point2f& center, const float radX, const float radY)
 {
 	FillEllipse(center.x, center.y, radX, radY);
 }
 
-void utils::DrawArc(float centerX, float centerY, float radX, float radY, float fromAngle, float tillAngle, float lineWidth)
+void utils::DrawArc(const float centerX, const float centerY, const float radX, const float radY, const float fromAngle, const float tillAngle, const float lineWidth)
 {
 	if (fromAngle > tillAngle)
-	{
 		return;
-	}
 
-	float dAngle{ radX > radY ? float(g_Pi / radX) : float(g_Pi / radY) };
+	const float dAngle{ radX > radY ? g_Pi / radX : g_Pi / radY };
 
 	glLineWidth(lineWidth);
 	glBegin(GL_LINE_STRIP);
 	{
 		for (float angle = fromAngle; angle < tillAngle; angle += dAngle)
-		{
-			glVertex2f(centerX + radX * float(cos(angle)), centerY + radY * float(sin(angle)));
-		}
-		glVertex2f(centerX + radX * float(cos(tillAngle)), centerY + radY * float(sin(tillAngle)));
+			glVertex2f(centerX + radX * cos(angle), centerY + radY * sin(angle));
+		glVertex2f(centerX + radX * cos(tillAngle), centerY + radY * sin(tillAngle));
 	}
 	glEnd();
-
 }
 
-void utils::DrawArc(const Point2f& center, float radX, float radY, float fromAngle, float tillAngle, float lineWidth)
+void utils::DrawArc(const Point2f& center, const float radX, const float radY, const float fromAngle, const float tillAngle, const float lineWidth)
 {
 	DrawArc(center.x, center.y, radX, radY, fromAngle, tillAngle, lineWidth);
 }
 
-void utils::FillArc(float centerX, float centerY, float radX, float radY, float fromAngle, float tillAngle)
+void utils::FillArc(const float centerX, const float centerY, const float radX, const float radY, const float fromAngle, const float tillAngle)
 {
 	if (fromAngle > tillAngle)
-	{
 		return;
-	}
-	float dAngle{ radX > radY ? float(g_Pi / radX) : float(g_Pi / radY) };
+
+	const float dAngle{ radX > radY ? g_Pi / radX : g_Pi / radY };
 
 	glBegin(GL_POLYGON);
 	{
 		glVertex2f(centerX, centerY);
 		for (float angle = fromAngle; angle < tillAngle; angle += dAngle)
-		{
-			glVertex2f(centerX + radX * float(cos(angle)), centerY + radY * float(sin(angle)));
-		}
-		glVertex2f(centerX + radX * float(cos(tillAngle)), centerY + radY * float(sin(tillAngle)));
+			glVertex2f(centerX + radX * cos(angle), centerY + radY * sin(angle));
+		glVertex2f(centerX + radX * cos(tillAngle), centerY + radY * sin(tillAngle));
 	}
 	glEnd();
 }
 
-void utils::FillArc(const Point2f& center, float radX, float radY, float fromAngle, float tillAngle)
+void utils::FillArc(const Point2f& center, const float radX, const float radY, const float fromAngle, const float tillAngle)
 {
 	FillArc(center.x, center.y, radX, radY, fromAngle, tillAngle);
 }
-void utils::DrawPolygon(const std::vector<Point2f>& vertices, bool closed, float lineWidth)
+void utils::DrawPolygon(const std::vector<Point2f>& vertices, const bool closed, const float lineWidth)
 {
 	DrawPolygon(vertices.data(), vertices.size(), closed, lineWidth);
 }
-void utils::DrawPolygon(const std::vector<Vector2f>& vertices, bool closed, float lineWidth)
+void utils::DrawPolygon(const std::vector<Vector2f>& vertices, const bool closed, const float lineWidth)
 {
 	DrawPolygon(vertices.data(), vertices.size(), closed, lineWidth);
 }
 
-void utils::DrawPolygon(const Point2f *pVertices, size_t nrVertices, bool closed, float lineWidth)
+void utils::DrawPolygon(const Point2f* pVertices, const size_t nrVertices, const bool closed, const float lineWidth)
 {
 	glLineWidth(lineWidth);
 	closed ? glBegin(GL_LINE_LOOP) : glBegin(GL_LINE_STRIP);
 	{
 		for (size_t idx{ 0 }; idx < nrVertices; ++idx)
-		{
 			glVertex2f(pVertices[idx].x, pVertices[idx].y);
-		}
 	}
 	glEnd();
 }
-void utils::DrawPolygon(const Vector2f *pVertices, size_t nrVertices, bool closed, float lineWidth)
+void utils::DrawPolygon(const Vector2f* pVertices, const size_t nrVertices, const bool closed, const float lineWidth)
 {
 	glLineWidth(lineWidth);
 	closed ? glBegin(GL_LINE_LOOP) : glBegin(GL_LINE_STRIP);
 	{
 		for (size_t idx{ 0 }; idx < nrVertices; ++idx)
-		{
 			glVertex2f(pVertices[idx].x, pVertices[idx].y);
-		}
 	}
 	glEnd();
 }
@@ -287,25 +269,21 @@ void utils::FillPolygon(const std::vector<Vector2f>& vertices)
 {
 	FillPolygon(vertices.data(), vertices.size());
 }
-void utils::FillPolygon(const Point2f *pVertices, size_t nrVertices)
+void utils::FillPolygon(const Point2f* pVertices, const size_t nrVertices)
 {
 	glBegin(GL_POLYGON);
 	{
 		for (size_t idx{ 0 }; idx < nrVertices; ++idx)
-		{
 			glVertex2f(pVertices[idx].x, pVertices[idx].y);
-		}
 	}
 	glEnd();
 }
-void utils::FillPolygon(const Vector2f *pVertices, size_t nrVertices)
+void utils::FillPolygon(const Vector2f* pVertices, const size_t nrVertices)
 {
 	glBegin(GL_POLYGON);
 	{
 		for (size_t idx{ 0 }; idx < nrVertices; ++idx)
-		{
 			glVertex2f(pVertices[idx].x, pVertices[idx].y);
-		}
 	}
 	glEnd();
 }
@@ -315,14 +293,14 @@ void utils::FillPolygon(const Vector2f *pVertices, size_t nrVertices)
 
 bool utils::IsPointInRect(const Point2f& p, const Rectf& r)
 {
-	return (p.x >= r.left&& p.x <= r.left + r.width&&
-		p.y >= r.bottom&& p.y <= r.bottom + r.height);
+	return (p.x >= r.left && p.x <= r.left + r.width &&
+			p.y >= r.bottom && p.y <= r.bottom + r.height);
 }
 
 bool utils::IsPointInCircle(const Point2f& p, const Circlef& c)
 {
-	float squaredDist = (p.x - c.center.x)*(p.x - c.center.x) + (p.y - c.center.y) * (p.y - c.center.y);
-	float squaredRadius = c.radius * c.radius;
+	const float squaredDist = (p.x - c.center.x) * (p.x - c.center.x) + (p.y - c.center.y) * (p.y - c.center.y);
+	const float squaredRadius = c.radius * c.radius;
 	return (squaredRadius >= squaredDist);
 }
 
@@ -330,13 +308,11 @@ bool utils::IsPointInCircle(const Point2f& p, const Circlef& c)
 bool utils::IsOverlapping(const Point2f& a, const Point2f& b, const Rectf& r)
 {
 	// if one of the line segment end points is in the rect
-	if (utils::IsPointInRect(a, r) || utils::IsPointInRect(b, r))
-	{
+	if (IsPointInRect(a, r) || IsPointInRect(b, r))
 		return true;
-	}
 
 	HitInfo hitInfo{};
-	Point2f vertices[]{ Point2f {r.left, r.bottom},
+	Point2f vertices[]{ Point2f{ r.left, r.bottom },
 		Point2f{ r.left + r.width, r.bottom },
 		Point2f{ r.left + r.width, r.bottom + r.height },
 		Point2f{ r.left, r.bottom + r.height } };
@@ -348,15 +324,11 @@ bool utils::IsOverlapping(const Rectf& r1, const Rectf& r2)
 {
 	// If one rectangle is on left side of the other
 	if ((r1.left + r1.width) < r2.left || (r2.left + r2.width) < r1.left)
-	{
 		return false;
-	}
 
 	// If one rectangle is under the other
 	if (r1.bottom > (r2.bottom + r2.height) || r2.bottom > (r1.bottom + r1.height))
-	{
 		return false;
-	}
 
 	return true;
 }
@@ -367,33 +339,28 @@ bool utils::IsOverlapping(const Rectf& r, const Circlef& c)
 	if (IsPointInRect(c.center, r))return true;
 
 	// Check line segments
-	if (utils::DistPointLineSegment(c.center, Point2f{ r.left, r.bottom }, Point2f{ r.left, r.bottom + r.height }) <= c.radius) return true;
-	if (utils::DistPointLineSegment(c.center, Point2f{ r.left, r.bottom }, Point2f{ r.left + r.width, r.bottom }) <= c.radius) return true;
-	if (utils::DistPointLineSegment(c.center, Point2f{ r.left + r.width, r.bottom + r.height }, Point2f{ r.left, r.bottom + r.height }) <= c.radius) return true;
-	if (utils::DistPointLineSegment(c.center, Point2f{ r.left + r.width, r.bottom + r.height }, Point2f{ r.left + r.width, r.bottom }) <= c.radius) return true;
+	if (DistPointLineSegment(c.center, Point2f{ r.left, r.bottom }, Point2f{ r.left, r.bottom + r.height }) <= c.radius) return true;
+	if (DistPointLineSegment(c.center, Point2f{ r.left, r.bottom }, Point2f{ r.left + r.width, r.bottom }) <= c.radius) return true;
+	if (DistPointLineSegment(c.center, Point2f{ r.left + r.width, r.bottom + r.height }, Point2f{ r.left, r.bottom + r.height }) <= c.radius) return true;
+	if (DistPointLineSegment(c.center, Point2f{ r.left + r.width, r.bottom + r.height }, Point2f{ r.left + r.width, r.bottom }) <= c.radius) return true;
 	return false;
 }
 bool utils::IsOverlapping(const Circlef& c1, const Circlef& c2)
 {
 	// squared distance between centers
-	float xDistance{ c1.center.x - c2.center.x };
-	float yDistance{ c1.center.y - c2.center.y };
-	float squaredDistance = xDistance * xDistance + yDistance * yDistance;
+	const float xDistance{ c1.center.x - c2.center.x };
+	const float yDistance{ c1.center.y - c2.center.y };
+	const float squaredDistance = xDistance * xDistance + yDistance * yDistance;
 
-	float squaredTouchingDistance = (c1.radius + c2.radius) * (c1.radius + c2.radius);
+	const float squaredTouchingDistance = (c1.radius + c2.radius) * (c1.radius + c2.radius);
 	if (squaredDistance < squaredTouchingDistance)
-	{
 		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return false;
 }
 
 bool utils::IsOverlapping(const Point2f& a, const Point2f& b, const Circlef& c)
 {
-	return utils::DistPointLineSegment(c.center, a, b) <= c.radius;
+	return DistPointLineSegment(c.center, a, b) <= c.radius;
 }
 
 bool utils::IsOverlapping(const std::vector<Point2f>& vertices, const Circlef& c)
@@ -401,31 +368,21 @@ bool utils::IsOverlapping(const std::vector<Point2f>& vertices, const Circlef& c
 	return IsOverlapping(vertices.data(), vertices.size(), c);
 }
 
-bool utils::IsOverlapping(const Point2f* vertices, size_t nrVertices, const Circlef& c)
+bool utils::IsOverlapping(const Point2f* vertices, const size_t nrVertices, const Circlef& c)
 {
 	// Check points in circle
 	for (size_t i{ 0 }; i < nrVertices; ++i)
-	{
 		if (IsPointInCircle(vertices[i], c))
-		{
 			return true;
-		}
-	}
 
 	// Check overlapping line segments with circle
 	for (size_t i{ 0 }; i < nrVertices; ++i)
-	{
 		if (DistPointLineSegment(c.center, vertices[i], vertices[(i + 1) % nrVertices]) <= c.radius)
-		{
 			return true;
-		}
-	}
 
 	// No overlapping line segments, verify whether circle is inside polygon
 	if (IsPointInPolygon(c.center, vertices, nrVertices))
-	{
 		return true;
-	}
 	return false;
 }
 
@@ -434,12 +391,10 @@ bool utils::IsPointInPolygon(const Point2f& p, const std::vector<Point2f>& verti
 	return IsPointInPolygon(p, vertices.data(), vertices.size());
 }
 
-bool utils::IsPointInPolygon(const Point2f& p, const Point2f* vertices, size_t nrVertices)
+bool utils::IsPointInPolygon(const Point2f& p, const Point2f* vertices, const size_t nrVertices)
 {
 	if (nrVertices < 2)
-	{
 		return false;
-	}
 	// 1. First do a simple test with axis aligned bounding box around the polygon
 	float xMin{ vertices[0].x };
 	float xMax{ vertices[0].x };
@@ -463,24 +418,17 @@ bool utils::IsPointInPolygon(const Point2f& p, const Point2f* vertices, size_t n
 	//    and count how often it hits any side of the polygon. 
 	//    If the number of hits is even, it's outside of the polygon, if it's odd, it's inside.
 	int numberOfIntersectionPoints{ 0 };
-	Point2f p2{ xMax + 10.0f, p.y }; // Horizontal line from point to point outside polygon (p2)
+	const Point2f p2{ xMax + 10.0f, p.y }; // Horizontal line from point to point outside polygon (p2)
 
 	// Count the number of intersection points
 	float lambda1{}, lambda2{};
 	for (size_t i{ 0 }; i < nrVertices; ++i)
-	{
 		if (IntersectLineSegments(vertices[i], vertices[(i + 1) % nrVertices], p, p2, lambda1, lambda2))
-		{
 			if (lambda1 > 0 && lambda1 <= 1 && lambda2 > 0 && lambda2 <= 1)
-			{
 				++numberOfIntersectionPoints;
-			}
-		}
-	}
 	if (numberOfIntersectionPoints % 2 == 0)
 		return false;
-	else
-		return true;
+	return true;
 }
 
 bool utils::IsPointInPolygon(const Vector2f& p, const std::vector<Vector2f>& vertices)
@@ -488,12 +436,10 @@ bool utils::IsPointInPolygon(const Vector2f& p, const std::vector<Vector2f>& ver
 	return IsPointInPolygon(p, vertices.data(), vertices.size());
 }
 
-bool utils::IsPointInPolygon(const Vector2f& p, const Vector2f* vertices, size_t nrVertices)
+bool utils::IsPointInPolygon(const Vector2f& p, const Vector2f* vertices, const size_t nrVertices)
 {
 	if (nrVertices < 2)
-	{
 		return false;
-	}
 	// 1. First do a simple test with axis aligned bounding box around the polygon
 	float xMin{ vertices[0].x };
 	float xMax{ vertices[0].x };
@@ -517,33 +463,26 @@ bool utils::IsPointInPolygon(const Vector2f& p, const Vector2f* vertices, size_t
 	//    and count how often it hits any side of the polygon. 
 	//    If the number of hits is even, it's outside of the polygon, if it's odd, it's inside.
 	int numberOfIntersectionPoints{ 0 };
-	Point2f p2{ xMax + 10.0f, p.y }; // Horizontal line from point to point outside polygon (p2)
+	const Point2f p2{ xMax + 10.0f, p.y }; // Horizontal line from point to point outside polygon (p2)
 
 	// Count the number of intersection points
 	float lambda1{}, lambda2{};
 	for (size_t i{ 0 }; i < nrVertices; ++i)
-	{
 		if (IntersectLineSegments(vertices[i].ToPoint2f(), vertices[(i + 1) % nrVertices].ToPoint2f(), p.ToPoint2f(), p2, lambda1, lambda2))
-		{
 			if (lambda1 > 0 && lambda1 <= 1 && lambda2 > 0 && lambda2 <= 1)
-			{
 				++numberOfIntersectionPoints;
-			}
-		}
-	}
 	if (numberOfIntersectionPoints % 2 == 0)
 		return false;
-	else
-		return true;
+	return true;
 }
 
 
-bool utils::IntersectLineSegments(const Point2f& p1, const Point2f& p2, const Point2f& q1, const Point2f& q2, float& outLambda1, float& outLambda2, float epsilon)
+bool utils::IntersectLineSegments(const Point2f& p1, const Point2f& p2, const Point2f& q1, const Point2f& q2, float& outLambda1, float& outLambda2, const float epsilon)
 {
 	bool intersecting{ false };
 
-	Vector2f p1p2{ p1, p2 };
-	Vector2f q1q2{ q1, q2 };
+	const Vector2f p1p2{ p1, p2 };
+	const Vector2f q1q2{ q1, q2 };
 
 	// cross product to determine if parallel
 	float denom = p1p2.CrossProduct(q1q2);
@@ -553,17 +492,17 @@ bool utils::IntersectLineSegments(const Point2f& p1, const Point2f& p2, const Po
 	{
 		intersecting = true;
 
-		Vector2f p1q1{ p1, q1 };
+		const Vector2f p1q1{ p1, q1 };
 
-		float num1 = p1q1.CrossProduct(q1q2);
-		float num2 = p1q1.CrossProduct(p1p2);
+		const float num1 = p1q1.CrossProduct(q1q2);
+		const float num2 = p1q1.CrossProduct(p1p2);
 		outLambda1 = num1 / denom;
 		outLambda2 = num2 / denom;
 	}
 	else // are parallel
 	{
 		//connect start points
-		Vector2f p1q1{ p1, q1 };
+		const Vector2f p1q1{ p1, q1 };
 
 		// cross product to determine if segments and the line connecting their start points are parallel, 
 		// if so, than they are on a line
@@ -574,10 +513,10 @@ bool utils::IntersectLineSegments(const Point2f& p1, const Point2f& p2, const Po
 		// check the 4 conditions
 		outLambda1 = 0;
 		outLambda2 = 0;
-		if (utils::IsPointOnLineSegment(p1, q1, q2))intersecting = true;
-		if (utils::IsPointOnLineSegment(p2, q1, q2))intersecting = true;
-		if (utils::IsPointOnLineSegment(q1, p1, p2))intersecting = true;
-		if (utils::IsPointOnLineSegment(q2, p1, p2))intersecting = true;
+		if (IsPointOnLineSegment(p1, q1, q2))intersecting = true;
+		if (IsPointOnLineSegment(p2, q1, q2))intersecting = true;
+		if (IsPointOnLineSegment(q1, p1, p2))intersecting = true;
+		if (IsPointOnLineSegment(q2, p1, p2))intersecting = true;
 	}
 	return intersecting;
 }
@@ -589,9 +528,7 @@ bool utils::Raycast(const std::vector<Point2f>& vertices, const Point2f& rayP1, 
 bool utils::Raycast(const Point2f* vertices, const size_t nrVertices, const Point2f& rayP1, const Point2f& rayP2, HitInfo& hitInfo)
 {
 	if (nrVertices == 0)
-	{
 		return false;
-	}
 
 	std::vector<HitInfo> hits;
 
@@ -606,7 +543,7 @@ bool utils::Raycast(const Point2f* vertices, const size_t nrVertices, const Poin
 	for (size_t idx{ 0 }; idx <= nrVertices; ++idx)
 	{
 		// Consider line segment between 2 consecutive vertices
-		// (modulo to allow closed polygon, last - first vertice)
+		// (modulo to allow closed polygon, last - first vertex)
 		Point2f q1 = vertices[(idx + 0) % nrVertices];
 		Point2f q2 = vertices[(idx + 1) % nrVertices];
 
@@ -621,7 +558,6 @@ bool utils::Raycast(const Point2f* vertices, const size_t nrVertices, const Poin
 			float lambda1{};
 			float lambda2{};
 			if (IntersectLineSegments(rayP1, rayP2, q1, q2, lambda1, lambda2))
-			{
 				if (lambda1 > 0 && lambda1 <= 1 && lambda2 > 0 && lambda2 <= 1)
 				{
 					HitInfo localHit;
@@ -630,69 +566,61 @@ bool utils::Raycast(const Point2f* vertices, const size_t nrVertices, const Poin
 					localHit.normal = Vector2f{ q2 - q1 }.Orthogonal().Normalized();
 					hits.push_back(localHit);
 				}
-			}
 		}
 	}
 
 	if (hits.size() == 0)
-	{
 		return false;
-	}
 
 	// Get closest intersection point and copy it into the hitInfo parameter
-	hitInfo = *std::min_element(hits.begin(), hits.end(),
-		[](const HitInfo& first, const HitInfo& last) {
-		return first.lambda < last.lambda; });
+	hitInfo = *std::ranges::min_element(hits,
+										[] (const HitInfo& first, const HitInfo& last)
+										{
+											return first.lambda < last.lambda;
+										});
 	return true;
 }
 
 
-bool  utils::IsPointOnLineSegment(const Point2f& p, const Point2f& a, const Point2f& b)
+bool utils::IsPointOnLineSegment(const Point2f& p, const Point2f& a, const Point2f& b)
 {
-	Vector2f ap{ a, p }, bp{ b, p };
+	const Vector2f ap{ a, p };
+	const Vector2f bp{ b, p };
 	// If not on same line, return false
 	if (abs(ap.CrossProduct(bp)) > 0.001f)
-	{
 		return false;
-	}
 
 	// Both vectors must point in opposite directions if p is between p1 and p2
 	if (ap.DotProduct(bp) > 0)
-	{
 		return false;
-	}
 
 	return true;
 }
 
-float  utils::DistPointLineSegment(const Point2f& p, const Point2f& a, const Point2f& b)
+float utils::DistPointLineSegment(const Point2f& p, const Point2f& a, const Point2f& b)
 {
-	Vector2f ab{ a, b };
-	Vector2f ap{ a, p };
-	Vector2f abNorm = ab.Normalized();
-	float distToA = abNorm.DotProduct(ap);
+	const Vector2f ab{ a, b };
+	const Vector2f ap{ a, p };
+	const Vector2f abNorm = ab.Normalized();
+	const float distToA = abNorm.DotProduct(ap);
 	// if distToA is negative, then the closest point is A
 	// return the distance a, p
 	if (distToA < 0)
-	{
 		return ap.Length();
-	}
 	// if distToA is > than dist(a,b) then the closest point is B
 	// return the distance b, p
-	float distAB = ab.Length();
+	const float distAB = ab.Length();
 	if (distToA > distAB)
-	{
 		return Vector2f{ b, p }.Length();
-	}
 
 	//closest point is between A and B, calc intersection point
-	Vector2f intersection = abNorm.DotProduct(ap) * abNorm + Vector2f{ a };
+	const Vector2f intersection = abNorm.DotProduct(ap) * abNorm + Vector2f{ a };
 	return Vector2f{ p - intersection }.Length();
 }
 
 float utils::DistPointPoint(const Point2f& p1, const Point2f& p2)
 {
-	return  sqrt(float(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2)));
+	return sqrt(static_cast<float>(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2)));
 }
 float utils::DistPointPoint(const Vector2f& p1, const Vector2f& p2)
 {

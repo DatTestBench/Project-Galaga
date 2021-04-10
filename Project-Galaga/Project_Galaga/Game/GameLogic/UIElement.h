@@ -19,7 +19,7 @@ public:
 
 
 	// Getters
-	bool GetFlag();
+	bool GetFlag() const { return m_DelFlag; }
 
 private:
 	/// Data Members
@@ -41,8 +41,6 @@ private:
 	bool m_IsClicked;
 	/// Member Functions
 	// Type specific action functions
-	std::function<void()> GetActionFunctionp(const std::string& key);
+	std::function<void()> GetActionFunction(const std::string& key);
 	void LoadFunctionMap();
-
 };
-

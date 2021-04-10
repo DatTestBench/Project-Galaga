@@ -15,7 +15,7 @@ namespace utils
 		return start + percent * (end - start);
 	}
 	template <typename T>
-	T lerp(T start, T end, float dT, float speed)
+	T lerp(T start, T end, const float dT, const float speed)
 	{
 		return lerp(start, end, dT * speed);
 	}

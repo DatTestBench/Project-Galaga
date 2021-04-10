@@ -38,29 +38,24 @@ UIManager* UIManager::Get()
 
 void UIManager::Destroy()
 {
-	delete UIManager::Get();
+	delete Get();
 }
 #pragma endregion SingletonFunctionality
 
 #pragma region Workers
-void UIManager::Update(float dT)
+void UIManager::Update(const float dT)
 {
 	HandleDeletion();
 	HandleAdd();
 
-	for (UIElement *pUIElement : m_UIElements)
-	{
+	for (UIElement* pUIElement : m_UIElements)
 		pUIElement->Update(dT);
-	}
 }
 
 void UIManager::Draw() const
 {
-
 	if (*m_pGameState == GameState::menu)
-	{
 		m_pStartScreen->DrawC(Point2f{ m_WindowSize.x / 2.f, m_WindowSize.y / 2.f }, m_WindowSize.x, m_WindowSize.y);
-	}
 
 	if (*m_pGameState == GameState::playing)
 	{
@@ -69,20 +64,13 @@ void UIManager::Draw() const
 	}
 
 	if (*m_pGameState == GameState::paused)
-	{
 		m_pPauseScreen->DrawC(Point2f{ m_WindowSize.x / 2.f, m_WindowSize.y / 2.f }, m_WindowSize.x, m_WindowSize.y);
-	}
 
 	if (*m_pGameState == GameState::death)
-	{
 		m_pEndScreen->DrawC(Point2f{ m_WindowSize.x / 2.f, m_WindowSize.y / 2.f }, m_WindowSize.x, m_WindowSize.y);
-		
-	}
 
-	for (UIElement *pUIElement : m_UIElements)
-	{
+	for (UIElement* pUIElement : m_UIElements)
 		pUIElement->Draw();
-	}
 }
 
 
@@ -104,7 +92,7 @@ void UIManager::Delete(UIElement* pUIElement)
 }
 #pragma endregion ItemCreationManipulation
 
-void UIManager::Click(bool state)
+void UIManager::Click(const bool state)
 {
 	m_Click = state;
 }
@@ -113,7 +101,7 @@ void UIManager::Click(bool state)
 
 size_t UIManager::Size() const
 {
-	return size_t(m_UIElements.size());
+	return m_UIElements.size();
 }
 
 Vector2f UIManager::GetWindowSize() const
@@ -152,14 +140,14 @@ void UIManager::LoadManager(const Vector2f& window)
 	m_pPauseScreen = ResourceManager::Get()->GetTexture("TextPauseScreen");
 }
 
-void UIManager::SetClick(bool isClick)
+void UIManager::SetClick(const bool isClick)
 {
 	m_Click = isClick;
 }
 #pragma endregion Setters
 
 #pragma region Changers
-void UIManager::ChangeGameState(const GameState& GameState)
+void UIManager::ChangeGameState(const GameState& GameState) const
 {
 	*m_pGameState = GameState;
 }
@@ -175,7 +163,7 @@ void UIManager::HandleAdd()
 
 void UIManager::HandleDeletion()
 {
-	std::sort(m_UIElements.begin(), m_UIElements.end(), [](UIElement* a, UIElement* b)
+	std::ranges::sort(m_UIElements, [] (UIElement* a, UIElement* b)
 	{
 		return a->GetFlag() < b->GetFlag();
 	});

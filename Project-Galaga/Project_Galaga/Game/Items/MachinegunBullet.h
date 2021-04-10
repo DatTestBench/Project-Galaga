@@ -5,12 +5,8 @@
 #include "Math/Vector2f.h"
 #include "Resources/Sprite.h"
 
-class MachinegunBullet : public Projectile
+class MachinegunBullet final : public Projectile
 {
 public:
 	MachinegunBullet(const Vector2f& pos, float width, float height, Sprite* pSprite, float launchAngle, GameObject* pSender, int level);
-
-
-
 };
-

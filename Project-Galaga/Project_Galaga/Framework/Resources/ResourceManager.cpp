@@ -2,6 +2,7 @@
 #include "Resources/Texture.h"
 #include "Resources/Sprite.h"
 #include <iostream>
+#include <ranges>
 
 ResourceManager* ResourceManager::m_pResourceManager = nullptr;
 
@@ -17,32 +18,32 @@ ResourceManager::ResourceManager()
 ResourceManager::~ResourceManager()
 {
 	// Textures
-	for (const std::pair<std::string, Texture*>& textPair : m_TextureMap)
+	for (auto texture : m_TextureMap | std::views::values)
 	{
-		if (textPair.second != nullptr)
-			delete textPair.second;
+		if (texture != nullptr)
+			delete texture;
 	}
 
 	// Sprites
-	for (const std::pair<std::string, Sprite*>& spritePair : m_SpriteMap)
+	for (auto sprite : m_SpriteMap | std::views::values)
 	{
-		if (spritePair.second != nullptr)
-			delete spritePair.second;
+		if (sprite != nullptr)
+			delete sprite;
 	}
 
 	// SoundEffect
 
-	for (const std::pair<std::string, SoundEffect*>& soundEffectPair : m_SoundEffectMap)
+	for (auto soundEffect : m_SoundEffectMap | std::views::values)
 	{
-		if (soundEffectPair.second != nullptr)
-			delete soundEffectPair.second;
+		if (soundEffect != nullptr)
+			delete soundEffect;
 	}
 
 	//SoundStream
-	for (const std::pair<std::string, SoundStream*>& soundStreamPair : m_SoundStreamMap)
+	for (auto soundStream : m_SoundStreamMap | std::views::values)
 	{
-		if (soundStreamPair.second != nullptr)
-			delete soundStreamPair.second;
+		if (soundStream != nullptr)
+			delete soundStream;
 	}
 
 }
@@ -68,7 +69,7 @@ void ResourceManager::Destroy()
 // Textures
 Texture* ResourceManager::GetTexture(const std::string& key)
 {
-	std::map<std::string, Texture*>::const_iterator cit = m_TextureMap.find(key);
+	const std::map<std::string, Texture*>::const_iterator cit = m_TextureMap.find(key);
 
 	if (cit != m_TextureMap.cend())
 	{
@@ -104,7 +105,7 @@ Sprite* ResourceManager::GetSprite(const std::string& key)
 
 SoundEffect* ResourceManager::GetSoundEffect(const std::string& key)
 {
-	std::map<std::string, SoundEffect*>::const_iterator cit = m_SoundEffectMap.find(key);
+	const std::map<std::string, SoundEffect*>::const_iterator cit = m_SoundEffectMap.find(key);
 	if (cit != m_SoundEffectMap.cend())
 	{
 		//std::cout << "SoundEffect: " << key << " loaded" << std::endl;
@@ -121,7 +122,7 @@ SoundEffect* ResourceManager::GetSoundEffect(const std::string& key)
 
 SoundStream* ResourceManager::GetSoundStream(const std::string& key)
 {
-	std::map<std::string, SoundStream*>::const_iterator cit = m_SoundStreamMap.find(key);
+	const std::map<std::string, SoundStream*>::const_iterator cit = m_SoundStreamMap.find(key);
 	if (cit != m_SoundStreamMap.cend())
 	{
 		//std::cout << "SoundEffect: " << key << " loaded" << std::endl;
@@ -138,16 +139,18 @@ SoundStream* ResourceManager::GetSoundStream(const std::string& key)
 
 #pragma region Players
 // SoundEffect
-void ResourceManager::PlaySoundEffect(const std::string& key, int loops, int volume)
+void ResourceManager::PlaySoundEffect(const std::string& key, const int loops, const int volume)
 {
 	GetSoundEffect(key)->SetVolume(volume);
-	GetSoundEffect(key)->Play(loops);
+	if (!GetSoundEffect(key)->Play(loops))
+		std::cout << "Play Failed\n";
 }
 
-void ResourceManager::PlaySoundStream(const std::string& key, bool repeat, int volume)
+void ResourceManager::PlaySoundStream(const std::string& key, const bool repeat, const int volume)
 {
 	GetSoundStream(key)->SetVolume(volume);
-	GetSoundStream(key)->Play(repeat);
+	if (GetSoundStream(key)->Play(repeat))
+		std::cout << "Play Failed\n";
 }
 #pragma endregion Players
 

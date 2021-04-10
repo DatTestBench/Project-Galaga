@@ -10,11 +10,11 @@ public:
 	Player(const Vector2f& pos, float width, float height, Sprite* pSprite, float baseHealth);
 	~Player();
 	Player(const Player&) = delete;
-	Player& operator= (const Player&) = delete;
+	Player& operator=(const Player&) = delete;
 	Player(Player&&) = delete;
-	Player& operator= (Player&&) = delete;
+	Player& operator=(Player&&) = delete;
 
-	
+
 	void Draw() const override;
 	void Update(float dT) override;
 	bool IsShooting() override;
@@ -23,9 +23,9 @@ public:
 	void Hit(float damage);
 
 	void HitLevel(const Vector2f& dMove) override;
-	float GetBaseHealth() const;
-	float GetHealth() const;
-	float GetLives() const;
+	float GetBaseHealth() const { return m_BaseHealth; }
+	float GetHealth() const { return m_CurrentHealth; }
+	float GetLives() const { return m_Lives; }
 private:
 	/// Data Members
 	const float m_Friction;
@@ -34,7 +34,7 @@ private:
 	float m_Lives;
 	std::vector<Weapon*> m_pWeapons;
 	bool m_IsShooting;
-	LinkedList <Circlef> m_TrailList;
+	LinkedList<Circlef> m_TrailList;
 	float m_TrailTimer;
 	Sprite* m_pExhaustSprite;
 	/// Member Functions
@@ -44,5 +44,4 @@ private:
 	void HandleCollision(float dT) override;
 	void DoTrail(float dT);
 	void DrawTrail() const;
-
 };

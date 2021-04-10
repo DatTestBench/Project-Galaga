@@ -1,6 +1,7 @@
 #pragma once
 #include "Weapon.h"
-class Shotgun : public Weapon
+
+class Shotgun final : public Weapon
 {
 public:
 	Shotgun(float width, float height, Sprite* pSprite, GameObject* pOwner, int level, const Slot& slot);
@@ -9,4 +10,3 @@ public:
 private:
 	void DoShoot(float dT) override;
 };
-

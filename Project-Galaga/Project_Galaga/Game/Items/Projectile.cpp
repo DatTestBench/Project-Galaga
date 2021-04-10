@@ -7,7 +7,7 @@
 #include "Items/Rocket.h"
 #include "Items/ShotgunPellet.h"
 
-Projectile::Projectile(const Vector2f& pos, float width, float height, Sprite* pSprite, float launchAngle, float baseSpeed, GameObject* pSender, int level, float baseDamage)
+Projectile::Projectile(const Vector2f& pos, const float width, const float height, Sprite* pSprite, const float launchAngle, const float baseSpeed, GameObject* pSender, const int level, const float baseDamage)
 	: GameObject{ pos, width, height, pSprite }
 	, m_pSender{ pSender }
 	, m_BaseSpeed{ baseSpeed }
@@ -20,9 +20,8 @@ Projectile::Projectile(const Vector2f& pos, float width, float height, Sprite* p
 	m_Velocity = Vector2f{ m_Speed * cos(m_Angle), m_Speed * sin(m_Angle) };
 }
 
-void Projectile::Update(float dT)
+void Projectile::Update(const float dT)
 {
-
 	HandleCollision(dT);
 
 	m_Pos += m_Velocity * dT;
@@ -30,24 +29,13 @@ void Projectile::Update(float dT)
 
 void Projectile::Draw() const
 {
-	if (typeid (*this) == typeid(Rocket))
-	{
-		utils::SetColor(Color4f{ 1,0,0,1 });
-	}
-	if (typeid (*this) == typeid(ShotgunPellet))
-	{
-		utils::SetColor(Color4f{ 255.f,69.f,0,1 });
-	}
-	if (typeid (*this) == typeid(MachinegunBullet))
-	{
-		utils::SetColor(Color4f{ 1,1,0,1 });
-	}
+	if (typeid(*this) == typeid(Rocket))
+		utils::SetColor(Color4f{ 1, 0, 0, 1 });
+	if (typeid(*this) == typeid(ShotgunPellet))
+		utils::SetColor(Color4f{ 255.f, 69.f, 0, 1 });
+	if (typeid(*this) == typeid(MachinegunBullet))
+		utils::SetColor(Color4f{ 1, 1, 0, 1 });
 	utils::FillPolygon(GetCollider());
-}
-
-GameObject* Projectile::GetSender()
-{
-	return m_pSender;
 }
 
 void Projectile::HitLevel(const Vector2f& /*dMove*/)
@@ -60,7 +48,6 @@ void Projectile::HandleCollision(float /*dT*/)
 	PolygonCollisionResult result;
 
 	if (m_pSender == m_pGameObjectManager->GetPlayer())
-	{
 		for (GameObject* pGameObject : m_pGameObjectManager->GetEnemies())
 		{
 			result = sat::PolygonCollision(this, pGameObject);
@@ -70,13 +57,12 @@ void Projectile::HandleCollision(float /*dT*/)
 				Delete();
 			}
 		}
-	}
 	else
 	{
 		result = sat::PolygonCollision(this, m_pGameObjectManager->GetPlayer());
 		if (result.intersect)
 		{
-			static_cast<Player*>(m_pGameObjectManager->GetPlayer())->Hit(m_BaseDamage);
+			m_pGameObjectManager->GetPlayer()->Hit(m_BaseDamage);
 			Delete();
 		}
 	}

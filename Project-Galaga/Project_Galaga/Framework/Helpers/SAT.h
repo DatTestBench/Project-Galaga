@@ -19,9 +19,9 @@ namespace sat
 {
 	PolygonCollisionResult PolygonCollision(GameObject* pGameObjectA, GameObject* pGameObjectB);
 	PolygonCollisionResult PolygonCollision(GameObject* pGameObjectA, const std::vector<Vector2f>& staticPoly);
-	void ProjectPolygon(Vector2f axis, const std::vector<Vector2f>& vertexSet, float& min, float& max);
+	void ProjectPolygon(const Vector2f& axis, const std::vector<Vector2f>& vertexSet, float& min, float& max);
 	float IntervalDistance(float minA, float maxA, float minB, float maxB);
-	Vector2f MakeAxis(Vector2f vertexA, Vector2f vertexB);
+	Vector2f MakeAxis(const Vector2f& vertexA, const Vector2f& vertexB);
 }
 
 

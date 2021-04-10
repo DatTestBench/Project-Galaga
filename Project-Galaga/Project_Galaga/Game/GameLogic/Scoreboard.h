@@ -5,13 +5,13 @@ class Scoreboard
 public:
 	~Scoreboard();
 	Scoreboard(const Scoreboard&) = delete;
-	Scoreboard& operator= (const Scoreboard&) = delete;
+	Scoreboard& operator=(const Scoreboard&) = delete;
 	Scoreboard(Scoreboard&&) = delete;
-	Scoreboard& operator= (Scoreboard&&) = delete;
+	Scoreboard& operator=(Scoreboard&&) = delete;
 
 	// Singleton Functionality
 	static Scoreboard* Get();
-	void Destroy();
+	static void Destroy();
 
 	// Workers
 	void Draw() const;
@@ -19,8 +19,8 @@ public:
 	void AddWave();
 
 	// Getters
-	int GetScore() const;
-	int GetWave() const;
+	int GetScore() const { return m_Score; }
+	int GetWave() const { return m_Wave; }
 
 private:
 	Scoreboard();
@@ -30,10 +30,7 @@ private:
 	int m_Score;
 	Texture m_ScoreTex;
 	int m_Wave;
-	
+
 
 	// Member Functions
-
-
 };
-
