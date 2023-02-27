@@ -68,7 +68,6 @@ private:
 	// Important objects
 	Player* m_pPlayer;
 	Level* m_pLevel;
-	Camera* m_pCamera;
 
 	/// Member Functions
 	// Internal Item Manipulation

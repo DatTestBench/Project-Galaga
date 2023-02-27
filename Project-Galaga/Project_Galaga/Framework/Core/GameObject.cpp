@@ -23,10 +23,10 @@ GameObject::GameObject(const Vector2f& pos, const float width, const float heigh
 	, m_pLevel{ GameObjectManager::Get()->GetLevel() }
 	, m_pScoreboard{ Scoreboard::Get() }
 {
-	m_BaseCollider.push_back(Vector2f{ - m_Width / 2.f, -m_Height / 2.f });
-	m_BaseCollider.push_back(Vector2f{ m_Width / 2.f, -m_Height / 2.f });
-	m_BaseCollider.push_back(Vector2f{ m_Width / 2.f, m_Height / 2.f });
-	m_BaseCollider.push_back(Vector2f{ - m_Width / 2.f, m_Height / 2.f });
+	m_BaseCollider.emplace_back(- m_Width / 2.f, -m_Height / 2.f);
+	m_BaseCollider.emplace_back(m_Width / 2.f, -m_Height / 2.f);
+	m_BaseCollider.emplace_back(m_Width / 2.f, m_Height / 2.f);
+	m_BaseCollider.emplace_back(- m_Width / 2.f, m_Height / 2.f);
 }
 
 GameObject::~GameObject()

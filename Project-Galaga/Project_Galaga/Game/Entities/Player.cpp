@@ -228,7 +228,7 @@ void Player::DrawTrail() const
 	{
 		utils::SetColor(Color4f{ 133.f, 133.f, 133.f, 1.f });
 		Node<Circlef>* pNextNode{ m_TrailList.Begin()->pNext };
-		utils::FillEllipse(currentNode->element.center, currentNode->element.radius / (i + 1), currentNode->element.radius / (i + 1));
+		utils::FillEllipse(currentNode->data.center, currentNode->data.radius / (i + 1), currentNode->data.radius / (i + 1));
 		currentNode = pNextNode;
 	}
 }

@@ -90,14 +90,10 @@ Vector2f SteeringManager::DoSeek(GameObject* pTarget, float slowingRadius)
 	return DoSeek(pTarget->GetPos(), slowingRadius);
 }
 
-Vector2f SteeringManager::DoSeek(const Vector2f& targetPos, float slowingRadius)
+Vector2f SteeringManager::DoSeek(const Vector2f& targetPos, float slowingRadius) const
 {
-	Vector2f vForce{ 0, 0 };
-	Vector2f vDesired{ 0, 0 };
-	float distance{};
-
-	vDesired = targetPos - m_pHost->GetPos();
-	distance = vDesired.Length();
+	Vector2f vDesired = targetPos - m_pHost->GetPos();
+	const float distance = vDesired.Length();
 	vDesired = vDesired.Normalized();
 
 	if (distance <= slowingRadius && slowingRadius > 0)
@@ -105,57 +101,46 @@ Vector2f SteeringManager::DoSeek(const Vector2f& targetPos, float slowingRadius)
 	else
 		vDesired *= m_pHost->GetMaxSpeed();
 
-	vForce = vDesired - m_pHost->GetVelocity();
+	const Vector2f vForce = vDesired - m_pHost->GetVelocity();
 
 	return vForce;
 }
 
-Vector2f SteeringManager::DoPursuit(GameObject* pTarget)
+Vector2f SteeringManager::DoPursuit(const GameObject* pTarget) const
 {
-	float distance{};
-	float updatesNeeded{};
-	Vector2f targetFuturePos{ 0, 0 };
+	const float distance = utils::DistPointPoint(pTarget->GetPos(), m_pHost->GetPos());
 
-	distance = utils::DistPointPoint(pTarget->GetPos(), m_pHost->GetPos());
+	const float updatesNeeded = distance / m_pHost->GetMaxSpeed();
 
-	updatesNeeded = distance / m_pHost->GetMaxSpeed();
-
-	targetFuturePos = pTarget->GetPos() + pTarget->GetVelocity() * updatesNeeded;
+	const Vector2f targetFuturePos = pTarget->GetPos() + pTarget->GetVelocity() * updatesNeeded;
 
 	return DoSeek(targetFuturePos);
 }
 
 
-Vector2f SteeringManager::DoFlee(GameObject* pTarget)
+Vector2f SteeringManager::DoFlee(const GameObject* pTarget) const
 {
 	return DoFlee(pTarget->GetPos());
 }
 
-Vector2f SteeringManager::DoFlee(const Vector2f& targetPos)
+Vector2f SteeringManager::DoFlee(const Vector2f& targetPos) const
 {
-	Vector2f vForce{ 0, 0 };
-	Vector2f vDesired{ 0, 0 };
-
-	vDesired = m_pHost->GetPos() - targetPos;
+	Vector2f vDesired = m_pHost->GetPos() - targetPos;
 	vDesired = vDesired.Normalized();
 	vDesired *= m_pHost->GetMaxSpeed();
 
-	vForce = vDesired - m_pHost->GetVelocity();
+	const Vector2f vForce = vDesired - m_pHost->GetVelocity();
 
 	return vForce;
 }
 
-Vector2f SteeringManager::DoEvade(GameObject* pTarget)
+Vector2f SteeringManager::DoEvade(const GameObject* pTarget) const
 {
-	float distance{};
-	float updatesNeeded{};
-	Vector2f targetFuturePos{ 0, 0 };
+	const float distance = utils::DistPointPoint(pTarget->GetPos(), m_pHost->GetPos());
 
-	distance = utils::DistPointPoint(pTarget->GetPos(), m_pHost->GetPos());
+	const float updatesNeeded = distance / m_pHost->GetMaxSpeed();
 
-	updatesNeeded = distance / m_pHost->GetMaxSpeed();
-
-	targetFuturePos = pTarget->GetPos() + pTarget->GetVelocity() * updatesNeeded;
+	const Vector2f targetFuturePos = pTarget->GetPos() + pTarget->GetVelocity() * updatesNeeded;
 
 	return DoFlee(targetFuturePos);
 }
@@ -163,18 +148,18 @@ Vector2f SteeringManager::DoEvade(GameObject* pTarget)
 
 Vector2f SteeringManager::DoWander(float dT)
 {
-	time_t now = time(nullptr);
+	const time_t now = time(nullptr);
 
 
 	if (now >= m_NextWanderDecision)
 	{
 		// Get random target position
 		//float targetAngle{ utils::RandFloat(m_pHost->GetAngle() - utils::g_Pi / 4.f, m_pHost->GetAngle() + utils::g_Pi / 4.f) };
-		float targetAngle{ utils::RandFloat(0, utils::g_Pi * 2) };
+		const float targetAngle{ utils::RandFloat(0, utils::g_Pi * 2) };
 		//std::cout << targetAngle << std::endl;
 		//float targetDist{ utils::RandFloat(m_pHost->GetVelocity().Length() / 2.f, m_pHost->GetVelocity().Length() * 2) };
-		float targetDist{ 500 };
-		Vector2f dTargetPos{ targetDist * cos(targetAngle), targetDist * sin(targetAngle) };
+		constexpr float targetDist{ 500 };
+		const Vector2f dTargetPos{ targetDist * cos(targetAngle), targetDist * sin(targetAngle) };
 
 		m_CurrentWanderTarget = m_pHost->GetPos() + dTargetPos;
 
@@ -213,18 +198,18 @@ Vector2f SteeringManager::DoWander(float dT)
 	*/
 }
 
-Vector2f SteeringManager::DoCollisionEvade(const std::vector<std::vector<Point2f>>& vertices)
+Vector2f SteeringManager::DoCollisionEvade(const std::vector<std::vector<Point2f>>& vertices) const
 {
-	Vector2f ahead{ m_pHost->GetVelocity() * 3 };
+	const Vector2f ahead{ m_pHost->GetVelocity() * 3 };
 	Vector2f vAvoidance{ 0, 0 };
 
-	std::pair<std::vector<Point2f>, Point2f> mostThreateningObstacle{ FindMostThreateningObstacle(vertices, ahead) };
+	const auto [obstacle, intersection]{ FindMostThreateningObstacle(vertices, ahead) };
 
-	if (mostThreateningObstacle.first.size() > 0)
+	if (!obstacle.empty())
 	{
 		//vAvoidance = DoFlee(Vector2f(mostThreateningObstacle.second));
-		vAvoidance.x = m_pHost->GetPos().x - mostThreateningObstacle.second.x;
-		vAvoidance.y = m_pHost->GetPos().y - mostThreateningObstacle.second.y;
+		vAvoidance.x = m_pHost->GetPos().x - intersection.x;
+		vAvoidance.y = m_pHost->GetPos().y - intersection.y;
 
 		//vAvoidance = Vector2f(vAvoidance.Normalized() * 50 * cos(utils::g_Pi / 2.f), vAvoidance.Normalized() * 50 * sin(utils::g_Pi / 2.f));
 		//std::cout << vAvoidance << std::endl;
@@ -269,6 +254,6 @@ std::pair<std::vector<Point2f>, Point2f> SteeringManager::FindMostThreateningObs
 			mostThreateningObstacle = vertexSet;
 			closestObstacleIntersectDist = utils::DistPointPoint(m_pHost->GetPos(), Vector2f(hitInfo.intersectPoint));
 		}
-	return std::pair<std::vector<Point2f>, Point2f>{ mostThreateningObstacle, hitInfo.intersectPoint };
+	return std::pair{ mostThreateningObstacle, hitInfo.intersectPoint };
 }
 #pragma endregion HelperFunctions

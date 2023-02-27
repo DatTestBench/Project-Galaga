@@ -19,7 +19,6 @@ GameObjectManager* GameObjectManager::m_pGameObjectManager = nullptr;
 GameObjectManager::GameObjectManager()
 	: m_pPlayer(nullptr)
 	, m_pLevel(nullptr)
-	, m_pCamera(nullptr)
 {
 }
 
@@ -85,7 +84,7 @@ void GameObjectManager::Update(float dT)
 	HandleAdd();
 
 
-	for (GameObject *pGameObject : *GameObjectManager::Get()->GetGameObjects())
+	for (GameObject *pGameObject : *Get()->GetGameObjects())
 	{
 		pGameObject->Update(dT);
 	}
@@ -93,7 +92,7 @@ void GameObjectManager::Update(float dT)
 
 void GameObjectManager::Draw()
 {
-	for (GameObject *pGameObject : *GameObjectManager::Get()->GetGameObjects())
+	for (GameObject *pGameObject : *Get()->GetGameObjects())
 	{
 		pGameObject->Draw();
 	}

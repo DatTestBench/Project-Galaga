@@ -9,6 +9,7 @@
 #include "Helpers/utils.h"
 Game::Game(const Window& window)
 	: m_Window{ window }
+	, m_GameState{ GameState::menu }
 	, m_Camera{ window.width, window.height }
 {
 	Initialize();
@@ -21,9 +22,6 @@ Game::~Game()
 
 void Game::Initialize()
 {
-	m_GameState = GameState::menu;
-
-
 	m_Camera.SetLevelBoundaries(m_Level.GetBoundaries());
 	GameObjectManager::Get();
 	ResourceManager::Get();
@@ -32,7 +30,7 @@ void Game::Initialize()
 	Scoreboard::Get();
 
 	// adding player
-	Player* pPlayer{ new Player{ Vector2f(787.5, 787.5), 50, 50, ResourceManager::Get()->GetSprite("SpritePlayer"), 2000.f } };
+	const auto pPlayer{ new Player{ Vector2f(787.5, 787.5), 50, 50, ResourceManager::Get()->GetSprite("SpritePlayer"), 2000.f } };
 	GameObjectManager::Get()->Add(pPlayer);
 
 	// create UI
@@ -44,10 +42,10 @@ void Game::Initialize()
 
 	// adding enemy
 
-	m_SpawnLocations.push_back(Vector2f{ m_Window.width / 3.f, m_Window.height / 3.f });
-	m_SpawnLocations.push_back(Vector2f{ 2 * m_Window.width / 3.f, m_Window.height / 3.f });
-	m_SpawnLocations.push_back(Vector2f{ 2 * m_Window.width / 3.f, 2 * m_Window.height / 3.f });
-	m_SpawnLocations.push_back(Vector2f{ m_Window.width / 3.f, 2 * m_Window.height / 3.f });
+	m_SpawnLocations.emplace_back(m_Window.width / 3.f, m_Window.height / 3.f);
+	m_SpawnLocations.emplace_back(2 * m_Window.width / 3.f, m_Window.height / 3.f);
+	m_SpawnLocations.emplace_back(2 * m_Window.width / 3.f, 2 * m_Window.height / 3.f);
+	m_SpawnLocations.emplace_back(m_Window.width / 3.f, 2 * m_Window.height / 3.f);
 
 
 	//GameObjectManager::Get()->Update(0);
@@ -55,11 +53,11 @@ void Game::Initialize()
 
 void Game::Cleanup()
 {
-	ResourceManager::Get()->Destroy();
-	GameObjectManager::Get()->Destroy();
-	InputHandling::Get()->Destroy();
-	Scoreboard::Get()->Destroy();
-	UIManager::Get()->Destroy();
+	ResourceManager::Destroy();
+	GameObjectManager::Destroy();
+	InputHandling::Destroy();
+	Scoreboard::Destroy();
+	UIManager::Destroy();
 }
 
 void Game::Update(const float elapsedSec)
@@ -92,7 +90,7 @@ void Game::Draw() const
 	m_Camera.Transform(GameObjectManager::Get()->GetPlayer());
 	m_Level.Draw();
 	utils::SetColor(Color4f{ 1, 0, 0, 1 });
-	GameObjectManager::Get()->Draw();
+	GameObjectManager::Draw();
 	glPopMatrix();
 
 	UIManager::Get()->Draw();
@@ -127,7 +125,7 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent&)
 
 void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
 {
-	m_MousePos = Vector2f{ static_cast<float>(e.x), static_cast<float>(m_Window.height - e.y) };
+	m_MousePos = Vector2f{ static_cast<float>(e.x), (m_Window.height - e.y) };
 }
 
 void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e) const

@@ -31,8 +31,8 @@ protected:
 	Vector2f m_BaseOffset;
 	GameObject* m_pOwner;
 	float m_BaseFireRate; // Fire-rate in shots / second
-	float m_TimeSinceLastShot; // Time in seconds since the last shot was fired, used to prevent players abusing spam-clicking to improve fire-rate
-	float m_Cooldown; // Time it takes for m_TimeSinceLastShot to reset
+	float m_TimeSinceLastShot{}; // Time in seconds since the la{}{}st shot was fired, used to prevent players abusing spam-clicking to improve fire-rate
+	float m_Cooldown{}; // Time it takes for m_TimeSince{}{}LastShot to reset
 
 	void DoShoot(float dT) override;
 	float GetFireRate() const;

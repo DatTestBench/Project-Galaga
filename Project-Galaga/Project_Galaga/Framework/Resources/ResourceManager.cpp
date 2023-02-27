@@ -18,32 +18,28 @@ ResourceManager::ResourceManager()
 ResourceManager::~ResourceManager()
 {
 	// Textures
-	for (auto texture : m_TextureMap | std::views::values)
+	for (const auto texture : m_TextureMap | std::views::values)
 	{
-		if (texture != nullptr)
-			delete texture;
+		delete texture;
 	}
 
 	// Sprites
-	for (auto sprite : m_SpriteMap | std::views::values)
+	for (const auto sprite : m_SpriteMap | std::views::values)
 	{
-		if (sprite != nullptr)
-			delete sprite;
+		delete sprite;
 	}
 
 	// SoundEffect
 
-	for (auto soundEffect : m_SoundEffectMap | std::views::values)
+	for (const auto soundEffect : m_SoundEffectMap | std::views::values)
 	{
-		if (soundEffect != nullptr)
-			delete soundEffect;
+		delete soundEffect;
 	}
 
 	//SoundStream
-	for (auto soundStream : m_SoundStreamMap | std::views::values)
+	for (const auto soundStream : m_SoundStreamMap | std::views::values)
 	{
-		if (soundStream != nullptr)
-			delete soundStream;
+		delete soundStream;
 	}
 
 }
@@ -67,11 +63,9 @@ void ResourceManager::Destroy()
 
 #pragma region Getters
 // Textures
-Texture* ResourceManager::GetTexture(const std::string& key)
+Texture* ResourceManager::GetTexture(const std::string& key) const
 {
-	const std::map<std::string, Texture*>::const_iterator cit = m_TextureMap.find(key);
-
-	if (cit != m_TextureMap.cend())
+	if (const auto cit = m_TextureMap.find(key); cit != m_TextureMap.cend())
 	{
 		//std::cout << "Texture: " << key << " loaded" << std::endl;
 		return cit->second;
@@ -85,11 +79,9 @@ Texture* ResourceManager::GetTexture(const std::string& key)
 
 
 // Sprites
-Sprite* ResourceManager::GetSprite(const std::string& key)
+Sprite* ResourceManager::GetSprite(const std::string& key) const
 {
-	std::map<std::string, Sprite*>::const_iterator cit = m_SpriteMap.find(key);
-
-	if (cit != m_SpriteMap.cend())
+	if (const auto cit = m_SpriteMap.find(key); cit != m_SpriteMap.cend())
 	{
 		//std::cout << "Sprite: " << key << " loaded" << std::endl;
 		return cit->second;
@@ -103,34 +95,32 @@ Sprite* ResourceManager::GetSprite(const std::string& key)
 
 // SoundEffect
 
-SoundEffect* ResourceManager::GetSoundEffect(const std::string& key)
+SoundEffect* ResourceManager::GetSoundEffect(const std::string& key) const
 {
-	const std::map<std::string, SoundEffect*>::const_iterator cit = m_SoundEffectMap.find(key);
-	if (cit != m_SoundEffectMap.cend())
+	if (const auto cit = m_SoundEffectMap.find(key); cit != m_SoundEffectMap.cend())
 	{
 		//std::cout << "SoundEffect: " << key << " loaded" << std::endl;
 		return cit->second;
 	}
 	else
 	{
-		//std::cout << "SoundEffect: " << key << " was not found" << std::endl;
+		std::cout << "SoundEffect: " << key << " was not found" << std::endl;
 		return nullptr;
 	}
 }
 
 // SoundStream
 
-SoundStream* ResourceManager::GetSoundStream(const std::string& key)
+SoundStream* ResourceManager::GetSoundStream(const std::string& key) const
 {
-	const std::map<std::string, SoundStream*>::const_iterator cit = m_SoundStreamMap.find(key);
-	if (cit != m_SoundStreamMap.cend())
+	if (const auto cit = m_SoundStreamMap.find(key); cit != m_SoundStreamMap.cend())
 	{
 		//std::cout << "SoundEffect: " << key << " loaded" << std::endl;
 		return cit->second;
 	}
 	else
 	{
-		//std::cout << "SoundEffect: " << key << " was not found" << std::endl;
+		std::cout << "SoundEffect: " << key << " was not found" << std::endl;
 		return nullptr;
 	}
 }
@@ -139,18 +129,18 @@ SoundStream* ResourceManager::GetSoundStream(const std::string& key)
 
 #pragma region Players
 // SoundEffect
-void ResourceManager::PlaySoundEffect(const std::string& key, const int loops, const int volume)
+void ResourceManager::PlaySoundEffect(const std::string& key, const int loops, const int volume) const
 {
 	GetSoundEffect(key)->SetVolume(volume);
 	if (!GetSoundEffect(key)->Play(loops))
-		std::cout << "Play Failed\n";
+		std::cout << "Sound Effect Play Failed\n";
 }
 
-void ResourceManager::PlaySoundStream(const std::string& key, const bool repeat, const int volume)
+void ResourceManager::PlaySoundStream(const std::string& key, const bool repeat, const int volume) const
 {
 	GetSoundStream(key)->SetVolume(volume);
-	if (GetSoundStream(key)->Play(repeat))
-		std::cout << "Play Failed\n";
+	if (!GetSoundStream(key)->Play(repeat))
+		std::cout << "Sound Stream Play Failed\n";
 }
 #pragma endregion Players
 

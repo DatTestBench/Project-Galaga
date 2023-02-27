@@ -15,10 +15,7 @@ InputHandling::InputHandling()
 {
 }
 
-InputHandling::~InputHandling()
-{
-
-}
+InputHandling::~InputHandling() = default;
 
 #pragma region SingletonFunctionality
 InputHandling* InputHandling::Get()

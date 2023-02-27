@@ -2,7 +2,7 @@
 #include "Items/Rocket.h"
 
 RocketLauncher::RocketLauncher(const float width, const float height, Sprite* pSprite, GameObject* pOwner, const int level, const Slot& slot)
-	: Weapon{ width, height, pSprite, pOwner, level, slot, 2.f /*baseFireRate*/ }
+	: Weapon{ width, height, pSprite, pOwner, level, slot, 2.f }
 {
 }
 

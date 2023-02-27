@@ -31,7 +31,7 @@ Weapon::Weapon(const float width, const float height, Sprite* pSprite, GameObjec
 	case Slot::rear:
 		m_BaseOffset.y -= m_pOwner->GetHeight() / 2.f;
 		break;
-	default:
+	case Slot::size:
 		break;
 	}
 	m_Pos = GetAbsPos();
@@ -93,7 +93,7 @@ float Weapon::GetAngle() const
 
 	case Slot::rear:
 		return m_pOwner->GetAngle() - utils::g_Pi;
-	default:
+	case Slot::size:
 		break;
 	}
 

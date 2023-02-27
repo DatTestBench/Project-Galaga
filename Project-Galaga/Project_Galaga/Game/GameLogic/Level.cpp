@@ -46,11 +46,12 @@ void Level::InitializeVertices()
 	const std::string filePath{ "../Resources/level.svg" };
 	SVGParser::GetVerticesFromSvgFile(filePath, m_Point2fVertices);
 
-	for (std::vector<Point2f> subCollider : m_Point2fVertices)
+	for (const std::vector<Point2f>& subCollider : m_Point2fVertices)
 	{
 		std::vector<Vector2f> tempVector;
+		tempVector.reserve(subCollider.size());
 		for (Point2f point : subCollider)
-			tempVector.push_back(Vector2f(point));
+			tempVector.emplace_back(point);
 		m_Vertices.push_back(tempVector);
 	}
 }

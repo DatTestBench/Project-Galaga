@@ -126,7 +126,7 @@ void Texture::CreateFromString(const std::string& text, TTF_Font *pFont, const C
 	SDL_FreeSurface(pLoadedSurface);
 }
 
-void Texture::CreateFromSurface(SDL_Surface *pSurface)
+void Texture::CreateFromSurface(const SDL_Surface *pSurface)
 {
 	m_CreationOk = true;
 

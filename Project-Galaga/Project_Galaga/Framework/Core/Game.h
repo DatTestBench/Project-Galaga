@@ -47,8 +47,7 @@ private:
 
 	Camera m_Camera;
 	Level m_Level;
-	float m_Frames;
-	float m_DT;
+	float m_DT{};
 	std::vector<Vector2f> m_SpawnLocations;
 	// FUNCTIONS
 	void Initialize();

@@ -16,8 +16,8 @@ public:
 	Sprite& operator=(Sprite&&) = delete;
 
 	void Update(float elapsedSec);
-	void Draw(const Point2f& pos, float offset, float scale = 1.f);
-	void DrawC(const Point2f& pos, float width, float height, float offset, float scale = 1.f);
+	void Draw(const Point2f& pos, float offset, float scale = 1.f) const;
+	void DrawC(const Point2f& pos, float width, float height, float offset, float scale = 1.f) const;
 	float GetFrameWidth() const;
 	float GetFrameHeight() const;
 

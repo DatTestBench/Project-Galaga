@@ -69,7 +69,7 @@ void UIManager::Draw() const
 	if (*m_pGameState == GameState::death)
 		m_pEndScreen->DrawC(Point2f{ m_WindowSize.x / 2.f, m_WindowSize.y / 2.f }, m_WindowSize.x, m_WindowSize.y);
 
-	for (UIElement* pUIElement : m_UIElements)
+	for (const UIElement* pUIElement : m_UIElements)
 		pUIElement->Draw();
 }
 
@@ -163,7 +163,7 @@ void UIManager::HandleAdd()
 
 void UIManager::HandleDeletion()
 {
-	std::ranges::sort(m_UIElements, [] (UIElement* a, UIElement* b)
+	std::ranges::sort(m_UIElements, [] (const UIElement* a, const UIElement* b)
 	{
 		return a->GetFlag() < b->GetFlag();
 	});

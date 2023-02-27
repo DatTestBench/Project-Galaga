@@ -20,22 +20,22 @@ public:
 
 	// Getters
 	// Textures
-	Texture* GetTexture(const std::string& key);
+	Texture* GetTexture(const std::string& key) const;
 
 	// Sprites
-	Sprite* GetSprite(const std::string& key);
+	Sprite* GetSprite(const std::string& key) const;
 
 	// SoundEffect
-	SoundEffect* GetSoundEffect(const std::string& key);
+	SoundEffect* GetSoundEffect(const std::string& key) const;
 
 	// SoundStream
-	SoundStream* GetSoundStream(const std::string& key);
+	SoundStream* GetSoundStream(const std::string& key) const;
 
 	// Players
 	// SoundEffect
-	void PlaySoundEffect(const std::string& key, int loops, int volume);
+	void PlaySoundEffect(const std::string& key, int loops, int volume) const;
 	//SoundStream
-	void PlaySoundStream(const std::string& key, bool repeat, int volume);
+	void PlaySoundStream(const std::string& key, bool repeat, int volume) const;
 
 private:
 	ResourceManager();

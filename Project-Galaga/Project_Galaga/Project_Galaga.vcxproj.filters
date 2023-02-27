@@ -33,24 +33,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Framework\Core\Camera.h">
-      <Filter>Framework Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Core\Core.h">
-      <Filter>Framework Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Core\Game.h">
-      <Filter>Framework Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Core\GameObject.h">
-      <Filter>Framework Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Core\GameObjectManager.h">
-      <Filter>Framework Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Core\InputHandling.h">
-      <Filter>Framework Files</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Helpers\LinkedList.h">
       <Filter>Framework Files</Filter>
     </ClInclude>
@@ -102,13 +84,13 @@
     <ClInclude Include="Game\GameLogic\UIManager.h">
       <Filter>Framework Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Resources\ResourceManager.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Entities\Enemy.h">
       <Filter>Framework Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\Entities\Gunner.h">
-      <Filter>Framework Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Resources\ResourceManager.h">
       <Filter>Framework Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\Entities\Player.h">
@@ -118,6 +100,24 @@
       <Filter>Framework Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\Entities\Rusher.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Core\Camera.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Core\Core.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Core\Game.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Core\GameObject.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Core\GameObjectManager.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Core\InputHandling.h">
       <Filter>Framework Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\Items\Machinegun.h">
@@ -146,24 +146,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Framework\Core\Camera.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Core\Core.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Core\Game.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Core\GameObject.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Core\GameObjectManager.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Core\InputHandling.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Helpers\SAT.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
@@ -212,6 +194,12 @@
     <ClCompile Include="Game\GameLogic\UIManager.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Resources\ResourceManager.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Entities\Enemy.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
@@ -221,13 +209,28 @@
     <ClCompile Include="Game\Entities\Player.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Entities\Rocketeer.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\Entities\Rusher.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Core\Camera.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Core\Core.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Core\Game.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Core\GameObject.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Core\GameObjectManager.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Core\InputHandling.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\Items\Machinegun.cpp">
@@ -252,9 +255,6 @@
       <Filter>Game Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\Items\Weapon.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Resources\ResourceManager.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
   </ItemGroup>

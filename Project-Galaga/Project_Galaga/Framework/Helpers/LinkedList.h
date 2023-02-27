@@ -1,15 +1,21 @@
 #pragma once
 #include <iostream>
 
+// TODO
+// so this will require some work
+// + add iterators
+// + copy-swap idiom for assignment operator
+// + unfuck it in general
+
 template <typename T>
 struct Node
 {
-	explicit Node(T element, Node* pNext = nullptr)
-		: element{ element }
-		, pNext{ pNext }
+	explicit Node(T element, Node<T>* pNext = nullptr)
+		: data(element)
+		, pNext(pNext)
 	{
 	}
-	T element;
+	T data;
 	Node* pNext;
 };
 
@@ -17,46 +23,55 @@ template <typename T>
 class LinkedList
 {
 public:
+	using NodeType = Node<T>;
+	
 	LinkedList()
-		: m_pFirstNode(nullptr)
+		: m_pHead(nullptr)
 		, m_Size(0)
 	{
 	}
 	~LinkedList()
 	{
-		for (size_t i{}; i < m_Size; i++)
+		// TODO: with iterators, do while node != last
+		for (size_t i = 0; i < m_Size; i++)
 		{
-			Node<T>* pNextNode{ m_pFirstNode->pNext };
-			delete m_pFirstNode;
-			m_pFirstNode = pNextNode;
+			NodeType* pNextNode(m_pHead->pNext);
+			delete m_pHead;
+			m_pHead = pNextNode;
 		}
 	}
 	LinkedList(const LinkedList& other)
-		: m_pFirstNode{ nullptr }
-		, m_Size{ 0 }
+		: m_pHead(nullptr)
+		, m_Size(0)
 	{
-		for (Node<T>* pNode = other.m_pFirstNode; pNode != nullptr; pNode = pNode->pNext)
-			PushBack(pNode->value);
+		NodeType* pTemp = other.m_pHead;
+		NodeType* pCurrentNode = nullptr;
+
+		if (pTemp != nullptr)
+		{
+			m_pHead = new NodeType(pTemp->data);
+			pCurrentNode = m_pHead;
+
+			pTemp = pTemp->pNext;
+		}
+
+		while (pTemp != nullptr)
+		{
+			auto pNewNode = new NodeType(pTemp->data);
+			pCurrentNode->pNext = pNewNode;
+			pTemp = pTemp->pNext;
+		}
 	}
 	LinkedList& operator=(const LinkedList& other)
 	{
-		if (&other != this)
-		{
-			Wipe();
-			m_Size = 0;
-			m_pFirstNode = nullptr;
-			for (Node<T>* pNode = other.m_pFirstNode; pNode != nullptr; pNode = pNode->pNext)
-				PushBack(pNode->element);
-
-			//*this = LinkedList(other);
-		}
+		std::swap(other.m_pHead, m_pHead);
 		return *this;
 	}
 	LinkedList(LinkedList&& other) noexcept
-		: m_pFirstNode{ other.m_pFirstNode }
+		: m_pHead{ other.m_pHead }
 		, m_Size{ other.m_Size }
 	{
-		other.m_pFirstNode = nullptr;
+		other.m_pHead = nullptr;
 		other.m_Size = 0;
 	}
 	LinkedList& operator=(LinkedList&& other) noexcept
@@ -64,9 +79,9 @@ public:
 		if (&other != this)
 		{
 			Wipe();
-			m_pFirstNode = other.m_pFirstNode;
+			m_pHead = other.m_pHead;
 			m_Size = other.m_Size;
-			other.m_pFirstNode = nullptr;
+			other.m_pHead = nullptr;
 			other.m_Size = 0;
 		}
 		return *this;
@@ -75,8 +90,8 @@ public:
 	// Wrap the value in a new Node object and add it as first Node of the list
 	void PushFront(T element)
 	{
-		Node<T>* pNewNode{ new Node<T>(element, m_pFirstNode) };
-		m_pFirstNode = pNewNode;
+		auto pNewNode = new NodeType(element, m_pHead);
+		m_pHead = pNewNode;
 		++m_Size;
 	}
 
@@ -85,34 +100,34 @@ public:
 		if (m_Size == 0)
 			return;
 
-		Node<T>* pTempNode{ m_pFirstNode };
-		m_pFirstNode = m_pFirstNode->pNext;
+		NodeType* pTempNode = m_pHead;
+		m_pHead = m_pHead->pNext;
 		delete pTempNode;
 
-		m_Size--;
+		--m_Size;
 	}
 
 	// Remove all Nodes having this value
 	void Remove(T element)
 	{
-		if (m_pFirstNode == nullptr)
+		if (m_pHead == nullptr)
 			return;
 
-		while (m_pFirstNode->element == element)
+		while (m_pHead->data == element)
 			PopFront();
 
-		if (m_pFirstNode->pNext == nullptr)
+		if (m_pHead->pNext == nullptr)
 			return;
 
-		Node<T>* pCurrentNode{ m_pFirstNode->pNext };
-		Node<T>* pPreviousNode{ m_pFirstNode };
-		for (size_t i{}; i < m_Size; i++)
+		NodeType* pCurrentNode = m_pHead->pNext;
+		NodeType* pPreviousNode = m_pHead;
+		for (size_t i = 0; i < m_Size; i++)
 		{
-			if (pCurrentNode->element == element)
+			if (pCurrentNode->data == element)
 			{
 				pPreviousNode->pNext = pCurrentNode->pNext;
 				delete pCurrentNode;
-				m_Size--;
+				--m_Size;
 				pCurrentNode = pPreviousNode->pNext;
 			}
 
@@ -126,11 +141,11 @@ public:
 	}
 
 	// Create Node and insert after specified Node 
-	void InsertAfter(Node<T>* pBefore, T element)
+	void InsertAfter(NodeType* pBefore, T element)
 	{
-		Node<T>* pNewNode{ new Node<T>(element, pBefore->pNext) };
+		auto pNewNode = new NodeType(element, pBefore->pNext);
 		pBefore->pNext = pNewNode;
-		m_Size++;
+		++m_Size;
 	}
 
 	void PushBack(T element)
@@ -139,13 +154,14 @@ public:
 			PushFront(element);
 		else
 		{
-			Node<T>* pNode = m_pFirstNode;
+			NodeType* pNode = m_pHead;
+			// TODO: change this to use iterators, so just lastNode->next = new node 
 			for (; pNode->pNext != nullptr; pNode = pNode->pNext)
 			{
 			}
 
-			pNode->pNext = new Node<T>(element);
-			m_Size++;
+			pNode->pNext = new NodeType(element);
+			++m_Size;
 		}
 	}
 
@@ -154,51 +170,41 @@ public:
 		if (m_Size == 0)
 			return;
 
-		Node<T>* pNode = m_pFirstNode;
+		NodeType* pNode = m_pHead;
+		// TODO: change this to use iterators, so just lastNode->next = new node 
 		for (; pNode->pNext->pNext != nullptr; pNode = pNode->pNext)
 		{
 		}
 		delete pNode->pNext;
 		pNode->pNext = nullptr;
-		m_Size--;
+		--m_Size;
 	}
 
-	// Return number of Node objects in the list
-	size_t Size() const
-	{
-		return m_Size;
-	}
-
-	// Return pointer to first Node
-	Node<T>* Begin() const
-	{
-		return m_pFirstNode;
-	}
+	[[nodiscard]] constexpr auto Size() const noexcept -> size_t { return m_Size; }
+	[[nodiscard]] constexpr auto Begin() const noexcept -> NodeType* { return m_pHead; }
 
 private:
-	Node<T>* m_pFirstNode;
+	NodeType* m_pHead;
 	size_t m_Size;
-
-	// Your helper functions
 
 	void Wipe()
 	{
 		if (m_Size == 0)
 			return;
 
-		Node<T>* pNode = m_pFirstNode;
-		while (pNode->pNext != nullptr)
+		NodeType* pCurrent = m_pHead;
+		while (pCurrent->pNext != nullptr)
 		{
 			if (m_Size == 0)
 				return;
 
-			Node<T>* pTempNode{ pNode };
-			pNode = pNode->pNext;
+			NodeType* pTempNode = pCurrent;
+			pCurrent = pCurrent->pNext;
 			delete pTempNode;
 
-			m_Size--;
+			--m_Size;
 		}
-		delete pNode;
+		delete pCurrent;
 	}
 };
 
@@ -209,7 +215,7 @@ std::ostream& operator<<(std::ostream& out, const LinkedList<T>& list)
 	Node<T>* pNode = list.Begin();
 	while (pNode != nullptr)
 	{
-		out << pNode->element << " ";
+		out << pNode->data << " ";
 		pNode = pNode->pNext;
 	}
 	return out;

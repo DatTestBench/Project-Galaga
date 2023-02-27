@@ -11,11 +11,11 @@ public:
 	Level();
 
 	void Draw() const;
-	Rectf GetBoundaries() const;
+	[[nodiscard]] Rectf GetBoundaries() const;
 	void HandleCollision() const;
 
-	const std::vector<std::vector<Point2f>>& GetPoint2fVertices() const { return m_Point2fVertices; }
-	const std::vector<std::vector<Vector2f>>& GetVertices() const { return m_Vertices; }
+	[[nodiscard]] const std::vector<std::vector<Point2f>>& GetPoint2fVertices() const { return m_Point2fVertices; }
+	[[nodiscard]] const std::vector<std::vector<Vector2f>>& GetVertices() const { return m_Vertices; }
 private:
 
 	// Data Members

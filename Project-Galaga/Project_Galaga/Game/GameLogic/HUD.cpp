@@ -27,7 +27,6 @@ void HUD::SetLock(Player* pObjectToFollow)
 	m_pObjectToFollow = pObjectToFollow;
 }
 
-
 // Main HUD background, includes all static elements
 void HUD::DrawBase() const
 {

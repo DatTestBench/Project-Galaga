@@ -31,7 +31,7 @@ void Sprite::Update(const float elapsedSec)
 	}
 }
 
-void Sprite::Draw(const Point2f& pos, const float offset, const float scale)
+void Sprite::Draw(const Point2f& pos, const float offset, const float scale) const
 {
 	Rectf destRect;
 	Rectf srcRect;
@@ -46,7 +46,7 @@ void Sprite::Draw(const Point2f& pos, const float offset, const float scale)
 	m_pTexture->Draw(destRect, srcRect);
 }
 
-void Sprite::DrawC(const Point2f& pos, float width, float height, const float offset, const float scale)
+void Sprite::DrawC(const Point2f& pos, float width, float height, const float offset, const float scale) const
 {
 	Rectf srcRect;
 	srcRect.width = GetFrameWidth();

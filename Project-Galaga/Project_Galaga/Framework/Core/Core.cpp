@@ -152,10 +152,10 @@ void Core::Run() const
 				quit = true;
 				break;
 			case SDL_KEYDOWN:
-				game.ProcessKeyDownEvent(e.key);
+				Game::ProcessKeyDownEvent(e.key);
 				break;
 			case SDL_KEYUP:
-				game.ProcessKeyUpEvent(e.key);
+				Game::ProcessKeyUpEvent(e.key);
 				break;
 			case SDL_MOUSEMOTION:
 				game.ProcessMouseMotionEvent(e.motion);

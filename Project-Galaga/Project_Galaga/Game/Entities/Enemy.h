@@ -9,7 +9,7 @@ class Enemy : public GameObject
 {
 public:
 	Enemy(const Vector2f& pos, float width, float height, Sprite* pSprite, int level, float baseHealth);
-	~Enemy();
+	~Enemy() override;
 	Enemy(const Enemy&) = delete;
 	Enemy& operator=(const Enemy&) = delete;
 	Enemy(Enemy&&) = delete;

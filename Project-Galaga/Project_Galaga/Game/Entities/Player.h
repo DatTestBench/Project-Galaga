@@ -8,7 +8,7 @@ class Player final : public GameObject
 {
 public:
 	Player(const Vector2f& pos, float width, float height, Sprite* pSprite, float baseHealth);
-	~Player();
+	~Player() override;
 	Player(const Player&) = delete;
 	Player& operator=(const Player&) = delete;
 	Player(Player&&) = delete;
@@ -39,7 +39,7 @@ private:
 	Sprite* m_pExhaustSprite;
 	/// Member Functions
 	// Player behaviour 
-	void Fire(float dT);
+	void Fire(float dT); // Lol this isn't implemented. See "ToggleShoot" in "Game::ProcessMouseDownEvent
 	void HandleMovement(float dT);
 	void HandleCollision(float dT) override;
 	void DoTrail(float dT);

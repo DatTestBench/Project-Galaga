@@ -19,7 +19,7 @@ Enemy::Enemy(const Vector2f& pos, const float width, const float height, Sprite*
 
 Enemy::~Enemy()
 {
-	for (Weapon* pWeapon : m_pWeapons)
+	for (const Weapon* pWeapon : m_pWeapons)
 		delete pWeapon;
 }
 
@@ -44,7 +44,7 @@ void Enemy::Draw() const
 
 	//Debug Draws
 	//utils::DrawPolygon(GetCollider());
-	for (Weapon* pWeapon : m_pWeapons)
+	for (const Weapon* pWeapon : m_pWeapons)
 		pWeapon->Draw();
 }
 

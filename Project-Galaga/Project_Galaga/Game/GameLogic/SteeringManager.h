@@ -44,13 +44,13 @@ private:
 	// Internal steering functionality
 
 	Vector2f DoSeek(GameObject* pTarget, float slowingRadius = 0);
-	Vector2f DoSeek(const Vector2f& targetPos, float slowingRadius = 0);
-	Vector2f DoPursuit(GameObject* pTarget);
-	Vector2f DoFlee(GameObject* pTarget);
-	Vector2f DoFlee(const Vector2f& targetPos);
-	Vector2f DoEvade(GameObject* pTarget);
+	Vector2f DoSeek(const Vector2f& targetPos, float slowingRadius = 0) const;
+	Vector2f DoPursuit(const GameObject* pTarget) const;
+	Vector2f DoFlee(const GameObject* pTarget) const;
+	Vector2f DoFlee(const Vector2f& targetPos) const;
+	Vector2f DoEvade(const GameObject* pTarget) const;
 	Vector2f DoWander(float dT);
-	Vector2f DoCollisionEvade(const std::vector<std::vector<Point2f>>& vertices);
+	Vector2f DoCollisionEvade(const std::vector<std::vector<Point2f>>& vertices) const;
 	Vector2f DoSpin(const Vector2f& rotCenter, float radius);
 	// Helper Functions
 	void SetAngle(Vector2f& v, float number) const;

@@ -2,7 +2,7 @@
 #include "Items/MachineGunBullet.h"
 
 Machinegun::Machinegun(const float width, const float height, Sprite* pSprite, GameObject* pOwner, const int level, const Slot& slot)
-	: Weapon{ width, height, pSprite, pOwner, level, slot, 10 /*baseFireRate*/ }
+	: Weapon{ width, height, pSprite, pOwner, level, slot, 10 }
 {
 }
 

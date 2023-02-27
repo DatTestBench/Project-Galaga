@@ -6,7 +6,7 @@
 Gunner::Gunner(const Vector2f& pos, const float width, const float height, Sprite* pSprite, const int level, const float baseHealth)
 	: Enemy{ pos, width, height, pSprite, level, baseHealth }
 {
-	Machinegun* pWeapon = new Machinegun{ 10, 10, nullptr, this, 1, static_cast<Slot>(m_pWeapons.size()) };
+	const auto pWeapon = new Machinegun{ 10, 10, nullptr, this, 1, static_cast<Slot>(m_pWeapons.size()) };
 	m_pWeapons.push_back(pWeapon);
 	m_MaxSpeed = 300;
 }
